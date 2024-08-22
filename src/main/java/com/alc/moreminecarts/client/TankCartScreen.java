@@ -15,9 +15,10 @@ import net.minecraftforge.fluids.FluidStack;
 @OnlyIn(Dist.CLIENT)
 public class TankCartScreen extends AbstractContainerScreen<TankCartContainer> {
     private static final ResourceLocation display = new ResourceLocation("moreminecarts:textures/gui/blank.png");
+    private static final Component TITLE = Component.translatable("gui.moreminecarts.tank_cart.title");
 
     public TankCartScreen(TankCartContainer container, Inventory inv, Component titleIn) {
-        super(container, inv, Component.translatable("Minecart with Tank"));
+        super(container, inv, TITLE);
     }
 
     @Override
@@ -34,7 +35,7 @@ public class TankCartScreen extends AbstractContainerScreen<TankCartContainer> {
 
         FluidStack fluid_stack = menu.getFluids();
         if (fluid_stack == null || fluid_stack.isEmpty()) {
-            matrix.drawString(font, "0/40,000 mB fluid", leftPos + 8, topPos + 20, 4210752, false);
+            matrix.drawString(font, "0/40,000 mB", leftPos + 8, topPos + 20, 4210752, false);
         }
         else {
             matrix.drawString(font, fluid_stack.getAmount() + "/40,000 mB " + fluid_stack.getDisplayName().getString(), leftPos + 8, topPos + 20, 4210752, false);

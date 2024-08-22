@@ -3,6 +3,7 @@ package com.alc.moreminecarts.tile_entities;
 import com.alc.moreminecarts.MMConstants;
 import com.alc.moreminecarts.blocks.containers.ChunkLoaderBlock;
 import com.alc.moreminecarts.containers.ChunkLoaderContainer;
+import com.alc.moreminecarts.misc.FuelConfig;
 import com.alc.moreminecarts.registry.MMItems;
 import com.alc.moreminecarts.registry.MMTileEntities;
 import net.minecraft.core.BlockPos;
@@ -26,6 +27,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.world.ForgeChunkManager;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.function.Predicate;
 
 public class ChunkLoaderTile extends ContainerBlockEntity implements WorldlyContainer, Container {
     public static String LAST_CHUNK_X_PROPERTY = "last_block_pos_x";
@@ -111,24 +114,28 @@ public class ChunkLoaderTile extends ContainerBlockEntity implements WorldlyCont
         return null;
     }
 
-    public static int getBurnDuration(Item item) {
+    public static int getBurnDuration(ItemStack item) {
         double multiplier = MMConstants.CONFIG_CHUNK_LOADER_MULTIPLIER.get();
         double fuel = -1;
 
-        if (item == Items.QUARTZ) fuel = 200;
-        else if (item == Items.AMETHYST_SHARD) fuel = 600;
-        else if (item == Items.AMETHYST_BLOCK) fuel = 600;
-        else if (item == Items.EMERALD) fuel = 6000;
-        else if (item == Items.EMERALD_BLOCK) fuel = 54000;
-        else if (item == Items.DIAMOND) fuel = 72000;
-        else if (item == Items.DIAMOND_BLOCK) fuel = 648000;
-        else if (item == Items.NETHER_STAR) fuel = 3456000;
-        else if (item == MMItems.CHUNKRODITE.get()) fuel = 18000;
-        else if (item == MMItems.CHUNKRODITE_BLOCK_ITEM.get()) fuel = 162000;
+        int burnPredicatesSize = Math.min(
+                MMConstants.CONFIG_CHUNK_LOADER_FUEL_IDS.get().size(),
+                MMConstants.CONFIG_CHUNK_LOADER_FUEL_TICKS.get().size());
+        for (int i = 0; i < burnPredicatesSize; i++) {
+            if (checkFuelPredicate(i, item)) {
+                fuel = MMConstants.CONFIG_CHUNK_LOADER_FUEL_TICKS.get().get(i);
+                break;
+            }
+        }
 
-        fuel *= multiplier;
         if (fuel <= 0) return -1;
-        else return (int)Math.ceil(fuel);
+        fuel *= multiplier;
+        return (int)Math.ceil(fuel);
+    }
+
+    public static boolean checkFuelPredicate(int index, ItemStack item) {
+        FuelConfig.bakePredicatesIfNeeded();
+        return MMConstants.CHUNK_LOADER_FUEL_PREDICATES_BAKED.get(index).test(item);
     }
 
     public static void doTick(Level level, BlockPos pos, BlockState state, ChunkLoaderTile ent) {
@@ -142,7 +149,7 @@ public class ChunkLoaderTile extends ContainerBlockEntity implements WorldlyCont
 
         if (!level.isClientSide()) {
 
-            int burn_duration = getBurnDuration(items.get(0).getItem());
+            int burn_duration = getBurnDuration(items.get(0));
             if (burn_duration >= 0 && Math.abs(time_left) + burn_duration <= MAX_TIME) {
                 changed_flag = true;
 
@@ -255,7 +262,10 @@ public class ChunkLoaderTile extends ContainerBlockEntity implements WorldlyCont
         double multiplier = MMConstants.CONFIG_CHUNK_LOADER_MULTIPLIER.get();
         if (multiplier == 0) return;
 
-        int count = (int)Math.floor( Math.abs(time_left / multiplier) / 24000.0f);
+        float chunkrodite_refund_per = (float)MMConstants.CONFIG_CHUNK_LOADER_CHUNKRODITE.get();
+        if (chunkrodite_refund_per == 0) return;
+
+        int count = (int)Math.floor( Math.abs(time_left / multiplier) / chunkrodite_refund_per);
 
         Item to_drop = MMItems.CHUNKRODITE.get();
         if (count > 64) {

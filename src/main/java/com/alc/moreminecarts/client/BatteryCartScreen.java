@@ -14,9 +14,10 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class BatteryCartScreen extends AbstractContainerScreen<BatteryCartContainer> {
     private static final ResourceLocation display = new ResourceLocation("moreminecarts:textures/gui/blank.png");
+    private static final Component TITLE = Component.translatable("gui.moreminecarts.battery_cart.title");
 
     public BatteryCartScreen(BatteryCartContainer container, Inventory inv, Component titleIn) {
-        super(container, inv, Component.translatable("Minecart with Battery"));
+        super(container, inv, TITLE);
     }
 
     @Override

@@ -22,11 +22,12 @@ import java.util.List;
 @OnlyIn(Dist.CLIENT)
 public class FlagCartScreen extends AbstractContainerScreen<FlagCartContainer> {
     private static final ResourceLocation display = new ResourceLocation("moreminecarts:textures/gui/programmable_cart.png");
+    private static final Component TITLE = Component.translatable("gui.moreminecarts.flag_cart.title");
 
     private final List<SimpleButton> buttons = Lists.newArrayList();
 
     public FlagCartScreen(FlagCartContainer container, Inventory inv, Component titleIn) {
-        super(container, inv, Component.translatable("Signal Minecart"));
+        super(container, inv, TITLE);
     }
 
     private void addButton(SimpleButton p_169617_) {

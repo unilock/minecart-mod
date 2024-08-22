@@ -27,15 +27,30 @@ import java.util.List;
 @OnlyIn(Dist.CLIENT)
 public class MinecartUnLoaderScreen extends AbstractContainerScreen<MinecartUnLoaderContainer> {
     private static final ResourceLocation display = new ResourceLocation("moreminecarts:textures/gui/loader_gui.png");
+    public static final Component UNLOADER_TITLE = Component.translatable("gui.moreminecarts.unloader.title");
+    public static final Component LOADER_TITLE = Component.translatable("gui.moreminecarts.loader.title");
+    public static final Component OUTPUT_INACTIVITY = Component.translatable("gui.moreminecarts.unloader.output.inactivity");
+    public static final Component OUTPUT_UNLOADER_FULL = Component.translatable("gui.moreminecarts.unloader.output.cart_full");
+    public static final Component OUTPUT_LOADER_FULL = Component.translatable("gui.moreminecarts.loader.output.cart_full");
+    public static final Component OUTPUT_FULLNESS = Component.translatable("gui.moreminecarts.unloader.output.cart_fullness");
+    public static final Component ONLY_LOCKED_ON = Component.translatable("gui.moreminecarts.unloader.only_locked.on");
+    public static final Component ONLY_LOCKED_OFF = Component.translatable("gui.moreminecarts.unloader.only_locked.off");
+    public static final Component LEAVE_ONE_UNLOADER_ON = Component.translatable("gui.moreminecarts.unloader.leave_one.on");
+    public static final Component LEAVE_ONE_UNLOADER_OFF = Component.translatable("gui.moreminecarts.unloader.leave_one.off");
+    public static final Component LEAVE_ONE_LOADER_ON = Component.translatable("gui.moreminecarts.loader.leave_one.on");
+    public static final Component LEAVE_ONE_LOADER_OFF = Component.translatable("gui.moreminecarts.loader.leave_one.off");
+    public static final Component REDSTONE_ON = Component.translatable("gui.moreminecarts.unloader.redstone.on");
+    public static final Component REDSTONE_OFF = Component.translatable("gui.moreminecarts.unloader.redstone.off");
+
     private final List<AbstractButton> buttons = Lists.newArrayList();
 
     public MinecartUnLoaderScreen(MinecartUnLoaderContainer container, Inventory inv, Component titleIn) {
-        super(container, inv, Component.translatable(container.getIsUnloader()? "Minecart Unloader" : "Minecart Loader"));
+        super(container, inv, container.getIsUnloader()? UNLOADER_TITLE : LOADER_TITLE);
     }
 
     @Override
     public Component getTitle() {
-        return Component.translatable(menu.getIsUnloader()? "Minecart Unloader" : "Minecart Loader");
+        return menu.getIsUnloader()? UNLOADER_TITLE : LOADER_TITLE;
     }
 
     private void addButton(AbstractButton p_169617_) {
@@ -74,7 +89,7 @@ public class MinecartUnLoaderScreen extends AbstractContainerScreen<MinecartUnLo
         String contents_text = "";
         FluidStack fluid_stack = menu.getFluids();
         if (fluid_stack == null || fluid_stack.isEmpty()) {
-            contents_text += "0/2,000 mB fluid, ";
+            contents_text += "0/2,000 mB, ";
         }
         else {
             contents_text += fluid_stack.getAmount() + "/2,000 mB " + fluid_stack.getDisplayName().getString() + ", ";
@@ -157,23 +172,23 @@ public class MinecartUnLoaderScreen extends AbstractContainerScreen<MinecartUnLo
         protected void updateWidgetNarration(NarrationElementOutput p_259858_) {}
 
         public void UpdateTooltip() {
-            String text;
+            Component text;
             switch (menu.getComparatorOutputType()) {
                 case done_loading:
-                    text = "Activate output during loading inactivity";
+                    text = OUTPUT_INACTIVITY;
                     break;
                 case cart_full:
-                    if (menu.getIsUnloader()) text = "Activate output when cart is empty";
-                    else text = "Activate output when cart is full";
+                    if (menu.getIsUnloader()) text = OUTPUT_UNLOADER_FULL;
+                    else text = OUTPUT_LOADER_FULL;
                     break;
                 case cart_fullness:
-                    text = "Output cart contents";
+                    text = OUTPUT_FULLNESS;
                     break;
                 default:
-                    text = "ERROR";
+                    text = Component.literal("ERROR");
             }
 
-            this.setTooltip(Tooltip.create(Component.translatable(text)));
+            this.setTooltip(Tooltip.create(text));
         }
     }
 
@@ -229,11 +244,9 @@ public class MinecartUnLoaderScreen extends AbstractContainerScreen<MinecartUnLo
         protected void updateWidgetNarration(NarrationElementOutput p_259858_) {}
 
         public void UpdateTooltip() {
-            this.setTooltip(Tooltip.create(Component.translatable(
-                    menu.getLockedMinecartsOnly()
-                            ? "Consider only locked minecarts"
-                            : "Consider all minecarts"
-            )));
+            this.setTooltip(Tooltip.create(
+                    menu.getLockedMinecartsOnly()? ONLY_LOCKED_ON : ONLY_LOCKED_OFF
+            ));
         }
     }
 
@@ -289,15 +302,15 @@ public class MinecartUnLoaderScreen extends AbstractContainerScreen<MinecartUnLo
         protected void updateWidgetNarration(NarrationElementOutput p_259858_) {}
 
         public void UpdateTooltip() {
-            this.setTooltip(Tooltip.create(Component.translatable(
+            this.setTooltip(Tooltip.create(
                     menu.getIsUnloader()
                             ? (menu.getLeaveOneInStack()
-                            ? "Leave one item in minecart slots"
-                            : "Empty minecart slots entirely")
+                            ? LEAVE_ONE_UNLOADER_ON
+                            : LEAVE_ONE_UNLOADER_OFF)
                             : (menu.getLeaveOneInStack()
-                            ? "Leave one item in loader slots"
-                            : "Empty loader slots entirely")
-            )));
+                            ? LEAVE_ONE_LOADER_ON
+                            : LEAVE_ONE_LOADER_OFF)
+            ));
         }
     }
 
@@ -351,10 +364,7 @@ public class MinecartUnLoaderScreen extends AbstractContainerScreen<MinecartUnLo
         protected void updateWidgetNarration(NarrationElementOutput p_259858_) {}
 
         public void UpdateTooltip() {
-            this.setTooltip(Tooltip.create(Component.translatable(menu.getRedstoneOutput()
-                    ? "Output redstone activation"
-                    : "Output to comparator"
-            )));
+            this.setTooltip(Tooltip.create(menu.getRedstoneOutput() ? REDSTONE_ON : REDSTONE_OFF));
         }
     }
 

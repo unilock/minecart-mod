@@ -2,6 +2,12 @@ package com.alc.moreminecarts;
 
 import com.alc.moreminecarts.client.*;
 import com.alc.moreminecarts.misc.MMCreativeTabs;
+import com.alc.moreminecarts.containers.*;
+import com.alc.moreminecarts.entities.*;
+import com.alc.moreminecarts.entities.HSMinecartEntities.*;
+import com.alc.moreminecarts.items.*;
+import com.alc.moreminecarts.misc.CouplerClientFactory;
+import com.alc.moreminecarts.misc.FuelConfig;
 import com.alc.moreminecarts.proxy.ClientProxy;
 import com.alc.moreminecarts.proxy.IProxy;
 import com.alc.moreminecarts.proxy.MoreMinecartsPacketHandler;
@@ -41,8 +47,8 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.RegistryObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import javax.annotation.Nonnull;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -50,6 +56,8 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import static com.alc.moreminecarts.misc.FuelConfig.DEFAULT_FUEL_IDS;
+import static com.alc.moreminecarts.misc.FuelConfig.DEFAULT_FUEL_TICKS;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod("moreminecarts")
@@ -93,7 +101,8 @@ public class MoreMinecartsMod {
         MMCreativeTabs.register(bus);
 
         ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
-        MMConstants.CONFIG_CHUNK_LOADER_MULTIPLIER = builder.defineInRange("chunk_loader_multiplier", () -> 1.0D, 0, 9999);
+        builder.comment("Changes the spawn rate of vitric cactus. Default cactus is 10, set to zero to disable.");
+        MMConstants.CONFIG_GLASS_CACTUS_SPAWNS = builder.defineInRange("vitric_cactus_spawns", ()->2, 0, 100);
         builder.comment("Requires that vitric cactus be grown only in desert and mesa biomes.");
         MMConstants.CONFIG_GLASS_CACTUS_DESERT_ONLY = builder.define("vitric_cactus_desert_only", true);
         builder.comment("Sets the max speed of various rail types. Default rails are 0.4.");
@@ -102,6 +111,14 @@ public class MoreMinecartsMod {
         MMConstants.CONFIG_LIGHTSPEED_RAILS_MAX_SPEED = builder.defineInRange("lightspeed_rails_max_speed", () -> 2.5D, 0.1, 10);
         builder.comment("Sets the extra speed boost given by turbo rails. 0.06 is the default for regular powered rails.");
         MMConstants.CONFIG_TURBO_BOOST = builder.defineInRange("turbo_rails_boost", () -> 0.2D, 0, 1);
+
+        builder.comment("Defines what fuels are allowed in the chunk loader. Any item predicate works here.");
+        MMConstants.CONFIG_CHUNK_LOADER_FUEL_IDS = builder.defineList("chunk_loader_fuel_ids", Arrays.asList(DEFAULT_FUEL_IDS), (c) -> FuelConfig.ValidateID((String) c));
+        MMConstants.CONFIG_CHUNK_LOADER_FUEL_TICKS = builder.defineList("chunk_loader_fuel_ticks", Arrays.asList(DEFAULT_FUEL_TICKS), (c) -> FuelConfig.ValidateTicks((Integer) c));
+        builder.comment("Multiplies all the costs above to buff or nerf. Set to zero to prevent chunk loading completely.");
+        MMConstants.CONFIG_CHUNK_LOADER_MULTIPLIER = builder.defineInRange("chunk_loader_multiplier", ()->1.0D, 0, 9999);
+        builder.comment("Refund 1 chunkrodite per n leftoever ticks, considering the multiplier. Set to zero to disable chunkrodite drops.");
+        MMConstants.CONFIG_CHUNK_LOADER_CHUNKRODITE = builder.defineInRange("chunk_loader_chunkrodite", ()->24000, 0, 999999999);
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, builder.build(), "moreminecartsconfig.toml");
 

@@ -17,19 +17,35 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import net.minecraft.client.gui.screen.inventory.ContainerScreen;
+import net.minecraft.client.gui.widget.Widget;
+import net.minecraft.client.gui.widget.button.AbstractButton;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.apache.logging.log4j.Level;
 
 import java.util.List;
 
+import java.util.Iterator;
+
 @OnlyIn(Dist.CLIENT)
 public class ChunkLoaderScreen extends AbstractContainerScreen<ChunkLoaderContainer> {
     private static final ResourceLocation display = new ResourceLocation("moreminecarts:textures/gui/chunk_loader_gui.png");
+    private static final ITextComponent TITLE = new TranslationTextComponent("gui.moreminecarts.chunk_loader.title");
+    private static final ITextComponent ON_LABEL = new TranslationTextComponent("gui.moreminecarts.chunk_loader.on");
+    private static final ITextComponent OFF_LABEL = new TranslationTextComponent("gui.moreminecarts.chunk_loader.off");
+    private static final ITextComponent INFO_LABEL = new TranslationTextComponent("gui.moreminecarts.chunk_loader.info");
+
     private final List<AbstractButton> buttons = Lists.newArrayList();
 
     public ChunkLoaderScreen(ChunkLoaderContainer container, Inventory inv, Component titleIn) {
-        super(container, inv, Component.translatable("Chunk Loader"));
+        super(container, inv, TITLE);
     }
 
     private void addButton(AbstractButton p_169617_) {
@@ -40,7 +56,8 @@ public class ChunkLoaderScreen extends AbstractContainerScreen<ChunkLoaderContai
     @Override
     protected void init() {
         super.init();
-        this.addButton(new ChunkLoaderButton(leftPos + 131, topPos + 14));
+        this.addButton(new ChunkLoaderButton(leftPos + 99, topPos + 14));
+        this.addButton(new ChunkLoaderInfoButton(leftPos + 2, topPos + 3));
     }
 
     @Override
@@ -73,6 +90,23 @@ public class ChunkLoaderScreen extends AbstractContainerScreen<ChunkLoaderContai
 
     }
 
+    // Taken from BeaconScreen, for tooltip rendering.
+    @Override
+    protected void renderLabels(MatrixStack matrix, int p_230451_2_, int p_230451_3_) {
+        this.font.draw(matrix, getTitle(), (float)this.titleLabelX + 12, (float)this.titleLabelY, 4210752);
+        this.font.draw(matrix, this.inventory.getDisplayName(), (float)this.inventoryLabelX, (float)this.inventoryLabelY, 4210752);
+
+        Iterator var4 = this.buttons.iterator();
+
+        while(var4.hasNext()) {
+            Widget lvt_5_1_ = (Widget)var4.next();
+            if (lvt_5_1_.isHovered()) {
+                lvt_5_1_.renderToolTip(matrix, p_230451_2_ - this.leftPos, p_230451_3_ - this.topPos);
+                break;
+            }
+        }
+
+    }
 
     @OnlyIn(Dist.CLIENT)
     class ChunkLoaderButton extends MMButton {
@@ -91,7 +125,7 @@ public class ChunkLoaderScreen extends AbstractContainerScreen<ChunkLoaderContai
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 
             if (menu.isEnabled()) {
-                if (isHovered) {
+                if (isHovered() && isDragging()) {
                     matrix.blit(display, xPos,yPos, 194, 18, 18, 18);
                 }
                 else {
@@ -99,8 +133,8 @@ public class ChunkLoaderScreen extends AbstractContainerScreen<ChunkLoaderContai
                 }
             }
             else {
-                if (isHovered) {
-                    matrix.blit(display, xPos,yPos, 176, 0, 18, 18);
+                if (isHovered() && isDragging()) {
+                    this.blit(matrix, x,y, 176, 0, 18, 18);
                 }
                 else {
                     // Render nothing. This is already on the backdrop.
@@ -126,10 +160,32 @@ public class ChunkLoaderScreen extends AbstractContainerScreen<ChunkLoaderContai
         }
 
         public void UpdateTooltip() {
-            this.setTooltip(Tooltip.create(Component.translatable(menu.isEnabled()
-                    ? "On"
-                    : "Off"
-            )));
+            this.setTooltip(Tooltip.create(menu.isEnabled()? ON_LABEL: OFF_LABEL));
+        }
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    class ChunkLoaderInfoButton extends AbstractButton {
+
+        protected ChunkLoaderInfoButton(int x, int y) {
+            super(x, y, 18, 18, StringTextComponent.EMPTY);
+            this.setTooltip(Tooltip.create(INFO_LABEL));
+        }
+
+        public void renderButton(MatrixStack matrix, int p_230431_2_, int p_230431_3_, float p_230431_4_) {
+            minecraft.getTextureManager().bind(display);
+
+            if (isHovered()) {
+                this.blit(matrix, x,y, 176, 36, 18, 18);
+            }
+            else {
+                // Render nothing. This is already on the backdrop.
+            }
+        }
+
+        @Override
+        public void onPress() {
+
         }
     }
 }

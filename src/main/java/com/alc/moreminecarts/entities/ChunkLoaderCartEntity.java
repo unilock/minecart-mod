@@ -177,7 +177,7 @@ public class ChunkLoaderCartEntity extends AbstractMinecartContainer {
 
         if (!level().isClientSide()) {
 
-            int burn_duration = ChunkLoaderTile.getBurnDuration(itemStacks.get(0).getItem());
+            int burn_duration = ChunkLoaderTile.getBurnDuration(itemStacks.get(0));
             if (burn_duration >= 0 && Math.abs(time_left) + burn_duration <= ChunkLoaderTile.MAX_TIME) {
                 changed_flag = true;
 
