@@ -59,7 +59,7 @@ import static com.alc.moreminecarts.misc.FuelConfig.DEFAULT_FUEL_TICKS;
 public class MoreMinecartsMod {
     // Directly reference a log4j logger.
     public static Logger LOGGER = LogManager.getLogger();
-    public static IProxy PROXY = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> ServerProxy::new);
+    public static IProxy PROXY = DistExecutor.runForDist(() -> ClientProxy::new, () -> ServerProxy::new);
 
     public MoreMinecartsMod() {
 
