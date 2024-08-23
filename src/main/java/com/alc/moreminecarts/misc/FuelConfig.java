@@ -1,12 +1,12 @@
 package com.alc.moreminecarts.misc;
 
 import com.alc.moreminecarts.MMConstants;
-import com.alc.moreminecarts.MMItemReferences;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import net.minecraft.command.arguments.ItemPredicateArgument;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
+import net.minecraft.commands.CommandBuildContext;
+import net.minecraft.commands.arguments.item.ItemPredicateArgument;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.ForgeConfig;
 import net.minecraftforge.common.ForgeConfigSpec;
 
@@ -18,7 +18,7 @@ import java.util.function.Supplier;
 public class FuelConfig {
 
     // or -1 if nothing found
-    public static void bakePredicatesIfNeeded() {
+    public static void bakePredicatesIfNeeded(Level level) {
         if (MMConstants.CHUNK_LOADER_FUEL_PREDICATES_BAKED == null
                 || MMConstants.CHUNK_LOADER_FUEL_PREDICATES_BAKED.size() < MMConstants.CONFIG_CHUNK_LOADER_FUEL_IDS.get().size()) {
 
@@ -27,8 +27,10 @@ public class FuelConfig {
 
                 try {
 
+                    CommandBuildContext commandContext = CommandBuildContext.simple(level.registryAccess(), level.enabledFeatures());
+
                     Predicate<ItemStack> bakedItemPredicate =
-                            new ItemPredicateArgument().parse(new StringReader(s)).create(null);
+                            new ItemPredicateArgument(commandContext).parse(new StringReader(s));
 
                     MMConstants.CHUNK_LOADER_FUEL_PREDICATES_BAKED.add(bakedItemPredicate);
 
@@ -41,12 +43,8 @@ public class FuelConfig {
     }
 
     public static boolean ValidateID(String id) {
-        // ensure itemID is valid
-        try {
-            new ItemPredicateArgument().parse(new StringReader(id));
-        } catch(CommandSyntaxException e) {
-            return false;
-        }
+
+        // this ran into issues with new command requirements, so we're just not going to validate
 
         return true;
     }

@@ -14,6 +14,9 @@ public class ChunkLoaderSlot extends Slot {
 
     @Override
     public boolean mayPlace(ItemStack itemstack) {
-        return ChunkLoaderTile.getBurnDuration(itemstack) > 0;
+        return true;
+        //if (Minecraft.getInstance().level == null) return true;
+        //else
+        //return ChunkLoaderTile.getBurnDuration(itemstack, Minecraft.getInstance().level) > 0;
     }
 }

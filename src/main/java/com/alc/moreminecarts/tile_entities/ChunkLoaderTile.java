@@ -114,7 +114,7 @@ public class ChunkLoaderTile extends ContainerBlockEntity implements WorldlyCont
         return null;
     }
 
-    public static int getBurnDuration(ItemStack item) {
+    public static int getBurnDuration(ItemStack item, Level level) {
         double multiplier = MMConstants.CONFIG_CHUNK_LOADER_MULTIPLIER.get();
         double fuel = -1;
 
@@ -122,7 +122,7 @@ public class ChunkLoaderTile extends ContainerBlockEntity implements WorldlyCont
                 MMConstants.CONFIG_CHUNK_LOADER_FUEL_IDS.get().size(),
                 MMConstants.CONFIG_CHUNK_LOADER_FUEL_TICKS.get().size());
         for (int i = 0; i < burnPredicatesSize; i++) {
-            if (checkFuelPredicate(i, item)) {
+            if (checkFuelPredicate(i, item, level)) {
                 fuel = MMConstants.CONFIG_CHUNK_LOADER_FUEL_TICKS.get().get(i);
                 break;
             }
@@ -133,8 +133,8 @@ public class ChunkLoaderTile extends ContainerBlockEntity implements WorldlyCont
         return (int)Math.ceil(fuel);
     }
 
-    public static boolean checkFuelPredicate(int index, ItemStack item) {
-        FuelConfig.bakePredicatesIfNeeded();
+    public static boolean checkFuelPredicate(int index, ItemStack item, Level level) {
+        FuelConfig.bakePredicatesIfNeeded(level);
         return MMConstants.CHUNK_LOADER_FUEL_PREDICATES_BAKED.get(index).test(item);
     }
 
@@ -149,7 +149,7 @@ public class ChunkLoaderTile extends ContainerBlockEntity implements WorldlyCont
 
         if (!level.isClientSide()) {
 
-            int burn_duration = getBurnDuration(items.get(0));
+            int burn_duration = getBurnDuration(items.get(0), level);
             if (burn_duration >= 0 && Math.abs(time_left) + burn_duration <= MAX_TIME) {
                 changed_flag = true;
 

@@ -52,7 +52,7 @@ public class ChunkLoaderScreen extends AbstractContainerScreen<ChunkLoaderContai
     protected void init() {
         super.init();
         this.addButton(new ChunkLoaderButton(leftPos + 99, topPos + 14));
-        this.addButton(new ChunkLoaderInfoButton(leftPos + 2, topPos + 3));
+        this.addButton(new ChunkLoaderInfoButton(leftPos + 3, topPos + 4));
     }
 
     @Override
@@ -83,6 +83,12 @@ public class ChunkLoaderScreen extends AbstractContainerScreen<ChunkLoaderContai
         int minutes_left = menu.getTimeLeft();
         matrix.drawString(font, minutes_left + " " + MINUTES_LEFT.getString(), leftPos + 29, topPos + 55, 4210752, false);
 
+    }
+
+    @Override
+    protected void renderLabels(GuiGraphics p_281635_, int p_282681_, int p_283686_) {
+        p_281635_.drawString(this.font, this.title, this.titleLabelX+13, this.titleLabelY, 4210752, false);
+        p_281635_.drawString(this.font, this.playerInventoryTitle, this.inventoryLabelX, this.inventoryLabelY, 4210752, false);
     }
 
     @OnlyIn(Dist.CLIENT)
