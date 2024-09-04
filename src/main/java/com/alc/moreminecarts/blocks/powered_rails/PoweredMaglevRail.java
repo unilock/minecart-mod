@@ -10,7 +10,7 @@ import net.minecraft.world.level.block.state.BlockState;
 public class PoweredMaglevRail extends PoweredRailBlock {
 
     public PoweredMaglevRail(Properties builder) {
-        super(builder, true);
+        super(builder/*, true*/);
     }
 
     @Override

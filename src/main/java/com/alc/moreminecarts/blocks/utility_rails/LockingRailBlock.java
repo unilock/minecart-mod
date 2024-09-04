@@ -2,6 +2,7 @@ package com.alc.moreminecarts.blocks.utility_rails;
 
 import com.alc.moreminecarts.registry.MMTileEntities;
 import com.alc.moreminecarts.tile_entities.LockingRailTile;
+import io.github.fabricators_of_create.porting_lib.block.SlopeCreationCheckingRailBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -24,7 +25,7 @@ import net.minecraft.world.level.block.state.properties.*;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
 
-public class LockingRailBlock extends BaseRailBlock implements EntityBlock {
+public class LockingRailBlock extends BaseRailBlock implements EntityBlock, SlopeCreationCheckingRailBlock {
 
     public static final EnumProperty<RailShape> SHAPE = BlockStateProperties.RAIL_SHAPE_STRAIGHT;
     public static final BooleanProperty POWERED = BlockStateProperties.POWERED;

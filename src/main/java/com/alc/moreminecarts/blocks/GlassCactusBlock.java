@@ -3,6 +3,8 @@ package com.alc.moreminecarts.blocks;
 import com.alc.moreminecarts.MMConstants;
 import com.alc.moreminecarts.registry.MMBlocks;
 import com.alc.moreminecarts.registry.MMItems;
+import io.github.fabricators_of_create.porting_lib.common.util.IPlantable;
+import io.github.fabricators_of_create.porting_lib.extensions.extensions.BlockExtensions;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
@@ -20,10 +22,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.CactusBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraftforge.common.IPlantable;
-import net.minecraftforge.common.extensions.IForgeBlock;
 
-public class GlassCactusBlock extends CactusBlock implements IForgeBlock {
+public class GlassCactusBlock extends CactusBlock implements BlockExtensions {
 
     public GlassCactusBlock(Properties p_i48435_1_) {
         super(p_i48435_1_);
@@ -70,7 +70,7 @@ public class GlassCactusBlock extends CactusBlock implements IForgeBlock {
 
         BlockState plant = plantable.getPlant(world, pos.relative(facing));
 
-        Block glassCactus = MMBlocks.GLASS_CACTUS.get();
+        Block glassCactus = MMBlocks.GLASS_CACTUS;
 
         if (plant.getBlock() == glassCactus && state.is(glassCactus))
             return true;

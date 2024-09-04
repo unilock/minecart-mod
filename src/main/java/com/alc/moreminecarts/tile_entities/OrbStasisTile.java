@@ -1,6 +1,7 @@
 package com.alc.moreminecarts.tile_entities;
 
 import com.alc.moreminecarts.registry.MMTileEntities;
+import io.github.fabricators_of_create.porting_lib.entity.events.EntityEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
@@ -11,7 +12,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.event.entity.EntityTeleportEvent;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
@@ -61,9 +61,10 @@ public class OrbStasisTile extends BlockEntity {
             ServerPlayer player = (ServerPlayer) entity;
             // copied from EnderPearlEntity
             if (player.connection.isAcceptingMessages() && player.level() == this.level && !player.isSleeping()) {
-                EntityTeleportEvent.ChorusFruit event = new EntityTeleportEvent.ChorusFruit(player,
+                EntityEvents.Teleport.EntityTeleportEvent event = new EntityEvents.Teleport.EntityTeleportEvent(player,
                         this.getBlockPos().getX() + 0.5, this.getBlockPos().getY() + 1, this.getBlockPos().getZ() + 0.5);
-                if (!net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(event)) { // Don't indent to lower patch size
+                event.sendEvent();
+                if (!event.isCanceled()) { // Don't indent to lower patch size
                     if (this.level.random.nextFloat() < 0.05F && this.level.getGameRules().getBoolean(GameRules.RULE_DOMOBSPAWNING)) {
                         Endermite endermiteentity = EntityType.ENDERMITE.create(this.level);
                         endermiteentity.moveTo(entity.getX(), entity.getY(), entity.getZ());

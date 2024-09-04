@@ -2,10 +2,10 @@ package com.alc.moreminecarts.misc;
 
 
 import com.alc.moreminecarts.MoreMinecartsMod;
-import com.alc.moreminecarts.entities.HSMinecartEntities;
 import com.alc.moreminecarts.entities.PistonPushcartEntity;
 import com.alc.moreminecarts.items.CouplerItem;
 import com.alc.moreminecarts.registry.MMItems;
+import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -18,36 +18,33 @@ import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.minecraft.world.phys.EntityHitResult;
 
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE, modid = "moreminecarts")
 public class MMEventReciever {
 
-    @SubscribeEvent
-    public static void onInteractEntity(PlayerInteractEvent.EntityInteract event) {
+    public static void register() {
+        UseEntityCallback.EVENT.register(MMEventReciever::onInteractEntity);
+    }
 
-        if (event.getTarget() instanceof PistonPushcartEntity) {
+    private static InteractionResult onInteractEntity(Player player, Level world, InteractionHand hand, Entity entity, EntityHitResult hitResult) {
+
+        InteractionResult result = InteractionResult.PASS;
+
+        if (entity instanceof PistonPushcartEntity) {
             MoreMinecartsMod.LOGGER.log(org.apache.logging.log4j.Level.WARN, "piston pushcart interact");
         }
 
-        InteractionHand hand = event.getHand();
-        Player player = event.getEntity();
         ItemStack using = player.getItemInHand(hand);
 
         InteractionHand other_hand = hand == InteractionHand.MAIN_HAND? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND;
         ItemStack using_secondary = player.getItemInHand(other_hand);
 
-        Entity entity = event.getTarget();
-
         Item couplerItem = MMItems.COUPLER_ITEM;
 
         // We check both hands, but only use one, since this function gets called once for each hand.
         if (using.getItem() == couplerItem || using_secondary.getItem() == couplerItem) {
-            event.setCancellationResult(InteractionResult.CONSUME);
-            event.setCanceled(true);
-            if (event.getLevel().isClientSide()) return;
+            result = InteractionResult.CONSUME;
+            if (world.isClientSide()) return result;
 
             if (using.getItem() == couplerItem) {
                 if (entity instanceof AbstractMinecart
@@ -55,7 +52,6 @@ public class MMEventReciever {
                     || entity instanceof Mob
                     || entity instanceof EnderDragon){
 
-                    Level world = event.getLevel();
                     player.playSound(SoundEvents.CHAIN_PLACE, 0.9F, 1.0F);
                     CouplerItem.hookIn(player, world, using, entity);
                 }
@@ -65,29 +61,28 @@ public class MMEventReciever {
             }
         }
 
-        Item hsUpgradeItem = MMItems.HIGH_SPEED_UPGRADE_ITEM;
+//        Item hsUpgradeItem = MMItems.HIGH_SPEED_UPGRADE_ITEM;
+//
+//
+//        if (using.getItem() == hsUpgradeItem || using_secondary.getItem() == hsUpgradeItem) {
+//            result = InteractionResult.CONSUME;
+//
+//            if (world.isClientSide()) return result;
+//
+//            if (using.getItem() == hsUpgradeItem && entity instanceof AbstractMinecart
+//                && !(entity instanceof HSMinecartEntities.IHSCart)) {
+//                boolean success = HSMinecartEntities.upgradeMinecart((AbstractMinecart) entity);
+//                if (!player.isCreative() && success) using.shrink(1);
+//            }
+//        }
+//
+//        // To prevent entering a high speed cart immediately after upgrading it.
+//        if ( (entity instanceof HSMinecartEntities.HSMinecart || entity instanceof HSMinecartEntities.HSPushcart)
+//                && entity.tickCount < 10) {
+//            result = InteractionResult.CONSUME;
+//        }
 
-
-        if (using.getItem() == hsUpgradeItem || using_secondary.getItem() == hsUpgradeItem) {
-            event.setCancellationResult(InteractionResult.CONSUME);
-            event.setCanceled(true);
-
-            if (event.getLevel().isClientSide()) return;
-
-            if (using.getItem() == hsUpgradeItem && entity instanceof AbstractMinecart
-                && !(entity instanceof HSMinecartEntities.IHSCart)) {
-                boolean success = HSMinecartEntities.upgradeMinecart((AbstractMinecart) entity);
-                if (!player.isCreative() && success) using.shrink(1);
-            }
-        }
-
-        // To prevent entering a high speed cart immediately after upgrading it.
-        if ( (event.getTarget() instanceof HSMinecartEntities.HSMinecart || event.getTarget() instanceof HSMinecartEntities.HSPushcart)
-                && event.getTarget().tickCount < 10) {
-            event.setCancellationResult(InteractionResult.CONSUME);
-            event.setCanceled(true);
-            return;
-        }
+        return result;
 
     }
 

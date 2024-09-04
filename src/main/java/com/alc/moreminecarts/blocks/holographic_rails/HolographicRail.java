@@ -1,6 +1,7 @@
 package com.alc.moreminecarts.blocks.holographic_rails;
 
 import com.alc.moreminecarts.registry.MMBlocks;
+import io.github.fabricators_of_create.porting_lib.block.SlopeCreationCheckingRailBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -15,7 +16,7 @@ import net.minecraft.world.level.block.state.properties.*;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-public class HolographicRail extends BaseRailBlock {
+public class HolographicRail extends BaseRailBlock implements SlopeCreationCheckingRailBlock {
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static final EnumProperty<RailShape> SHAPE = BlockStateProperties.RAIL_SHAPE_STRAIGHT;
     // MAX LENGTH: 16

@@ -4,6 +4,7 @@ import com.alc.moreminecarts.blocks.OrbStasisBlock;
 import com.alc.moreminecarts.registry.MMBlocks;
 import com.alc.moreminecarts.registry.MMItems;
 import com.alc.moreminecarts.tile_entities.OrbStasisTile;
+import io.github.fabricators_of_create.porting_lib.entity.events.EntityEvents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -24,7 +25,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.PoweredRailBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.event.entity.EntityTeleportEvent;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
@@ -98,9 +98,10 @@ public class OrbStasisCart extends AbstractMinecart {
             ServerPlayer player = (ServerPlayer) entity;
             // copied from EnderPearlEntity
             if (player.connection.isAcceptingMessages() && player.level() == this.level() && !player.isSleeping()) {
-                EntityTeleportEvent.ChorusFruit event = new EntityTeleportEvent.ChorusFruit(player,
+                EntityEvents.Teleport.EntityTeleportEvent event = new EntityEvents.Teleport.EntityTeleportEvent(player,
                         this.getX() + 0.5, this.getY() + 1, this.getZ() + 0.5);
-                if (!net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(event)) { // Don't indent to lower patch size
+                event.sendEvent();
+                if (!event.isCanceled()) { // Don't indent to lower patch size
                     if (this.level().random.nextFloat() < 0.05F && this.level().getGameRules().getBoolean(GameRules.RULE_DOMOBSPAWNING)) {
                         Endermite endermiteentity = EntityType.ENDERMITE.create(this.level());
                         endermiteentity.moveTo(entity.getX(), entity.getY(), entity.getZ());

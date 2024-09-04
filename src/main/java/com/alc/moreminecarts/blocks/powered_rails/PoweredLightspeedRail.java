@@ -14,7 +14,7 @@ import net.minecraft.world.phys.Vec3;
 public class PoweredLightspeedRail extends PoweredRailBlock {
 
     public PoweredLightspeedRail(Properties builder) {
-        super(builder, true);
+        super(builder/*, true*/);
     }
 
     @Override
@@ -36,7 +36,8 @@ public class PoweredLightspeedRail extends PoweredRailBlock {
 
             if (!minecart.shouldDoRailFunctions()) return;
 
-            RailShape railshape = getRailDirection(state, worldIn, pos, minecart);
+//            RailShape railshape = getRailDirection(state, worldIn, pos, minecart);
+            RailShape railshape = getRailDirection(state, worldIn, pos, null);
 
             Vec3 minecartVelocity = minecart.getDeltaMovement();
             double minecartSpeedMagnitude = minecartVelocity.horizontalDistance();

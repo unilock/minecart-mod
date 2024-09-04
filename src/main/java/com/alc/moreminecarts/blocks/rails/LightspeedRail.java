@@ -1,6 +1,7 @@
 package com.alc.moreminecarts.blocks.rails;
 
 import com.alc.moreminecarts.MMConstants;
+import io.github.fabricators_of_create.porting_lib.block.SlopeCreationCheckingRailBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.vehicle.AbstractMinecart;
 import net.minecraft.world.level.BlockGetter;
@@ -14,7 +15,7 @@ import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.block.state.properties.RailShape;
 
-public class LightspeedRail extends BaseRailBlock {
+public class LightspeedRail extends BaseRailBlock implements SlopeCreationCheckingRailBlock {
     public static final EnumProperty<RailShape> SHAPE = BlockStateProperties.RAIL_SHAPE_STRAIGHT;
 
     public LightspeedRail(Properties builder) {

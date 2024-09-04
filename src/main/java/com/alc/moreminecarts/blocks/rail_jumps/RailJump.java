@@ -1,9 +1,9 @@
 package com.alc.moreminecarts.blocks.rail_jumps;
 
 import com.alc.moreminecarts.misc.RailUtil;
+import io.github.fabricators_of_create.porting_lib.block.SlopeCreationCheckingRailBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.world.entity.vehicle.AbstractMinecart;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -19,7 +19,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
-public class RailJump extends BaseRailBlock {
+public class RailJump extends BaseRailBlock implements SlopeCreationCheckingRailBlock {
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static final Property<RailShape> SHAPE = BlockStateProperties.RAIL_SHAPE_STRAIGHT;
 
@@ -74,9 +74,13 @@ public class RailJump extends BaseRailBlock {
         return this.defaultBlockState().setValue(FACING, direction).setValue(SHAPE, shape);
     }
 
+//    @Override
+//    public RailShape getRailDirection(BlockState state, BlockGetter world, BlockPos pos, @Nullable AbstractMinecart cart) {
+//        return RailUtil.FacingToShape(state.getValue(FACING).getOpposite(), true);
+//    }
 
     @Override
-    public RailShape getRailDirection(BlockState state, BlockGetter world, BlockPos pos, @Nullable AbstractMinecart cart) {
+    public RailShape getRailDirection(BlockState state, BlockGetter world, BlockPos pos, @Nullable BaseRailBlock block) {
         return RailUtil.FacingToShape(state.getValue(FACING).getOpposite(), true);
     }
 }

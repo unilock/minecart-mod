@@ -1,17 +1,17 @@
 package com.alc.moreminecarts.misc;
 
 
+import io.github.fabricators_of_create.porting_lib.entity.events.PlayerEvents;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 
 // This allows players to break things at normal speeds while riding anything.
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE, modid = "moreminecarts")
 public class BreakSpeedEventReceiver {
 
-    @SubscribeEvent
-    public static void getBreakSpeed(PlayerEvent.BreakSpeed event) {
+    public static void register() {
+        PlayerEvents.BREAK_SPEED.register(BreakSpeedEventReceiver::getBreakSpeed);
+    }
+
+    private static void getBreakSpeed(PlayerEvents.BreakSpeed event) {
 
         Player player = event.getEntity();
         if (player.getVehicle() != null && !player.onGround()) {

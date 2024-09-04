@@ -1,5 +1,6 @@
 package com.alc.moreminecarts.blocks.utility_rails;
 
+import io.github.fabricators_of_create.porting_lib.block.SlopeCreationCheckingRailBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -16,7 +17,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.*;
 import net.minecraft.world.phys.BlockHitResult;
 
-public class ArithmeticRailBlock extends BaseRailBlock {
+public class ArithmeticRailBlock extends BaseRailBlock implements SlopeCreationCheckingRailBlock {
 
     public enum SignalEffect implements StringRepresentable {
         plus,

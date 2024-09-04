@@ -26,7 +26,6 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.ticks.TickPriority;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
@@ -107,7 +106,7 @@ public class HoloRemoteItem extends Item {
     // All copied from BlockItem, and slightly modified.
 
     public Block getBlock() {
-        return this.getBlockRaw() == null ? null : ForgeRegistries.BLOCKS.getDelegateOrThrow(this.getBlockRaw()).get();
+        return this.getBlockRaw()/* == null ? null : ForgeRegistries.BLOCKS.getDelegateOrThrow(this.getBlockRaw()).get()*/;
     }
 
     private Block getBlockRaw() {

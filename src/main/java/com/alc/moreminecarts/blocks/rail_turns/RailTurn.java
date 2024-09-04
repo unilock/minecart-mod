@@ -1,5 +1,6 @@
 package com.alc.moreminecarts.blocks.rail_turns;
 
+import io.github.fabricators_of_create.porting_lib.block.SlopeCreationCheckingRailBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
@@ -24,7 +25,7 @@ import org.jetbrains.annotations.Nullable;
 
 ;
 
-public class RailTurn extends BaseRailBlock {
+public class RailTurn extends BaseRailBlock implements SlopeCreationCheckingRailBlock {
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static final EnumProperty<RailShape> SHAPE = BlockStateProperties.RAIL_SHAPE_STRAIGHT;
     public static final BooleanProperty POWERED = BlockStateProperties.POWERED;

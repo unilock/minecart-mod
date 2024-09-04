@@ -6,6 +6,7 @@ import com.alc.moreminecarts.containers.ChunkLoaderContainer;
 import com.alc.moreminecarts.misc.FuelConfig;
 import com.alc.moreminecarts.registry.MMItems;
 import com.alc.moreminecarts.registry.MMTileEntities;
+import io.github.fabricators_of_create.porting_lib.chunk.loading.PortingLibChunkManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
@@ -23,7 +24,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.world.ForgeChunkManager;
 import org.jetbrains.annotations.Nullable;
 
 public class ChunkLoaderTile extends ContainerBlockEntity implements WorldlyContainer, Container {
@@ -193,7 +193,7 @@ public class ChunkLoaderTile extends ContainerBlockEntity implements WorldlyCont
     private void forceChucksAt(int chunk_x, int chunk_z, boolean add) {
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
-                boolean success = ForgeChunkManager.forceChunk((ServerLevel) level, MMConstants.modid, getBlockPos(), chunk_x + i, chunk_z + j, add, true);
+                boolean success = PortingLibChunkManager.forceChunk((ServerLevel) level, MMConstants.modid, getBlockPos(), chunk_x + i, chunk_z + j, add, true);
                 //MoreMinecartsMod.LOGGER.log(org.apache.logging.log4j.Level.WARN, "Turning chunks " + (add? "on" : "off") + ": " + (chunk_x + i) + " " + (chunk_z + j) + " " + (success? "Successful!" : "Failed!"));
 
             }

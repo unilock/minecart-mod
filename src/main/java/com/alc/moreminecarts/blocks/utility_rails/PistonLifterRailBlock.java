@@ -2,6 +2,7 @@ package com.alc.moreminecarts.blocks.utility_rails;
 
 import com.alc.moreminecarts.entities.PistonPushcartEntity;
 import com.alc.moreminecarts.entities.StickyPistonPushcartEntity;
+import io.github.fabricators_of_create.porting_lib.block.SlopeCreationCheckingRailBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -29,7 +30,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.function.Predicate;
 
-public class PistonLifterRailBlock extends BaseRailBlock {
+public class PistonLifterRailBlock extends BaseRailBlock implements SlopeCreationCheckingRailBlock {
 
     public enum PistonLifterEffect implements StringRepresentable {
         lift,

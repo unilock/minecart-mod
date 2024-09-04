@@ -1,7 +1,9 @@
 package com.alc.moreminecarts;
 
+import com.alc.moreminecarts.misc.BreakSpeedEventReceiver;
 import com.alc.moreminecarts.misc.FuelConfig;
 import com.alc.moreminecarts.misc.MMCreativeTabs;
+import com.alc.moreminecarts.misc.MMEventReciever;
 import com.alc.moreminecarts.proxy.IProxy;
 import com.alc.moreminecarts.proxy.MoreMinecartsPacketHandler;
 import com.alc.moreminecarts.proxy.ServerProxy;
@@ -71,6 +73,9 @@ public class MoreMinecartsMod implements ModInitializer {
         MMConstants.CONFIG_CHUNK_LOADER_CHUNKRODITE = builder.defineInRange("chunk_loader_chunkrodite", ()->24000, 0, 999999999);
 
         ConfigRegistry.registerConfig(MMConstants.modid, ConfigType.COMMON, builder.build(), "moreminecartsconfig.toml");
+
+        BreakSpeedEventReceiver.register();
+        MMEventReciever.register();
 
     }
 

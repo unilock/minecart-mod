@@ -3,6 +3,7 @@ package com.alc.moreminecarts.blocks.holo_scaffolds;
 import com.alc.moreminecarts.MoreMinecartsMod;
 import com.alc.moreminecarts.items.HoloRemoteItem;
 import com.alc.moreminecarts.registry.MMBlocks;
+import io.github.fabricators_of_create.porting_lib.block.CustomScaffoldingBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -31,7 +32,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.world.ticks.TickPriority;
 
-public class HoloScaffold extends Block implements SimpleWaterloggedBlock {
+public class HoloScaffold extends Block implements SimpleWaterloggedBlock, CustomScaffoldingBlock {
 
     public enum HoloScaffoldStrength implements StringRepresentable {
         weakest,

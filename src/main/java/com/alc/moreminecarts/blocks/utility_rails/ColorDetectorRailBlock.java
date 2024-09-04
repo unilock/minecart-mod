@@ -1,6 +1,7 @@
 package com.alc.moreminecarts.blocks.utility_rails;
 
 import com.alc.moreminecarts.entities.FlagCartEntity;
+import io.github.fabricators_of_create.porting_lib.block.SlopeCreationCheckingRailBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -24,7 +25,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.function.Predicate;
 
-public class ColorDetectorRailBlock extends BaseRailBlock {
+public class ColorDetectorRailBlock extends BaseRailBlock implements SlopeCreationCheckingRailBlock {
 
     public static final EnumProperty<RailShape> SHAPE = BlockStateProperties.RAIL_SHAPE_STRAIGHT;
     public static final BooleanProperty POWERED = BlockStateProperties.POWERED;

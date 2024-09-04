@@ -6,6 +6,7 @@ import com.alc.moreminecarts.containers.ChunkLoaderContainer;
 import com.alc.moreminecarts.registry.MMBlocks;
 import com.alc.moreminecarts.registry.MMItems;
 import com.alc.moreminecarts.tile_entities.ChunkLoaderTile;
+import io.github.fabricators_of_create.porting_lib.chunk.loading.PortingLibChunkManager;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -22,7 +23,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.world.ForgeChunkManager;
 
 
 public class ChunkLoaderCartEntity extends AbstractMinecartContainer {
@@ -221,7 +221,7 @@ public class ChunkLoaderCartEntity extends AbstractMinecartContainer {
     private void forceChucksAt(int chunk_x, int chunk_z, boolean add) {
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
-                ForgeChunkManager.forceChunk((ServerLevel) level(), MMConstants.modid, this, chunk_x + i, chunk_z + j, add, true);
+                PortingLibChunkManager.forceChunk((ServerLevel) level(), MMConstants.modid, this, chunk_x + i, chunk_z + j, add, true);
             }
         }
     }
