@@ -7,10 +7,6 @@ import com.alc.moreminecarts.registry.MMBlocks;
 import com.alc.moreminecarts.registry.MMContainers;
 import com.alc.moreminecarts.registry.MMEntities;
 import com.alc.moreminecarts.renderers.*;
-import com.alc.moreminecarts.renderers.highspeed.HSMinecartRenderer;
-import com.alc.moreminecarts.renderers.highspeed.HSPistonPushcartRenderer;
-import com.alc.moreminecarts.renderers.highspeed.HSPushcartRenderer;
-import com.alc.moreminecarts.renderers.highspeed.HSStickyPistonPushcartRenderer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -117,24 +113,24 @@ public class MoreMinecartsModClient implements ClientModInitializer {
         EntityRendererRegistry.register(MMEntities.BATTERY_CART_ENTITY, VanillaMinecartRenderer::new);
         EntityRendererRegistry.register(MMEntities.COUPLER_ENTITY, CouplerRenderer::new);
 
-        EntityRendererRegistry.register(MMEntities.HS_CART_ENTITY, HSMinecartRenderer::new);
-        EntityRendererRegistry.register(MMEntities.HS_CHEST_CART_ENTITY, HSMinecartRenderer::new);
-        EntityRendererRegistry.register(MMEntities.HS_TNT_CART_ENTITY, HSMinecartRenderer::new);
-        EntityRendererRegistry.register(MMEntities.HS_COMMAND_BLOCK_CART_ENTITY, HSMinecartRenderer::new);
-        EntityRendererRegistry.register(MMEntities.HS_HOPPER_CART_ENTITY, HSMinecartRenderer::new);
-        EntityRendererRegistry.register(MMEntities.HS_SPAWNER_CART_ENTITY, HSMinecartRenderer::new);
-        EntityRendererRegistry.register(MMEntities.HS_FURNACE_CART_ENTITY, HSMinecartRenderer::new);
-        EntityRendererRegistry.register(MMEntities.HS_NET_CART_ENTITY, HSMinecartRenderer::new);
-        EntityRendererRegistry.register(MMEntities.HS_CHUNK_LOADER_CART_ENTITY, HSMinecartRenderer::new);
-        EntityRendererRegistry.register(MMEntities.HS_STASIS_CART_ENTITY, HSMinecartRenderer::new);
-        EntityRendererRegistry.register(MMEntities.HS_FLAG_CART_ENTITY, HSMinecartRenderer::new);
-        EntityRendererRegistry.register(MMEntities.HS_TANK_CART_ENTITY, HSMinecartRenderer::new);
-        EntityRendererRegistry.register(MMEntities.HS_BATTERY_CART_ENTITY, HSMinecartRenderer::new);
-        EntityRendererRegistry.register(MMEntities.HS_CAMPFIRE_CART_ENTITY, HSPushcartRenderer::new);
-        EntityRendererRegistry.register(MMEntities.HS_SOULFIRE_CART_ENTITY, HSPushcartRenderer::new);
-        EntityRendererRegistry.register(MMEntities.HS_PUSHCART_ENTITY, HSPushcartRenderer::new);
-        EntityRendererRegistry.register(MMEntities.HS_PISTON_PUSHCART_ENTITY, HSPistonPushcartRenderer::new);
-        EntityRendererRegistry.register(MMEntities.HS_STICKY_PISTON_PUSHCART_ENTITY, HSStickyPistonPushcartRenderer::new);
+//        EntityRendererRegistry.register(MMEntities.HS_CART_ENTITY, HSMinecartRenderer::new);
+//        EntityRendererRegistry.register(MMEntities.HS_CHEST_CART_ENTITY, HSMinecartRenderer::new);
+//        EntityRendererRegistry.register(MMEntities.HS_TNT_CART_ENTITY, HSMinecartRenderer::new);
+//        EntityRendererRegistry.register(MMEntities.HS_COMMAND_BLOCK_CART_ENTITY, HSMinecartRenderer::new);
+//        EntityRendererRegistry.register(MMEntities.HS_HOPPER_CART_ENTITY, HSMinecartRenderer::new);
+//        EntityRendererRegistry.register(MMEntities.HS_SPAWNER_CART_ENTITY, HSMinecartRenderer::new);
+//        EntityRendererRegistry.register(MMEntities.HS_FURNACE_CART_ENTITY, HSMinecartRenderer::new);
+//        EntityRendererRegistry.register(MMEntities.HS_NET_CART_ENTITY, HSMinecartRenderer::new);
+//        EntityRendererRegistry.register(MMEntities.HS_CHUNK_LOADER_CART_ENTITY, HSMinecartRenderer::new);
+//        EntityRendererRegistry.register(MMEntities.HS_STASIS_CART_ENTITY, HSMinecartRenderer::new);
+//        EntityRendererRegistry.register(MMEntities.HS_FLAG_CART_ENTITY, HSMinecartRenderer::new);
+//        EntityRendererRegistry.register(MMEntities.HS_TANK_CART_ENTITY, HSMinecartRenderer::new);
+//        EntityRendererRegistry.register(MMEntities.HS_BATTERY_CART_ENTITY, HSMinecartRenderer::new);
+//        EntityRendererRegistry.register(MMEntities.HS_CAMPFIRE_CART_ENTITY, HSPushcartRenderer::new);
+//        EntityRendererRegistry.register(MMEntities.HS_SOULFIRE_CART_ENTITY, HSPushcartRenderer::new);
+//        EntityRendererRegistry.register(MMEntities.HS_PUSHCART_ENTITY, HSPushcartRenderer::new);
+//        EntityRendererRegistry.register(MMEntities.HS_PISTON_PUSHCART_ENTITY, HSPistonPushcartRenderer::new);
+//        EntityRendererRegistry.register(MMEntities.HS_STICKY_PISTON_PUSHCART_ENTITY, HSStickyPistonPushcartRenderer::new);
 
     }
 }
