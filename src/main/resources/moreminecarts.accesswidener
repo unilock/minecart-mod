@@ -1,4 +1,7 @@
 accessWidener v2 named
 
+accessible class net/minecraft/network/protocol/game/ServerboundInteractPacket$InteractionAction
 accessible field net/minecraft/world/entity/vehicle/MinecartFurnace fuel I
+accessible method net/minecraft/network/protocol/game/ServerboundInteractPacket <init> (IZLnet/minecraft/network/protocol/game/ServerboundInteractPacket$Action;)V
+accessible method net/minecraft/network/protocol/game/ServerboundInteractPacket$InteractionAction <init> (Lnet/minecraft/world/InteractionHand;)V
 extendable method net/minecraft/world/entity/vehicle/AbstractMinecart getDropItem ()Lnet/minecraft/world/item/Item;

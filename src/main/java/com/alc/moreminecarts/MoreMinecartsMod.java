@@ -38,7 +38,7 @@ public class MoreMinecartsMod implements ModInitializer {
             HS_ENDFIRE_CART_ENTITY = ENTITIES.register("high_speed_endfire_minecart", () -> EntityType.Builder.<HSEndfireMinecart>of(HSEndfireMinecart::new, MobCategory.MISC ).sized(0.98F, 0.7F).build("high_speed_endfire_minecart"));
         }*/
 
-        MoreMinecartsPacketHandler.Init();
+        MoreMinecartsPacketHandler.initServer();
 
         // Register the setup method for modloading
         this.setup();

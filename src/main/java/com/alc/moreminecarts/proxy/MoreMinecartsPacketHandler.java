@@ -8,17 +8,25 @@ import com.alc.moreminecarts.containers.FlagCartContainer;
 import com.alc.moreminecarts.containers.MinecartUnLoaderContainer;
 import com.alc.moreminecarts.entities.CouplerEntity;
 import com.alc.moreminecarts.entities.PistonPushcartEntity;
+import com.alc.moreminecarts.tile_entities.AbstractCommonLoader;
 import com.alc.moreminecarts.tile_entities.FilterUnloaderTile;
-import com.alc.moreminecarts.tile_entities.MinecartLoaderTile;
-import io.netty.buffer.Unpooled;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.event.player.UseEntityCallback;
+import net.fabricmc.fabric.api.networking.v1.FabricPacket;
+import net.fabricmc.fabric.api.networking.v1.PacketSender;
+import net.fabricmc.fabric.api.networking.v1.PacketType;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.Connection;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.PacketSendListener;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundDisconnectPacket;
 import net.minecraft.network.protocol.game.ServerboundInteractPacket;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -31,218 +39,164 @@ import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.network.*;
-import net.minecraftforge.network.simple.SimpleChannel;
-
-import java.util.function.Supplier;
 
 public class MoreMinecartsPacketHandler {
-    private static final String PROTOCOL_VERSION = "1";
-    public static final SimpleChannel INSTANCE = NetworkRegistry.ChannelBuilder
-        .named(new ResourceLocation(MMConstants.modid, "channelname"))
-        .clientAcceptedVersions(a->true)
-        .serverAcceptedVersions(a->true)
-        .networkProtocolVersion(() -> PROTOCOL_VERSION)
-        .simpleChannel();
-
-    public static void Init() {
-
-        int id = 0;
+    @Environment(EnvType.CLIENT)
+    public static void initClient() {
 
         // For syncing the coupler to the server -> client
-        INSTANCE.messageBuilder(CouplePacket.class, id++, NetworkDirection.PLAY_TO_CLIENT)
-                .encoder(CouplePacket::encode)
-                .decoder(CouplePacket::decode)
-                .consumerMainThread(CouplePacket::handle)
-                .add();
+        ClientPlayNetworking.registerGlobalReceiver(CouplePacket.TYPE, CouplePacket::handle);
+    }
+
+    public static void initServer() {
 
         // For changing the chunk loader client -> server
-        INSTANCE.messageBuilder(ChunkLoaderPacket.class, id++, NetworkDirection.PLAY_TO_SERVER)
-                .encoder(ChunkLoaderPacket::encode)
-                .decoder(ChunkLoaderPacket::decode)
-                .consumerMainThread(ChunkLoaderPacket::handle)
-                .add();
+        ServerPlayNetworking.registerGlobalReceiver(ChunkLoaderPacket.TYPE, ChunkLoaderPacket::handle);
 
         // For sending the piston pushcart inputs client -> server
-        INSTANCE.messageBuilder(PistonPushcartPacket.class, id++, NetworkDirection.PLAY_TO_SERVER)
-                .encoder(PistonPushcartPacket::encode)
-                .decoder(PistonPushcartPacket::decode)
-                .consumerMainThread(PistonPushcartPacket::handle)
-                .add();
+        ServerPlayNetworking.registerGlobalReceiver(PistonPushcartPacket.TYPE, PistonPushcartPacket::handle);
 
         // For sending long-range player interactions client -> server
-        INSTANCE.messageBuilder(ExtendedInteractPacket.class, id++, NetworkDirection.PLAY_TO_SERVER)
-                .encoder(ExtendedInteractPacket::encode)
-                .decoder(ExtendedInteractPacket::decode)
-                .consumerMainThread(ExtendedInteractPacket::handle)
-                .add();
+        ServerPlayNetworking.registerGlobalReceiver(ExtendedInteractPacket.TYPE, ExtendedInteractPacket::handle);
 
         // For changing the minecart loader and unloader client -> server
-        INSTANCE.messageBuilder(MinecartLoaderPacket.class, id++, NetworkDirection.PLAY_TO_SERVER)
-                .encoder(MinecartLoaderPacket::encode)
-                .decoder(MinecartLoaderPacket::decode)
-                .consumerMainThread(MinecartLoaderPacket::handle)
-                .add();
+        ServerPlayNetworking.registerGlobalReceiver(MinecartLoaderPacket.TYPE, MinecartLoaderPacket::handle);
 
         // For changing the flag cart via GUI client -> server
-        INSTANCE.messageBuilder(FlagCartPacket.class, id++, NetworkDirection.PLAY_TO_SERVER)
-                .encoder(FlagCartPacket::encode)
-                .decoder(FlagCartPacket::decode)
-                .consumerMainThread(FlagCartPacket::handle)
-                .add();
+        ServerPlayNetworking.registerGlobalReceiver(FlagCartPacket.TYPE, FlagCartPacket::handle);
     }
 
     // Currently unused.
-    public static class CouplePacket {
-        public int coupler_id;
-        public int v1;
-        public int v2;
+    @Environment(EnvType.CLIENT)
+    public record CouplePacket(int coupler_id, int v1, int v2) implements FabricPacket {
+        public static final PacketType<CouplePacket> TYPE = PacketType.create(MMConstants.id("couple"), CouplePacket::new);
 
-        public CouplePacket(int coupler_id, int v1, int v2) {
-            this.coupler_id = coupler_id;
-            this.v1 = v1;
-            this.v2 = v2;
+        public CouplePacket(FriendlyByteBuf buf) {
+            this(buf.readInt(), buf.readInt(), buf.readInt());
         }
 
-        public static void encode(CouplePacket msg, FriendlyByteBuf buf) {
-            buf.writeInt(msg.v1);
-            buf.writeInt(msg.v2);
-            buf.writeInt(msg.coupler_id);
+        @Override
+        public void write(FriendlyByteBuf buf) {
+            buf.writeInt(this.coupler_id);
+            buf.writeInt(this.v1);
+            buf.writeInt(this.v2);
         }
 
-        public static CouplePacket decode(FriendlyByteBuf buf) {
-            CouplePacket packet = new CouplePacket(0,0,0);
-            packet.v1 = buf.readInt();
-            packet.v2 = buf.readInt();
-            packet.coupler_id = buf.readInt();
-            return packet;
-        }
-
-        public void handle(Supplier<NetworkEvent.Context> ctx) {
+        public static void handle(CouplePacket packet, LocalPlayer player, PacketSender responseSender) {
 
             MoreMinecartsMod.LOGGER.log(org.apache.logging.log4j.Level.WARN, "HERE!!!");
 
-            ctx.get().enqueueWork(() -> {
+            Minecraft.getInstance().execute(() -> {
 
                 Level world = MoreMinecartsMod.PROXY.getWorld();
 
-                Entity ent = world.getEntity(coupler_id);
+                Entity ent = world.getEntity(packet.coupler_id);
                 if (ent != null && ent instanceof CouplerEntity) {
                     CouplerEntity coupler_ent = (CouplerEntity) ent;
-                    coupler_ent.vehicle1_id = v1;
-                    coupler_ent.vehicle2_id = v2;
+                    coupler_ent.vehicle1_id = packet.v1;
+                    coupler_ent.vehicle2_id = packet.v2;
                     MoreMinecartsMod.LOGGER.log(org.apache.logging.log4j.Level.WARN, "HERE2!!!");
                 }
             });
-            ctx.get().setPacketHandled(true);
+        }
+
+        @Override
+        public PacketType<?> getType() {
+            return TYPE;
         }
     }
 
-    public static class ChunkLoaderPacket {
-        public boolean set_enabled;
+    public record ChunkLoaderPacket(boolean set_enabled) implements FabricPacket {
+        public static final PacketType<ChunkLoaderPacket> TYPE = PacketType.create(MMConstants.id("chunk_loader"), ChunkLoaderPacket::new);
 
-        public ChunkLoaderPacket(boolean set_enabled) {
-            this.set_enabled = set_enabled;
+        public ChunkLoaderPacket(FriendlyByteBuf buf) {
+            this(buf.readBoolean());
         }
 
-        public static void encode(ChunkLoaderPacket msg, FriendlyByteBuf buf) {
-            buf.writeBoolean(msg.set_enabled);
+        @Override
+        public void write(FriendlyByteBuf buf) {
+            buf.writeBoolean(this.set_enabled);
         }
 
-        public static ChunkLoaderPacket decode(FriendlyByteBuf buf) {
-            ChunkLoaderPacket packet = new ChunkLoaderPacket(false);
-            packet.set_enabled = buf.readBoolean();
-            return packet;
-        }
-
-        public void handle(Supplier<NetworkEvent.Context> ctx) {
+        public static void handle(ChunkLoaderPacket packet, ServerPlayer sender, PacketSender responseSender) {
             //LogManager.getLogger().info("HERE!!!");
-            ctx.get().enqueueWork(() -> {
-                ServerPlayer sender = ctx.get().getSender();
+            sender.getServer().execute(() -> {
                 if (sender.containerMenu instanceof ChunkLoaderContainer) {
-                    ((ChunkLoaderContainer)sender.containerMenu).setEnabled(set_enabled);
+                    ((ChunkLoaderContainer)sender.containerMenu).setEnabled(packet.set_enabled);
                 }
             });
-            ctx.get().setPacketHandled(true);
         }
 
+        @Override
+        public PacketType<?> getType() {
+            return TYPE;
+        }
     }
 
-    public static class PistonPushcartPacket {
-        public boolean is_up_key;
-        public boolean now_down;
+    public record PistonPushcartPacket(boolean is_up_key, boolean now_down) implements FabricPacket {
+        public static final PacketType<PistonPushcartPacket> TYPE = PacketType.create(MMConstants.id("piston_pushcart"), PistonPushcartPacket::new);
 
-        public PistonPushcartPacket(boolean is_up_key, boolean now_down) {
-            this.is_up_key = is_up_key;
-            this.now_down = now_down;
+        public PistonPushcartPacket(FriendlyByteBuf buf) {
+            this(buf.readBoolean(), buf.readBoolean());
         }
 
-        public static void encode(PistonPushcartPacket msg, FriendlyByteBuf buf) {
-            buf.writeBoolean(msg.is_up_key);
-            buf.writeBoolean(msg.now_down);
+        @Override
+        public void write(FriendlyByteBuf buf) {
+            buf.writeBoolean(this.is_up_key);
+            buf.writeBoolean(this.now_down);
         }
 
-        public static PistonPushcartPacket decode(FriendlyByteBuf buf) {
-            PistonPushcartPacket packet = new PistonPushcartPacket(false, false);
-            packet.is_up_key = buf.readBoolean();
-            packet.now_down = buf.readBoolean();
-            return packet;
-        }
+        public static void handle(PistonPushcartPacket packet, ServerPlayer sender, PacketSender responseSender) {
 
-        public void handle(Supplier<NetworkEvent.Context> ctx) {
-
-            ctx.get().enqueueWork(() -> {
-                ServerPlayer sender = ctx.get().getSender();
+            sender.getServer().execute(() -> {
                 if (sender.getRootVehicle() instanceof PistonPushcartEntity) {
-                    ((PistonPushcartEntity)sender.getRootVehicle()).setElevating(is_up_key, now_down);
+                    ((PistonPushcartEntity)sender.getRootVehicle()).setElevating(packet.is_up_key, packet.now_down);
                 }
             });
-            ctx.get().setPacketHandled(true);
 
+        }
+
+        @Override
+        public PacketType<?> getType() {
+            return TYPE;
         }
     }
 
-    public static enum FakeInteraction {
+    public enum FakeInteraction {
         INTERACTION
     }
 
-    public static class ExtendedInteractPacket extends ServerboundInteractPacket {
+    public record ExtendedInteractPacket(int entityId, FakeInteraction interaction, InteractionHand hand, boolean isShiftKeyDown) implements FabricPacket {
+        public static final PacketType<ExtendedInteractPacket> TYPE = PacketType.create(MMConstants.id("extended_interact"), ExtendedInteractPacket::new);
 
-        public ExtendedInteractPacket(FriendlyByteBuf p_179602_) {
-            super(p_179602_);
+        public ExtendedInteractPacket(FriendlyByteBuf buf) {
+            this(buf.readVarInt(), buf.readEnum(FakeInteraction.class), buf.readEnum(InteractionHand.class), buf.readBoolean());
         }
 
-        @Environment(EnvType.CLIENT)
-        public static ExtendedInteractPacket createExtendedInteractPacket(Entity p_179609_, boolean p_179610_, InteractionHand p_179611_) {
-            FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
-
-            buf.writeVarInt(p_179609_.getId());
-            buf.writeEnum(FakeInteraction.INTERACTION);
-            buf.writeEnum(p_179611_);
-            buf.writeBoolean(p_179610_);
-
-            return new ExtendedInteractPacket(buf);
+        public ExtendedInteractPacket(Entity entity, boolean isShiftKeyDown, InteractionHand hand) {
+            this(entity.getId(), FakeInteraction.INTERACTION, hand, isShiftKeyDown);
         }
 
-        public static void encode(ExtendedInteractPacket msg, FriendlyByteBuf buf) {
-            msg.write(buf);
+        @Override
+        public void write(FriendlyByteBuf buf) {
+            buf.writeVarInt(entityId);
+            buf.writeEnum(interaction);
+            buf.writeEnum(hand);
+            buf.writeBoolean(isShiftKeyDown);
         }
 
-        public static ExtendedInteractPacket decode(FriendlyByteBuf buf) {
-            ExtendedInteractPacket interact = new ExtendedInteractPacket(buf);
-            return interact;
-        }
-
-        public void handle(Supplier<NetworkEvent.Context> ctx) {
+        public static void handle(ExtendedInteractPacket packet, ServerPlayer sender, PacketSender responseSender) {
 
             // MoreMinecartsMod.LOGGER.log(org.apache.logging.log4j.Level.WARN, "PISTON PUSHCART INTERACT 3");
-            ctx.get().enqueueWork(() -> {
-                ServerPlayer sender = ctx.get().getSender();
-                handleInteract(this, sender, ctx.get().getNetworkManager());
+            sender.getServer().execute(() -> {
+                handleInteract(new ServerboundInteractPacket(packet.entityId, packet.isShiftKeyDown, new ServerboundInteractPacket.InteractionAction(packet.hand)), sender, sender.connection.connection);
             });
-            ctx.get().setPacketHandled(true);
         }
 
+        @Override
+        public PacketType<?> getType() {
+            return TYPE;
+        }
     }
 
     // TAKEN FROM SERVERNETPLAYHANDLER
@@ -268,7 +222,7 @@ public class MoreMinecartsPacketHandler {
                     private void performInteraction(InteractionHand p_143679_, EntityInteraction p_143680_) {
                         ItemStack itemstack = player.getItemInHand(p_143679_).copy();
                         InteractionResult interactionresult = p_143680_.run(player, entity, p_143679_);
-                        if (net.minecraftforge.common.ForgeHooks.onInteractEntityAt(player, entity, entity.position(), p_143679_) != null) return;
+                        if (UseEntityCallback.EVENT.invoker().interact(player, player.getCommandSenderWorld(), p_143679_, entity, null) != InteractionResult.PASS) return; // TODO: Perhaps hitResult shouldn't be null?
                         if (interactionresult.consumesAction()) {
                             CriteriaTriggers.PLAYER_INTERACTED_WITH_ENTITY.trigger(player, itemstack, entity);
                             if (interactionresult.shouldSwing()) {
@@ -331,106 +285,68 @@ public class MoreMinecartsPacketHandler {
     }
 
 
-    public static class MinecartLoaderPacket {
-        public boolean is_unloader;
-        public boolean locked_minecarts_only;
-        public boolean leave_one_item_in_stack;
-        public boolean redstone_output;
-        public MinecartLoaderTile.ComparatorOutputType output_type;
-        public FilterUnloaderTile.FilterType filterType;
+    public record MinecartLoaderPacket(boolean is_unloader, boolean locked_minecarts_only, boolean leave_one_item_in_stack, AbstractCommonLoader.ComparatorOutputType output_type, boolean redstone_output, FilterUnloaderTile.FilterType filterType) implements FabricPacket {
+        public static final PacketType<MinecartLoaderPacket> TYPE = PacketType.create(MMConstants.id("minecart_loader"), MinecartLoaderPacket::new);
 
-        public MinecartLoaderPacket(){}
-
-        public MinecartLoaderPacket(boolean is_unloader, boolean locked_minecarts_only, boolean leave_one_item_in_stack,
-                                    MinecartLoaderTile.ComparatorOutputType output_type, boolean redstone_output,
-                                    FilterUnloaderTile.FilterType filterType) {
-            this.is_unloader = is_unloader;
-            this.locked_minecarts_only = locked_minecarts_only;
-            this.leave_one_item_in_stack = leave_one_item_in_stack;
-            this.output_type = output_type;
-            this.redstone_output = redstone_output;
-            this.filterType = filterType;
+        public MinecartLoaderPacket(FriendlyByteBuf buf){
+            this(buf.readBoolean(), buf.readBoolean(), buf.readBoolean(), buf.readEnum(AbstractCommonLoader.ComparatorOutputType.class), buf.readBoolean(), buf.readEnum(FilterUnloaderTile.FilterType.class));
         }
 
-        public static void encode(MinecartLoaderPacket msg, FriendlyByteBuf buf) {
-            buf.writeBoolean(msg.is_unloader);
-            buf.writeBoolean(msg.locked_minecarts_only);
-            buf.writeBoolean(msg.leave_one_item_in_stack);
-            buf.writeEnum(msg.output_type);
-            buf.writeBoolean(msg.redstone_output);
-            buf.writeEnum(msg.filterType);
+        @Override
+        public void write(FriendlyByteBuf buf) {
+            buf.writeBoolean(this.is_unloader);
+            buf.writeBoolean(this.locked_minecarts_only);
+            buf.writeBoolean(this.leave_one_item_in_stack);
+            buf.writeEnum(this.output_type);
+            buf.writeBoolean(this.redstone_output);
+            buf.writeEnum(this.filterType);
         }
 
-        public static MinecartLoaderPacket decode(FriendlyByteBuf buf) {
-            MinecartLoaderPacket packet = new MinecartLoaderPacket();
-            packet.is_unloader = buf.readBoolean();
-            packet.locked_minecarts_only = buf.readBoolean();
-            packet.leave_one_item_in_stack = buf.readBoolean();
-            packet.output_type = buf.readEnum(MinecartLoaderTile.ComparatorOutputType.class);
-            packet.redstone_output = buf.readBoolean();
-            packet.filterType = buf.readEnum(FilterUnloaderTile.FilterType.class);
-            return packet;
-        }
+        public static void handle(MinecartLoaderPacket packet, ServerPlayer sender, PacketSender responseSender) {
 
-        public void handle(Supplier<NetworkEvent.Context> ctx) {
-
-            ctx.get().enqueueWork(() -> {
-                ServerPlayer sender = ctx.get().getSender();
+            sender.getServer().execute(() -> {
                 if (sender.containerMenu instanceof MinecartUnLoaderContainer container) {
-                    container.setOptions(locked_minecarts_only, leave_one_item_in_stack, output_type, redstone_output, filterType);
+                    container.setOptions(packet.locked_minecarts_only, packet.leave_one_item_in_stack, packet.output_type, packet.redstone_output, packet.filterType);
                 }
                 else if (sender.containerMenu instanceof FilterUnloaderContainer container) {
-                    container.setOptions(locked_minecarts_only, leave_one_item_in_stack, output_type, redstone_output, filterType);
+                    container.setOptions(packet.locked_minecarts_only, packet.leave_one_item_in_stack, packet.output_type, packet.redstone_output, packet.filterType);
                 }
             });
-            ctx.get().setPacketHandled(true);
 
+        }
+
+        @Override
+        public PacketType<?> getType() {
+            return TYPE;
         }
     }
 
-    public static class FlagCartPacket {
-        public boolean is_decrement;
-        public boolean is_disclude;
+    public record FlagCartPacket(boolean is_decrement, boolean is_disclude) implements FabricPacket {
+        public static final PacketType<FlagCartPacket> TYPE = PacketType.create(MMConstants.id("flag_cart"), FlagCartPacket::new);
 
-        public FlagCartPacket(boolean is_decrement, boolean is_disclude) {
-            this.is_decrement = is_decrement;
-            this.is_disclude = is_disclude;
+        public FlagCartPacket(FriendlyByteBuf buf) {
+            this(buf.readBoolean(), buf.readBoolean());
         }
 
-        public static void encode(FlagCartPacket msg, FriendlyByteBuf buf) {
-            buf.writeBoolean(msg.is_decrement);
-            buf.writeBoolean(msg.is_disclude);
+        @Override
+        public void write(FriendlyByteBuf buf) {
+            buf.writeBoolean(this.is_decrement);
+            buf.writeBoolean(this.is_disclude);
         }
 
-        public static FlagCartPacket decode(FriendlyByteBuf buf) {
-            FlagCartPacket packet = new FlagCartPacket(false, false);
-            packet.is_decrement = buf.readBoolean();
-            packet.is_disclude = buf.readBoolean();
-            return packet;
-        }
+        public static void handle(FlagCartPacket packet, ServerPlayer sender, PacketSender responseSender) {
 
-
-        public static void handle(FlagCartPacket msg, NetworkEvent.Context ctx) {
-
-            ctx.enqueueWork(() -> {
-                ServerPlayer sender = ctx.getSender();
+            sender.getServer().execute(() -> {
                 if (sender.containerMenu instanceof FlagCartContainer) {
-                    ((FlagCartContainer)sender.containerMenu).changeSelection(msg.is_decrement, msg.is_disclude);
+                    ((FlagCartContainer)sender.containerMenu).changeSelection(packet.is_decrement, packet.is_disclude);
                 }
             });
-            ctx.setPacketHandled(true);
+
         }
 
-        public void handle(Supplier<NetworkEvent.Context> ctx) {
-
-            ctx.get().enqueueWork(() -> {
-                ServerPlayer sender = ctx.get().getSender();
-                if (sender.containerMenu instanceof FlagCartContainer) {
-                    ((FlagCartContainer)sender.containerMenu).changeSelection(is_decrement, is_disclude);
-                }
-            });
-            ctx.get().setPacketHandled(true);
-
+        @Override
+        public PacketType<?> getType() {
+            return TYPE;
         }
     }
 }

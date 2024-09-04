@@ -6,6 +6,7 @@ import com.alc.moreminecarts.registry.MMBlocks;
 import com.alc.moreminecarts.registry.MMItems;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -246,10 +247,10 @@ public class PistonPushcartEntity extends IronPushcartEntity {
         if (result == InteractionResult.SUCCESS && level().isClientSide && distance >= 36.0D && distance < 175.0) {
 
             MoreMinecartsPacketHandler.ExtendedInteractPacket packet =
-                MoreMinecartsPacketHandler.ExtendedInteractPacket.createExtendedInteractPacket(
-                    this, player.isShiftKeyDown(), hand
+                new MoreMinecartsPacketHandler.ExtendedInteractPacket(
+                        this, player.isShiftKeyDown(), hand
                 );
-            MoreMinecartsPacketHandler.INSTANCE.sendToServer(packet);
+            ClientPlayNetworking.send(packet);
 
         }
         return result;

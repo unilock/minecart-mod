@@ -9,6 +9,7 @@ import com.google.common.collect.Lists;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractButton;
 import net.minecraft.client.gui.components.Tooltip;
@@ -136,9 +137,9 @@ public class FilterUnloaderScreen extends AbstractContainerScreen<FilterUnloader
 
         @Override
         public void onPress() {
-            MoreMinecartsPacketHandler.MinecartLoaderPacket packet = menu.getCurrentPacket();
-            packet.output_type = MinecartLoaderTile.ComparatorOutputType.next(packet.output_type);
-            MoreMinecartsPacketHandler.INSTANCE.sendToServer(packet);
+            MoreMinecartsPacketHandler.MinecartLoaderPacket oldPacket = menu.getCurrentPacket();
+            MoreMinecartsPacketHandler.MinecartLoaderPacket newPacket = new MoreMinecartsPacketHandler.MinecartLoaderPacket(oldPacket.is_unloader(), oldPacket.locked_minecarts_only(), oldPacket.leave_one_item_in_stack(), MinecartLoaderTile.ComparatorOutputType.next(oldPacket.output_type()), oldPacket.redstone_output(), oldPacket.filterType());
+            ClientPlayNetworking.send(newPacket);
         }
 
         @Override
@@ -219,9 +220,9 @@ public class FilterUnloaderScreen extends AbstractContainerScreen<FilterUnloader
 
         @Override
         public void onPress() {
-            MoreMinecartsPacketHandler.MinecartLoaderPacket packet = menu.getCurrentPacket();
-            packet.filterType = FilterUnloaderTile.FilterType.next(packet.filterType);
-            MoreMinecartsPacketHandler.INSTANCE.sendToServer(packet);
+            MoreMinecartsPacketHandler.MinecartLoaderPacket oldPacket = menu.getCurrentPacket();
+            MoreMinecartsPacketHandler.MinecartLoaderPacket newPacket = new MoreMinecartsPacketHandler.MinecartLoaderPacket(oldPacket.is_unloader(), oldPacket.locked_minecarts_only(), oldPacket.leave_one_item_in_stack(), oldPacket.output_type(), oldPacket.redstone_output(), FilterUnloaderTile.FilterType.next(oldPacket.filterType()));
+            ClientPlayNetworking.send(newPacket);
         }
 
         @Override
@@ -291,9 +292,9 @@ public class FilterUnloaderScreen extends AbstractContainerScreen<FilterUnloader
 
         @Override
         public void onPress() {
-            MoreMinecartsPacketHandler.MinecartLoaderPacket packet = menu.getCurrentPacket();
-            packet.locked_minecarts_only = !packet.locked_minecarts_only;
-            MoreMinecartsPacketHandler.INSTANCE.sendToServer(packet);
+            MoreMinecartsPacketHandler.MinecartLoaderPacket oldPacket = menu.getCurrentPacket();
+            MoreMinecartsPacketHandler.MinecartLoaderPacket newPacket = new MoreMinecartsPacketHandler.MinecartLoaderPacket(oldPacket.is_unloader(), !oldPacket.locked_minecarts_only(), oldPacket.leave_one_item_in_stack(), oldPacket.output_type(), oldPacket.redstone_output(), oldPacket.filterType());
+            ClientPlayNetworking.send(newPacket);
         }
 
         @Override
@@ -348,9 +349,9 @@ public class FilterUnloaderScreen extends AbstractContainerScreen<FilterUnloader
 
         @Override
         public void onPress() {
-            MoreMinecartsPacketHandler.MinecartLoaderPacket packet = menu.getCurrentPacket();
-            packet.leave_one_item_in_stack = !packet.leave_one_item_in_stack;
-            MoreMinecartsPacketHandler.INSTANCE.sendToServer(packet);
+            MoreMinecartsPacketHandler.MinecartLoaderPacket oldPacket = menu.getCurrentPacket();
+            MoreMinecartsPacketHandler.MinecartLoaderPacket newPacket = new MoreMinecartsPacketHandler.MinecartLoaderPacket(oldPacket.is_unloader(), oldPacket.locked_minecarts_only(), !oldPacket.leave_one_item_in_stack(), oldPacket.output_type(), oldPacket.redstone_output(), oldPacket.filterType());
+            ClientPlayNetworking.send(newPacket);
         }
 
         @Override
@@ -415,9 +416,9 @@ public class FilterUnloaderScreen extends AbstractContainerScreen<FilterUnloader
 
         @Override
         public void onPress() {
-            MoreMinecartsPacketHandler.MinecartLoaderPacket packet = menu.getCurrentPacket();
-            packet.redstone_output = !packet.redstone_output;
-            MoreMinecartsPacketHandler.INSTANCE.sendToServer(packet);
+            MoreMinecartsPacketHandler.MinecartLoaderPacket oldPacket = menu.getCurrentPacket();
+            MoreMinecartsPacketHandler.MinecartLoaderPacket newPacket = new MoreMinecartsPacketHandler.MinecartLoaderPacket(oldPacket.is_unloader(), oldPacket.locked_minecarts_only(), oldPacket.leave_one_item_in_stack(), oldPacket.output_type(), !oldPacket.redstone_output(), oldPacket.filterType());
+            ClientPlayNetworking.send(newPacket);
         }
 
         @Override

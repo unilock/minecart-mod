@@ -6,6 +6,7 @@ import com.google.common.collect.Lists;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractButton;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
@@ -103,7 +104,7 @@ public class FlagCartScreen extends AbstractContainerScreen<FlagCartContainer> {
         @Override
         public void onPress() {
             MoreMinecartsPacketHandler.FlagCartPacket packet = new MoreMinecartsPacketHandler.FlagCartPacket(false, true);
-            MoreMinecartsPacketHandler.INSTANCE.sendToServer(packet);
+            ClientPlayNetworking.send(packet);
         }
 
     }
@@ -117,7 +118,7 @@ public class FlagCartScreen extends AbstractContainerScreen<FlagCartContainer> {
         @Override
         public void onPress() {
             MoreMinecartsPacketHandler.FlagCartPacket packet = new MoreMinecartsPacketHandler.FlagCartPacket(true, true);
-            MoreMinecartsPacketHandler.INSTANCE.sendToServer(packet);
+            ClientPlayNetworking.send(packet);
         }
     }
 
@@ -130,7 +131,7 @@ public class FlagCartScreen extends AbstractContainerScreen<FlagCartContainer> {
         @Override
         public void onPress() {
             MoreMinecartsPacketHandler.FlagCartPacket packet = new MoreMinecartsPacketHandler.FlagCartPacket(true, false);
-            MoreMinecartsPacketHandler.INSTANCE.sendToServer(packet);
+            ClientPlayNetworking.send(packet);
         }
     }
 
@@ -143,7 +144,7 @@ public class FlagCartScreen extends AbstractContainerScreen<FlagCartContainer> {
         @Override
         public void onPress() {
             MoreMinecartsPacketHandler.FlagCartPacket packet = new MoreMinecartsPacketHandler.FlagCartPacket(false, false);
-            MoreMinecartsPacketHandler.INSTANCE.sendToServer(packet);
+            ClientPlayNetworking.send(packet);
         }
     }
 

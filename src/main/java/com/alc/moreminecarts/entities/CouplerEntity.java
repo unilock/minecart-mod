@@ -3,6 +3,9 @@ package com.alc.moreminecarts.entities;
 import com.alc.moreminecarts.MoreMinecartsMod;
 import com.alc.moreminecarts.proxy.MoreMinecartsPacketHandler;
 import com.alc.moreminecarts.registry.MMItems;
+import io.github.fabricators_of_create.porting_lib.entity.IEntityAdditionalSpawnData;
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerLevel;
@@ -15,8 +18,6 @@ import net.minecraft.world.entity.vehicle.AbstractMinecart;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.entity.IEntityAdditionalSpawnData;
-import net.minecraftforge.network.PacketDistributor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
@@ -191,7 +192,7 @@ public class CouplerEntity extends Entity implements IEntityAdditionalSpawnData 
 
             if (this.vehicle1 != null && this.vehicle2 != null) {
                 MoreMinecartsMod.LOGGER.log(org.apache.logging.log4j.Level.WARN, "HERE");
-                MoreMinecartsPacketHandler.INSTANCE.send(PacketDistributor.TRACKING_ENTITY.with(()->this), new MoreMinecartsPacketHandler.CouplePacket(this.getId(), this.vehicle1_id , this.vehicle2_id));
+                PlayerLookup.tracking(this).forEach(player -> ServerPlayNetworking.send(player, new MoreMinecartsPacketHandler.CouplePacket(this.getId(), this.vehicle1_id , this.vehicle2_id)));
             }
 
             if (this.tickCount > 100) {

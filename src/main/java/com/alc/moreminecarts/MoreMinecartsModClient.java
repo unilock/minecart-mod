@@ -2,6 +2,7 @@ package com.alc.moreminecarts;
 
 import com.alc.moreminecarts.client.*;
 import com.alc.moreminecarts.proxy.ClientProxy;
+import com.alc.moreminecarts.proxy.MoreMinecartsPacketHandler;
 import com.alc.moreminecarts.registry.MMBlocks;
 import com.alc.moreminecarts.registry.MMContainers;
 import com.alc.moreminecarts.registry.MMEntities;
@@ -11,6 +12,8 @@ import com.alc.moreminecarts.renderers.highspeed.HSPistonPushcartRenderer;
 import com.alc.moreminecarts.renderers.highspeed.HSPushcartRenderer;
 import com.alc.moreminecarts.renderers.highspeed.HSStickyPistonPushcartRenderer;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.gui.screens.MenuScreens;
@@ -20,6 +23,7 @@ import net.minecraft.world.level.block.Block;
 
 import java.util.Map;
 
+@Environment(EnvType.CLIENT)
 public class MoreMinecartsModClient implements ClientModInitializer {
     static {
         MoreMinecartsMod.PROXY = new ClientProxy();
@@ -31,6 +35,7 @@ public class MoreMinecartsModClient implements ClientModInitializer {
         this.doClientStuff();
         this.registerEntityRenderers();
 
+        MoreMinecartsPacketHandler.initClient();
         ModKeyMappings.setupKeybindings();
     }
 

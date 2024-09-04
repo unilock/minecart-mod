@@ -7,6 +7,7 @@ import com.google.common.collect.Lists;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractButton;
 import net.minecraft.client.gui.components.Tooltip;
@@ -125,7 +126,7 @@ public class ChunkLoaderScreen extends AbstractContainerScreen<ChunkLoaderContai
         @Override
         public void onPress() {
             MoreMinecartsPacketHandler.ChunkLoaderPacket packet = new MoreMinecartsPacketHandler.ChunkLoaderPacket(!menu.isEnabled());
-            MoreMinecartsPacketHandler.INSTANCE.sendToServer(packet);
+            ClientPlayNetworking.send(packet);
         }
 
         @Override
