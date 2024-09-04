@@ -14,7 +14,7 @@ public class SoulfireCartItem extends AbstractMinecartItem {
     @Override
     void createMinecart(ItemStack stack, Level world, double posX, double posY, double posZ) {
 
-        SoulfireCartEntity minecart = new SoulfireCartEntity(MMEntities.SOULFIRE_CART_ENTITY.get(), world, posX, posY, posZ);
+        SoulfireCartEntity minecart = new SoulfireCartEntity(MMEntities.SOULFIRE_CART_ENTITY, world, posX, posY, posZ);
         if (stack.hasCustomHoverName()) {
             minecart.setCustomName(stack.getDisplayName());
         }

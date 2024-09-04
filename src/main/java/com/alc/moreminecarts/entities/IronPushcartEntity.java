@@ -20,7 +20,7 @@ public class IronPushcartEntity extends AbstractPushcart {
     public double getBrakeSpeed() { return 0; }
 
     public Item getDropItem() {
-        return MMItems.IRON_PUSHCART_ITEM.get();
+        return MMItems.IRON_PUSHCART_ITEM;
     }
 
     //@Override

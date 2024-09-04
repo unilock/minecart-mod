@@ -3,14 +3,13 @@ package com.alc.moreminecarts.client;
 import com.alc.moreminecarts.MoreMinecartsMod;
 import com.alc.moreminecarts.entities.PistonPushcartEntity;
 import com.alc.moreminecarts.proxy.MoreMinecartsPacketHandler;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.protocol.Packet;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 public class PistonPushcartUpKey extends KeyMapping {
 
 

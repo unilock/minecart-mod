@@ -44,7 +44,7 @@ public class StickyPistonPushcartEntity extends PistonPushcartEntity{
     }
 
     public Item getDropItem() {
-        return MMItems.STICKY_PISTON_PUSHCART_ITEM.get();
+        return MMItems.STICKY_PISTON_PUSHCART_ITEM;
     }
 
     //@Override

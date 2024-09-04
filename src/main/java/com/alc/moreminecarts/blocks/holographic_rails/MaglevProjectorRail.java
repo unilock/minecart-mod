@@ -17,7 +17,7 @@ public class MaglevProjectorRail extends ProjectorRail {
     @Override
     protected int getHologramLength() {return 8;}
     @Override
-    protected Block getHologramRail() {return MMBlocks.MAGLEV_HOLOGRAM_RAIL.get();}
+    protected Block getHologramRail() {return MMBlocks.MAGLEV_HOLOGRAM_RAIL;}
 
     @Override
     public float getRailMaxSpeed(BlockState state, Level world, BlockPos pos, AbstractMinecart cart) {

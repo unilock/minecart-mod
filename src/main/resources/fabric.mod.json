@@ -1,0 +1,34 @@
+{
+	"schemaVersion": 1,
+	"id": "moreminecarts",
+	"version": "${version}",
+	"name": "More Minecarts and Rails",
+	"description": "Adds more minecarts and rails!",
+	"authors": [
+		"ChocolateCollie",
+		"Goldey2"
+	],
+	"contact": {
+		"sources": "https://github.com/ryyanmapes/minecart-mod"
+	},
+	"license": "All Rights Reserved",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"com.alc.moreminecarts.MoreMinecartsMod"
+		],
+		"client": [
+			"com.alc.moreminecarts.MoreMinecartsModClient"
+		]
+	},
+	"mixins": [
+		"moreminecarts.mixins.json"
+	],
+	"accessWidener": "moreminecarts.accesswidener",
+	"depends": {
+		"fabricloader": "*",
+		"minecraft": ">=1.20",
+		"fabric-api": "*",
+		"forgeconfigapiport": ">=8.0.0"
+	}
+}

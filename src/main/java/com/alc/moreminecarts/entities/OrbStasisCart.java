@@ -5,15 +5,12 @@ import com.alc.moreminecarts.registry.MMBlocks;
 import com.alc.moreminecarts.registry.MMItems;
 import com.alc.moreminecarts.tile_entities.OrbStasisTile;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.monster.Endermite;
@@ -28,8 +25,8 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.PoweredRailBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.event.entity.EntityTeleportEvent;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import java.util.UUID;
 
 
@@ -56,7 +53,7 @@ public class OrbStasisCart extends AbstractMinecart {
     }
 
     public Item getDropItem() {
-        return MMItems.MINECART_WITH_STASIS_ITEM.get();
+        return MMItems.MINECART_WITH_STASIS_ITEM;
     }
 
     @Override
@@ -100,7 +97,7 @@ public class OrbStasisCart extends AbstractMinecart {
         if (entity instanceof ServerPlayer) {
             ServerPlayer player = (ServerPlayer) entity;
             // copied from EnderPearlEntity
-            if (player.connection.connection.isConnected() && player.level() == this.level() && !player.isSleeping()) {
+            if (player.connection.isAcceptingMessages() && player.level() == this.level() && !player.isSleeping()) {
                 EntityTeleportEvent.ChorusFruit event = new EntityTeleportEvent.ChorusFruit(player,
                         this.getX() + 0.5, this.getY() + 1, this.getZ() + 0.5);
                 if (!net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(event)) { // Don't indent to lower patch size
@@ -131,7 +128,7 @@ public class OrbStasisCart extends AbstractMinecart {
         BlockState blockState = level().getBlockState(blockPosition());
         boolean is_activated = blockState.is(Blocks.ACTIVATOR_RAIL) && blockState.getValue(PoweredRailBlock.POWERED);
 
-        return MMBlocks.PEARL_STASIS_CHAMBER.get().defaultBlockState().setValue(OrbStasisBlock.CONTAINS_PEARL, getHasOrb())
+        return MMBlocks.PEARL_STASIS_CHAMBER.defaultBlockState().setValue(OrbStasisBlock.CONTAINS_PEARL, getHasOrb())
                 .setValue(OrbStasisBlock.POWERED, is_activated );
     }
 

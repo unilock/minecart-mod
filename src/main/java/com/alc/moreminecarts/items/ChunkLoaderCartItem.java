@@ -14,7 +14,7 @@ public class ChunkLoaderCartItem extends AbstractMinecartItem {
     @Override
     void createMinecart(ItemStack stack, Level world, double posX, double posY, double posZ) {
 
-        ChunkLoaderCartEntity minecart = new ChunkLoaderCartEntity(MMEntities.CHUNK_LOADER_CART.get(), world, posX, posY, posZ);
+        ChunkLoaderCartEntity minecart = new ChunkLoaderCartEntity(MMEntities.CHUNK_LOADER_CART, world, posX, posY, posZ);
         if (stack.hasCustomHoverName()) {
             minecart.setCustomName(stack.getDisplayName());
         }

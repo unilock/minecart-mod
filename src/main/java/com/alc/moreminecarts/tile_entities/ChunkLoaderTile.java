@@ -21,14 +21,10 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.world.ForgeChunkManager;
-
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.function.Predicate;
+import org.jetbrains.annotations.Nullable;
 
 public class ChunkLoaderTile extends ContainerBlockEntity implements WorldlyContainer, Container {
     public static String LAST_CHUNK_X_PROPERTY = "last_block_pos_x";
@@ -77,7 +73,7 @@ public class ChunkLoaderTile extends ContainerBlockEntity implements WorldlyCont
     public int last_chunk_z;
 
     public ChunkLoaderTile(BlockPos pos, BlockState state) {
-        super(MMTileEntities.CHUNK_LOADER_TILE_ENTITY.get(), pos, state);
+        super(MMTileEntities.CHUNK_LOADER_TILE_ENTITY, pos, state);
 
         this.items = NonNullList.withSize(1, ItemStack.EMPTY);
 
@@ -267,10 +263,10 @@ public class ChunkLoaderTile extends ContainerBlockEntity implements WorldlyCont
 
         int count = (int)Math.floor( Math.abs(time_left / multiplier) / chunkrodite_refund_per);
 
-        Item to_drop = MMItems.CHUNKRODITE.get();
+        Item to_drop = MMItems.CHUNKRODITE;
         if (count > 64) {
             count = (int)Math.floor(count / 9.0f);
-            to_drop = MMItems.CHUNKRODITE_BLOCK_ITEM.get();
+            to_drop = MMItems.CHUNKRODITE_BLOCK_ITEM;
             if (count > 64) count = 64; // Should never occur, but just in case.
         }
 

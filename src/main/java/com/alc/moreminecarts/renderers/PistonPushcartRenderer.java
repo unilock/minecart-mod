@@ -19,7 +19,6 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import org.joml.Vector3f;
 
 public class PistonPushcartRenderer extends EntityRenderer<PistonPushcartEntity> {
 
@@ -117,7 +116,7 @@ public class PistonPushcartRenderer extends EntityRenderer<PistonPushcartEntity>
         matrixStackIn.pushPose();
 
         Minecraft.getInstance().getBlockRenderer().renderSingleBlock(
-                MMBlocks.PISTON_DISPLAY_BLOCK.get().defaultBlockState().setValue(PistonDisplayBlock.VARIANT, 0),
+                MMBlocks.PISTON_DISPLAY_BLOCK.defaultBlockState().setValue(PistonDisplayBlock.VARIANT, 0),
                 matrixStackIn, bufferIn, packedLightIn, OverlayTexture.NO_OVERLAY);
 
         boolean is_first = true;
@@ -126,7 +125,7 @@ public class PistonPushcartRenderer extends EntityRenderer<PistonPushcartEntity>
         while( length >= 0 ) {
 
             Minecraft.getInstance().getBlockRenderer().renderSingleBlock(
-                    MMBlocks.PISTON_DISPLAY_BLOCK.get().defaultBlockState()
+                    MMBlocks.PISTON_DISPLAY_BLOCK.defaultBlockState()
                             .setValue(PistonDisplayBlock.VARIANT, is_first? getPistonHeadVariant() : 1),
                     matrixStackIn, bufferIn, packedLightIn, OverlayTexture.NO_OVERLAY);
 

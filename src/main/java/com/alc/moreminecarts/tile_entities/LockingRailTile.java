@@ -16,8 +16,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Predicate;
@@ -39,12 +39,12 @@ public class LockingRailTile extends BlockEntity {
     public AbstractMinecart locked_minecart;
 
     public LockingRailTile(BlockPos pos, BlockState state) {
-        super(MMTileEntities.LOCKING_RAIL_TILE_ENTITY.get(), pos, state);
+        super(MMTileEntities.LOCKING_RAIL_TILE_ENTITY, pos, state);
         locked_minecart = null;
     }
 
     public LockingRailTile(BlockPos pos, BlockState state, boolean is_powered) {
-        super( is_powered? MMTileEntities.POWERED_LOCKING_RAIL_TILE_ENTITY.get() : MMTileEntities.LOCKING_RAIL_TILE_ENTITY.get(), pos, state );
+        super( is_powered? MMTileEntities.POWERED_LOCKING_RAIL_TILE_ENTITY : MMTileEntities.LOCKING_RAIL_TILE_ENTITY, pos, state );
         locked_minecart = null;
     }
 

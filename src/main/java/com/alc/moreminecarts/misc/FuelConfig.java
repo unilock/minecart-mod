@@ -7,13 +7,9 @@ import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.arguments.item.ItemPredicateArgument;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.ForgeConfig;
-import net.minecraftforge.common.ForgeConfigSpec;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.function.Predicate;
-import java.util.function.Supplier;
 
 public class FuelConfig {
 

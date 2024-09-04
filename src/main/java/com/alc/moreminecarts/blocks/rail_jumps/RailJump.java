@@ -1,8 +1,6 @@
 package com.alc.moreminecarts.blocks.rail_jumps;
 
-import com.alc.moreminecarts.blocks.containers.ChunkLoaderBlock;
 import com.alc.moreminecarts.misc.RailUtil;
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.vehicle.AbstractMinecart;
@@ -19,8 +17,7 @@ import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.block.state.properties.RailShape;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 public class RailJump extends BaseRailBlock {
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;

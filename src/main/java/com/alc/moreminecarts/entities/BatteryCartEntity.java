@@ -6,8 +6,6 @@ import com.alc.moreminecarts.misc.SettableEnergyStorage;
 import com.alc.moreminecarts.registry.MMBlocks;
 import com.alc.moreminecarts.registry.MMItems;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -29,8 +27,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.IEnergyStorage;
-
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 
 public class BatteryCartEntity extends AbstractMinecart implements Container, MenuProvider {
@@ -102,13 +99,14 @@ public class BatteryCartEntity extends AbstractMinecart implements Container, Me
         return Type.CHEST;
     }
 
+    @Override
     public Item getDropItem() {
-        return MMItems.BATTERY_CART_ITEM.get();
+        return MMItems.BATTERY_CART_ITEM;
     }
 
     @Override
     public BlockState getDefaultDisplayBlockState() {
-        return MMBlocks.PISTON_DISPLAY_BLOCK.get().defaultBlockState().setValue(PistonDisplayBlock.VARIANT, 5);
+        return MMBlocks.PISTON_DISPLAY_BLOCK.defaultBlockState().setValue(PistonDisplayBlock.VARIANT, 5);
     }
 
     // Container stuff

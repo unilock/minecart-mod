@@ -14,7 +14,7 @@ public class IronPushcartItem extends AbstractMinecartItem {
     @Override
     void createMinecart(ItemStack stack, Level world, double posX, double posY, double posZ) {
 
-        IronPushcartEntity minecart = new IronPushcartEntity(MMEntities.IRON_PUSHCART_ENTITY.get(), world, posX, posY, posZ);
+        IronPushcartEntity minecart = new IronPushcartEntity(MMEntities.IRON_PUSHCART_ENTITY, world, posX, posY, posZ);
         if (stack.hasCustomHoverName()) {
             minecart.setCustomName(stack.getDisplayName());
         }

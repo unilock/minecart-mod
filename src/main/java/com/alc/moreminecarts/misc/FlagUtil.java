@@ -3,7 +3,6 @@ package com.alc.moreminecarts.misc;
 import com.alc.moreminecarts.registry.MMItems;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.registries.RegistryObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,11 +10,7 @@ import java.util.Map;
 public class FlagUtil {
     public static byte getFlagColorValue (Item flag) {
         // Not doing this statically since it is not recommended to keep static references to Items.
-        Map<Item, DyeColor> railSignalMap = new HashMap<>();
-
-        for (Map.Entry<RegistryObject<Item>, DyeColor> entry : MMItems.RAIL_SIGNALS.inverse().entrySet()) {
-            railSignalMap.put(entry.getKey().get(), entry.getValue());
-        }
+        Map<Item, DyeColor> railSignalMap = new HashMap<>(MMItems.RAIL_SIGNALS.inverse());
 
         if(railSignalMap.containsKey(flag)) {
             return (byte) (railSignalMap.get(flag).getId() + 1);

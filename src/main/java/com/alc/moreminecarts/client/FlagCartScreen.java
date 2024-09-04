@@ -4,22 +4,20 @@ import com.alc.moreminecarts.containers.FlagCartContainer;
 import com.alc.moreminecarts.proxy.MoreMinecartsPacketHandler;
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractButton;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.protocol.Packet;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.List;
 
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 public class FlagCartScreen extends AbstractContainerScreen<FlagCartContainer> {
     private static final ResourceLocation display = new ResourceLocation("moreminecarts:textures/gui/programmable_cart.png");
     private static final Component TITLE = Component.translatable("gui.moreminecarts.flag_cart.title");
@@ -71,7 +69,7 @@ public class FlagCartScreen extends AbstractContainerScreen<FlagCartContainer> {
         matrix.blit(display, leftPos + 4 + (18*s), topPos + 38, 194, 36, 24, 24);
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     abstract class SimpleButton extends MMButton {
 
         protected SimpleButton(int x, int y) { super(x, y); }

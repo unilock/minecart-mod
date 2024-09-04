@@ -1,5 +1,6 @@
 package com.alc.moreminecarts;
 
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.ForgeConfigSpec;
 
 import java.util.List;
@@ -37,4 +38,8 @@ public class MMConstants {
     public static ForgeConfigSpec.IntValue CONFIG_CHUNK_LOADER_CHUNKRODITE;
 
     public static List<Predicate<net.minecraft.world.item.ItemStack>> CHUNK_LOADER_FUEL_PREDICATES_BAKED = null;
+
+    public static ResourceLocation id(String path) {
+        return new ResourceLocation(modid, path);
+    }
 }

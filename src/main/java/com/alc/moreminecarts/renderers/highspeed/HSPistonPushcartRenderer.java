@@ -2,7 +2,6 @@ package com.alc.moreminecarts.renderers.highspeed;
 
 import com.alc.moreminecarts.entities.PistonPushcartEntity;
 import com.alc.moreminecarts.renderers.PistonPushcartRenderer;
-import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 

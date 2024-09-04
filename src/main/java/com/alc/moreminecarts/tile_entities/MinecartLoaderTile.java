@@ -29,7 +29,7 @@ import java.util.List;
 public class MinecartLoaderTile extends AbstractCommonLoader {
 
     public MinecartLoaderTile(BlockPos pos, BlockState state) {
-        super(MMTileEntities.MINECART_LOADER_TILE_ENTITY.get(), pos, state);
+        super(MMTileEntities.MINECART_LOADER_TILE_ENTITY, pos, state);
         last_redstone_output = !redstone_output;
     }
 
@@ -249,7 +249,7 @@ public class MinecartLoaderTile extends AbstractCommonLoader {
     public float doFuranceCartLoads(MinecartFurnace minecart) {
         boolean changed = false;
 
-        BlockEntity te_at_minecart = level.getBlockEntity(minecart.getCurrentRailPosition());
+        BlockEntity te_at_minecart = level.getBlockEntity(minecart.blockPosition()); //minecart.getCurrentRailPosition()
 
         if (te_at_minecart instanceof LockingRailTile && ((LockingRailTile)te_at_minecart).locked_minecart == minecart) {
             LockingRailTile locking_rail_tile = (LockingRailTile)te_at_minecart;

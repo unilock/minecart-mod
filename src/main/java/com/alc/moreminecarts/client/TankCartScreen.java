@@ -2,17 +2,16 @@ package com.alc.moreminecarts.client;
 
 import com.alc.moreminecarts.containers.TankCartContainer;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fluids.FluidStack;
 
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 public class TankCartScreen extends AbstractContainerScreen<TankCartContainer> {
     private static final ResourceLocation display = new ResourceLocation("moreminecarts:textures/gui/blank.png");
     private static final Component TITLE = Component.translatable("gui.moreminecarts.tank_cart.title");

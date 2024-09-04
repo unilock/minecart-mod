@@ -1,6 +1,5 @@
 package com.alc.moreminecarts.misc;
 
-import com.alc.moreminecarts.tile_entities.ChunkLoaderTile;
 import net.minecraft.world.Container;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;

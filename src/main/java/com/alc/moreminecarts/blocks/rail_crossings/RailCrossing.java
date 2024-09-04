@@ -1,7 +1,5 @@
 package com.alc.moreminecarts.blocks.rail_crossings;
 
-import com.alc.moreminecarts.blocks.containers.ChunkLoaderBlock;
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.vehicle.AbstractMinecart;
 import net.minecraft.world.level.BlockGetter;
@@ -13,8 +11,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.block.state.properties.RailShape;
 import net.minecraft.world.phys.Vec3;
-
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 public class RailCrossing extends BaseRailBlock {
     public static final Property<RailShape> SHAPE = BlockStateProperties.RAIL_SHAPE_STRAIGHT;

@@ -1,12 +1,13 @@
 package com.alc.moreminecarts.containers;
 
 import com.alc.moreminecarts.proxy.MoreMinecartsPacketHandler;
-import com.alc.moreminecarts.registry.MMBlocks;
 import com.alc.moreminecarts.registry.MMContainers;
 import com.alc.moreminecarts.tile_entities.AbstractCommonLoader;
 import com.alc.moreminecarts.tile_entities.FilterUnloaderTile;
 import com.alc.moreminecarts.tile_entities.MinecartLoaderTile;
 import com.alc.moreminecarts.tile_entities.MinecartUnloaderTile;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
@@ -19,11 +20,8 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fluids.FluidStack;
-
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 public class MinecartUnLoaderContainer extends AbstractContainerMenu {
 
@@ -34,7 +32,7 @@ public class MinecartUnLoaderContainer extends AbstractContainerMenu {
     private AbstractCommonLoader tile;
 
     public MinecartUnLoaderContainer(int n, Level world, Inventory player_inventory, Player player_entity) {
-        super(MMContainers.MINECART_LOADER_CONTAINER.get(), n);
+        super(MMContainers.MINECART_LOADER_CONTAINER, n);
 
         this.tile = null;
         this.level = player_inventory.player.level();
@@ -46,7 +44,7 @@ public class MinecartUnLoaderContainer extends AbstractContainerMenu {
 
     // For use with tile entity loaders (server).
     public MinecartUnLoaderContainer(int n, Level world, BlockPos pos, Inventory player_inventory, Player player_entity) {
-        super(MMContainers.MINECART_LOADER_CONTAINER.get(), n);
+        super(MMContainers.MINECART_LOADER_CONTAINER, n);
 
         BlockEntity te = world.getBlockEntity(pos);
 
@@ -73,7 +71,7 @@ public class MinecartUnLoaderContainer extends AbstractContainerMenu {
 
     // For use with tile entity loaders (client).
     public MinecartUnLoaderContainer(int p_38969_, Inventory p_38970_, Container p_38971_, ContainerData p_38972_, BlockPos tilePos) {
-        super(MMContainers.MINECART_LOADER_CONTAINER.get(), p_38969_);
+        super(MMContainers.MINECART_LOADER_CONTAINER, p_38969_);
 
         this.level = p_38970_.player.level();
         this.tile = (AbstractCommonLoader) level.getBlockEntity(tilePos);
@@ -141,12 +139,12 @@ public class MinecartUnLoaderContainer extends AbstractContainerMenu {
         return lvt_3_1_;
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public int getSize() {
         return 9;
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     @Nullable
     public FluidStack getFluids() {
         if (tile == null) {

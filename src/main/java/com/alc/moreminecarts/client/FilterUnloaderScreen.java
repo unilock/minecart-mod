@@ -1,31 +1,26 @@
 package com.alc.moreminecarts.client;
 
 import com.alc.moreminecarts.containers.FilterUnloaderContainer;
-import com.alc.moreminecarts.containers.MinecartUnLoaderContainer;
 import com.alc.moreminecarts.proxy.MoreMinecartsPacketHandler;
 import com.alc.moreminecarts.tile_entities.AbstractCommonLoader;
 import com.alc.moreminecarts.tile_entities.FilterUnloaderTile;
 import com.alc.moreminecarts.tile_entities.MinecartLoaderTile;
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractButton;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.protocol.Packet;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fluids.FluidStack;
 
-import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Filter;
 
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 public class FilterUnloaderScreen extends AbstractContainerScreen<FilterUnloaderContainer> {
     private static final ResourceLocation display = new ResourceLocation("moreminecarts:textures/gui/filter_loader_gui.png");
     private static final Component TITLE = Component.translatable("gui.moreminecarts.filter_unloader.title");
@@ -87,7 +82,7 @@ public class FilterUnloaderScreen extends AbstractContainerScreen<FilterUnloader
         matrix.drawString(font, this.playerInventoryTitle, this.inventoryLabelX, this.inventoryLabelY, 4210752, false);
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     class ComparatorOutputButton extends MMButton {
 
         AbstractCommonLoader.ComparatorOutputType oldValue;
@@ -171,7 +166,7 @@ public class FilterUnloaderScreen extends AbstractContainerScreen<FilterUnloader
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     class FilterTypeButton extends MMButton {
 
         FilterUnloaderTile.FilterType oldValue;
@@ -253,7 +248,7 @@ public class FilterUnloaderScreen extends AbstractContainerScreen<FilterUnloader
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     class OnlyLockedButton extends MMButton {
 
         boolean oldValue;
@@ -309,7 +304,7 @@ public class FilterUnloaderScreen extends AbstractContainerScreen<FilterUnloader
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     class LeaveOneInStackButton extends MMButton {
 
         boolean oldValue;
@@ -374,7 +369,7 @@ public class FilterUnloaderScreen extends AbstractContainerScreen<FilterUnloader
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     class OutputTypeButton extends MMButton {
 
         boolean oldValue;

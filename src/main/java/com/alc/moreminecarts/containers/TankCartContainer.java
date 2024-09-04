@@ -13,8 +13,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.fluids.FluidStack;
 import org.jetbrains.annotations.NotNull;
-
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 public class TankCartContainer extends AbstractContainerMenu {
 
@@ -24,7 +23,7 @@ public class TankCartContainer extends AbstractContainerMenu {
 
     // For use on the client.
     public TankCartContainer(int n, Level world, Inventory player_inventory, Player player_entity) {
-        super(MMContainers.TANK_CART_CONTAINER.get(), n);
+        super(MMContainers.TANK_CART_CONTAINER, n);
 
         this.entity = null;
         this.level = world;
@@ -35,7 +34,7 @@ public class TankCartContainer extends AbstractContainerMenu {
 
     // For use with the entity cart.
     public TankCartContainer(int n, Level world, TankCartEntity entity, Inventory player_inventory, Player player_entity) {
-        super(MMContainers.TANK_CART_CONTAINER.get(), n);
+        super(MMContainers.TANK_CART_CONTAINER, n);
 
         this.entity = entity;
         this.level = player_inventory.player.level();

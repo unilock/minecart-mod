@@ -15,7 +15,7 @@ public class CouplerClientFactory {
 
     public static CouplerEntity getCouplerFromPacket(PlayMessages.SpawnEntity packet, Level world) {
 
-        CouplerEntity ent = new CouplerEntity(MMEntities.COUPLER_ENTITY.get(), world);
+        CouplerEntity ent = new CouplerEntity(MMEntities.COUPLER_ENTITY, world);
         /*
         ent.setId(packet.getEntityId());
         ent.setUUID(packet.getUuid());

@@ -13,7 +13,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.HopperBlock;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
@@ -23,7 +22,6 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.BlockHitResult;
-
 import org.jetbrains.annotations.Nullable;
 
 
@@ -110,7 +108,7 @@ public class ChunkLoaderBlock extends BaseEntityBlock {
 
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level p_152180_, BlockState p_152181_, BlockEntityType<T> p_152182_) {
-        return createTickerHelper(p_152182_, MMTileEntities.CHUNK_LOADER_TILE_ENTITY.get(), ChunkLoaderTile::doTick);
+        return createTickerHelper(p_152182_, MMTileEntities.CHUNK_LOADER_TILE_ENTITY, ChunkLoaderTile::doTick);
     }
 
 }

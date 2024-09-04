@@ -1,6 +1,5 @@
 package com.alc.moreminecarts.renderers;
 
-import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.vehicle.AbstractMinecart;

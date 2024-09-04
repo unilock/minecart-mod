@@ -16,7 +16,6 @@ import net.minecraft.network.Connection;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.PacketSendListener;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientboundDisconnectPacket;
 import net.minecraft.network.protocol.game.ServerboundInteractPacket;
 import net.minecraft.resources.ResourceLocation;
@@ -32,15 +31,10 @@ import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.network.*;
 import net.minecraftforge.network.simple.SimpleChannel;
 
-import java.io.IOException;
-import java.util.Optional;
 import java.util.function.Supplier;
-import java.util.logging.Filter;
 
 public class MoreMinecartsPacketHandler {
     private static final String PROTOCOL_VERSION = "1";
@@ -218,7 +212,7 @@ public class MoreMinecartsPacketHandler {
             super(p_179602_);
         }
 
-        @OnlyIn(Dist.CLIENT)
+        @Environment(EnvType.CLIENT)
         public static ExtendedInteractPacket createExtendedInteractPacket(Entity p_179609_, boolean p_179610_, InteractionHand p_179611_) {
             FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
 

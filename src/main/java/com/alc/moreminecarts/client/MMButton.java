@@ -1,16 +1,13 @@
 package com.alc.moreminecarts.client;
 
-import com.mojang.blaze3d.vertex.PoseStack;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.components.AbstractButton;
-import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.CommonComponents;
-import net.minecraft.network.chat.Component;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 public class MMButton extends AbstractButton {
 
     public int xPos;

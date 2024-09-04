@@ -1,7 +1,5 @@
 package com.alc.moreminecarts.blocks.rail_turns;
 
-import com.alc.moreminecarts.blocks.containers.ChunkLoaderBlock;
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
@@ -22,8 +20,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.*;
 import net.minecraft.world.phys.BlockHitResult;
-
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 ;
 
@@ -107,7 +104,7 @@ public class RailTurn extends BaseRailBlock {
             if (is_powered || turn_approach) {
 
                 boolean backwards_approach = (!is_x_axis? cart.getDeltaMovement().x : -cart.getDeltaMovement().z) * (backwards? 1 : -1) <= 0 && !turn_approach;
-                
+
                 if (backwards_approach) {
                 } else if (flipped) {
                     if (is_x_axis) {

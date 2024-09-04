@@ -88,10 +88,10 @@ public class HoloScaffold extends Block implements SimpleWaterloggedBlock {
         int min_distance = MAX_DISTANCE + 1;
         for(Direction direction : Direction.values()) {
             BlockState blockstate1 = reader.getBlockState(pos.relative(direction));
-            if (blockstate1.is(MMBlocks.HOLO_SCAFFOLD.get()) || blockstate1.is(MMBlocks.CHAOTIC_HOLO_SCAFFOLD.get())) {
+            if (blockstate1.is(MMBlocks.HOLO_SCAFFOLD) || blockstate1.is(MMBlocks.CHAOTIC_HOLO_SCAFFOLD)) {
                 min_distance = Math.min(min_distance, blockstate1.getValue(TRUE_DISTANCE) + 1);
             }
-            else if (blockstate1.is(MMBlocks.HOLO_SCAFFOLD_GENERATOR.get())) {
+            else if (blockstate1.is(MMBlocks.HOLO_SCAFFOLD_GENERATOR)) {
                 return 1;
             }
         }
@@ -107,7 +107,7 @@ public class HoloScaffold extends Block implements SimpleWaterloggedBlock {
         for(Direction direction : Direction.values()) {
             BlockPos check_pos = pos.relative(direction);
             BlockState blockstate1 = world.getBlockState(check_pos);
-            if (blockstate1.is(MMBlocks.HOLO_SCAFFOLD.get()) || blockstate1.is(MMBlocks.CHAOTIC_HOLO_SCAFFOLD.get())) {
+            if (blockstate1.is(MMBlocks.HOLO_SCAFFOLD) || blockstate1.is(MMBlocks.CHAOTIC_HOLO_SCAFFOLD)) {
                 int distance = blockstate1.getValue(TRUE_DISTANCE);
                 if (only_greater && distance >= value) world.scheduleTick(check_pos, this, 1, TickPriority.LOW);
                 if (!only_greater && distance <= value) world.scheduleTick(check_pos, this, 1, TickPriority.LOW);

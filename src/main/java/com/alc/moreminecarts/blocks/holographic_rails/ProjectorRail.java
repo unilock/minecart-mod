@@ -1,9 +1,7 @@
 package com.alc.moreminecarts.blocks.holographic_rails;
 
-import com.alc.moreminecarts.blocks.containers.ChunkLoaderBlock;
 import com.alc.moreminecarts.misc.RailUtil;
 import com.alc.moreminecarts.registry.MMBlocks;
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
@@ -18,8 +16,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.*;
 import net.minecraft.world.phys.BlockHitResult;
-
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 public class ProjectorRail extends BaseRailBlock {
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
@@ -37,7 +34,7 @@ public class ProjectorRail extends BaseRailBlock {
     }
 
     protected int getHologramLength() {return 5;}
-    protected Block getHologramRail() {return MMBlocks.HOLOGRAM_RAIL.get();}
+    protected Block getHologramRail() {return MMBlocks.HOLOGRAM_RAIL;}
 
     @Override
     protected void updateState(BlockState state, Level worldIn, BlockPos pos, Block blockIn) {

@@ -24,7 +24,7 @@ import java.util.List;
 public class MinecartUnloaderTile extends AbstractCommonLoader {
 
     public MinecartUnloaderTile(BlockPos pos, BlockState state) {
-        super(MMTileEntities.MINECART_UNLOADER_TILE_ENTITY.get(), pos, state);
+        super(MMTileEntities.MINECART_UNLOADER_TILE_ENTITY, pos, state);
         last_redstone_output = !redstone_output;
     }
 

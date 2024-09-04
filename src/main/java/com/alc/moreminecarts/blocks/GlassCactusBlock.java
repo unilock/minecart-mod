@@ -6,10 +6,7 @@ import com.alc.moreminecarts.registry.MMItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BiomeTags;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.Item;
@@ -59,11 +56,11 @@ public class GlassCactusBlock extends CactusBlock implements IForgeBlock {
             ItemStack item_stack = ((ItemEntity)entity).getItem();
             Item item = item_stack.getItem();
 
-            if (item == MMItems.HOLO_REMOTE_ITEM.get() || item == MMItems.BACKWARDS_HOLO_REMOTE_ITEM.get() || item == MMItems.SIMPLE_HOLO_REMOTE_ITEM.get()){
-                ((ItemEntity)entity).setItem(new ItemStack(MMItems.BROKEN_HOLO_REMOTE_ITEM.get(), item_stack.getCount()));
+            if (item == MMItems.HOLO_REMOTE_ITEM || item == MMItems.BACKWARDS_HOLO_REMOTE_ITEM || item == MMItems.SIMPLE_HOLO_REMOTE_ITEM){
+                ((ItemEntity)entity).setItem(new ItemStack(MMItems.BROKEN_HOLO_REMOTE_ITEM, item_stack.getCount()));
                 return;
             }
-            else if (item == MMItems.BROKEN_HOLO_REMOTE_ITEM.get()) return;
+            else if (item == MMItems.BROKEN_HOLO_REMOTE_ITEM) return;
         }
         entity.hurt(world.damageSources().cactus(), 2.0F);
     }

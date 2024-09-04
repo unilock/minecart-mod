@@ -1,34 +1,25 @@
 package com.alc.moreminecarts.client;
 
-import com.alc.moreminecarts.MoreMinecartsMod;
 import com.alc.moreminecarts.MMConstants;
 import com.alc.moreminecarts.containers.ChunkLoaderContainer;
 import com.alc.moreminecarts.proxy.MoreMinecartsPacketHandler;
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractButton;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.gui.screens.inventory.BeaconScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.protocol.Packet;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import org.apache.logging.log4j.Level;
 
 import java.util.List;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.stream.Collectors;
-
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 public class ChunkLoaderScreen extends AbstractContainerScreen<ChunkLoaderContainer> {
     private static final ResourceLocation display = new ResourceLocation("moreminecarts:textures/gui/chunk_loader_gui.png");
     private static final Component TITLE = Component.translatable("gui.moreminecarts.chunk_loader.title");
@@ -91,7 +82,7 @@ public class ChunkLoaderScreen extends AbstractContainerScreen<ChunkLoaderContai
         p_281635_.drawString(this.font, this.playerInventoryTitle, this.inventoryLabelX, this.inventoryLabelY, 4210752, false);
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     class ChunkLoaderButton extends MMButton {
 
         boolean oldValue;
@@ -147,7 +138,7 @@ public class ChunkLoaderScreen extends AbstractContainerScreen<ChunkLoaderContai
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     class ChunkLoaderInfoButton extends MMButton {
 
         protected ChunkLoaderInfoButton(int x, int y) {

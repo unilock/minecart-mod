@@ -1,13 +1,10 @@
 package com.alc.moreminecarts.entities;
 
 import com.alc.moreminecarts.MoreMinecartsMod;
-import com.alc.moreminecarts.client.FlagCartScreen;
 import com.alc.moreminecarts.proxy.MoreMinecartsPacketHandler;
 import com.alc.moreminecarts.registry.MMItems;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
@@ -22,8 +19,8 @@ import net.minecraftforge.entity.IEntityAdditionalSpawnData;
 import net.minecraftforge.network.PacketDistributor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import java.util.UUID;
 
 public class CouplerEntity extends Entity implements IEntityAdditionalSpawnData {
@@ -253,7 +250,7 @@ public class CouplerEntity extends Entity implements IEntityAdditionalSpawnData 
 
     public void onBroken(boolean drop_item) {
         this.playSound(SoundEvents.CHAIN_BREAK, 1.0F, 1.0F);
-        if (drop_item) spawnAtLocation(MMItems.COUPLER_ITEM.get());
+        if (drop_item) spawnAtLocation(MMItems.COUPLER_ITEM);
         this.remove(RemovalReason.KILLED);
     }
 

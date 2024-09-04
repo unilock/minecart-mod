@@ -21,7 +21,7 @@ public class BatteryCartContainer extends AbstractContainerMenu {
 
     // For use on the client.
     public BatteryCartContainer(int n, Level world, Inventory player_inventory, Player player_entity) {
-        super(MMContainers.TANK_CART_CONTAINER.get(), n);
+        super(MMContainers.TANK_CART_CONTAINER, n);
 
         this.entity = null;
         this.level = world;
@@ -32,7 +32,7 @@ public class BatteryCartContainer extends AbstractContainerMenu {
 
     // For use with the entity cart.
     public BatteryCartContainer(int n, Level world, BatteryCartEntity entity, Inventory player_inventory, Player player_entity) {
-        super(MMContainers.BATTERY_CART_CONTAINER.get(), n);
+        super(MMContainers.BATTERY_CART_CONTAINER, n);
 
         this.entity = entity;
         this.level = player_inventory.player.level();

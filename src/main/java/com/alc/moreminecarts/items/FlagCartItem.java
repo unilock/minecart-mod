@@ -14,7 +14,7 @@ public class FlagCartItem extends AbstractMinecartItem {
     @Override
     void createMinecart(ItemStack stack, Level world, double posX, double posY, double posZ) {
 
-        FlagCartEntity minecart = new FlagCartEntity(MMEntities.FLAG_CART.get(), world, posX, posY, posZ);
+        FlagCartEntity minecart = new FlagCartEntity(MMEntities.FLAG_CART, world, posX, posY, posZ);
         if (stack.hasCustomHoverName()) {
             minecart.setCustomName(stack.getDisplayName());
         }

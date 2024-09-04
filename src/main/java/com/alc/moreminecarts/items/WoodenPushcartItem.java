@@ -14,7 +14,7 @@ public class WoodenPushcartItem extends AbstractMinecartItem {
     @Override
     void createMinecart(ItemStack stack, Level world, double posX, double posY, double posZ) {
 
-        WoodenPushcartEntity minecart = new WoodenPushcartEntity(MMEntities.WOODEN_PUSHCART_ENTITY.get(), world, posX, posY, posZ);
+        WoodenPushcartEntity minecart = new WoodenPushcartEntity(MMEntities.WOODEN_PUSHCART_ENTITY, world, posX, posY, posZ);
         if (stack.hasCustomHoverName()) {
             minecart.setCustomName(stack.getDisplayName());
         }

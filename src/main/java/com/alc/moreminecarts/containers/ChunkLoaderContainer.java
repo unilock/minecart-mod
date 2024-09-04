@@ -8,7 +8,10 @@ import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.*;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerData;
+import net.minecraft.world.inventory.SimpleContainerData;
+import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
@@ -20,7 +23,7 @@ public class ChunkLoaderContainer extends AbstractContainerMenu {
     private final ContainerData data;
 
     public ChunkLoaderContainer(int n, Level world, Inventory player_inventory, Player player_entity) {
-        super(MMContainers.CHUNK_LOADER_CONTAINER.get(), n);
+        super(MMContainers.CHUNK_LOADER_CONTAINER, n);
 
         this.inventory = new SimpleContainer(1);
         this.data = new SimpleContainerData(4);
@@ -30,7 +33,7 @@ public class ChunkLoaderContainer extends AbstractContainerMenu {
 
     // For use with the entity chunk loaders.
     public ChunkLoaderContainer(int n, Level world, Container inventory, ContainerData data, Inventory player_inventory, Player player_entity) {
-        super(MMContainers.CHUNK_LOADER_CONTAINER.get(), n);
+        super(MMContainers.CHUNK_LOADER_CONTAINER, n);
 
         this.inventory = inventory;
         this.data = data;
@@ -40,7 +43,7 @@ public class ChunkLoaderContainer extends AbstractContainerMenu {
 
     // For use with tile entity chunk loaders (server).
     public ChunkLoaderContainer(int n, Level world, BlockPos pos, Inventory player_inventory, Player player_entity) {
-        super(MMContainers.CHUNK_LOADER_CONTAINER.get(), n);
+        super(MMContainers.CHUNK_LOADER_CONTAINER, n);
 
         ChunkLoaderTile tile = (ChunkLoaderTile) world.getBlockEntity(pos);
 
@@ -52,7 +55,7 @@ public class ChunkLoaderContainer extends AbstractContainerMenu {
 
     // For use with tile entity chunk loaders (client).
     public ChunkLoaderContainer(int p_38969_, Inventory p_38970_, Container p_38971_, ContainerData p_38972_) {
-        super(MMContainers.CHUNK_LOADER_CONTAINER.get(), p_38969_);
+        super(MMContainers.CHUNK_LOADER_CONTAINER, p_38969_);
 
         this.inventory = p_38971_;
         this.data = p_38972_;

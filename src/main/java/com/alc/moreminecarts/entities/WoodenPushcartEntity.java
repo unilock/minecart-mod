@@ -1,11 +1,8 @@
 package com.alc.moreminecarts.entities;
 
 import com.alc.moreminecarts.registry.MMItems;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 
 public class WoodenPushcartEntity extends AbstractPushcart {
@@ -18,7 +15,7 @@ public class WoodenPushcartEntity extends AbstractPushcart {
     }
 
     public Item getDropItem() {
-        return MMItems.WOODEN_PUSHCART_ITEM.get();
+        return MMItems.WOODEN_PUSHCART_ITEM;
     }
 
     public double getControlSpeed() { return 40; }

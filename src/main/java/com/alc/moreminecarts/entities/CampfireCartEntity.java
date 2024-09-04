@@ -5,8 +5,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -92,7 +90,7 @@ public class CampfireCartEntity extends AbstractMinecart {
     }
 
     public Item getDropItem() {
-        return MMItems.CAMPFIRE_CART_ITEM.get();
+        return MMItems.CAMPFIRE_CART_ITEM;
     }
 
     protected void moveAlongTrack(BlockPos pos, BlockState state) {

@@ -6,7 +6,6 @@ import com.alc.moreminecarts.registry.MMBlocks;
 import com.alc.moreminecarts.registry.MMItems;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import net.minecraft.client.gui.screens.inventory.BeaconScreen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -24,7 +23,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import org.joml.Vector3f;
 
 public class PistonPushcartEntity extends IronPushcartEntity {
     private static final ImmutableMap<Pose, ImmutableList<Integer>> POSE_DISMOUNT_HEIGHTS = ImmutableMap.of(Pose.STANDING, ImmutableList.of(0, 1, -1), Pose.CROUCHING, ImmutableList.of(0, 1, -1), Pose.SWIMMING, ImmutableList.of(0, 1));
@@ -167,12 +165,12 @@ public class PistonPushcartEntity extends IronPushcartEntity {
 
     @Override
     public BlockState getDisplayBlockState() {
-        return MMBlocks.PISTON_DISPLAY_BLOCK.get().defaultBlockState();
+        return MMBlocks.PISTON_DISPLAY_BLOCK.defaultBlockState();
     }
 
     @Override
     public BlockState getDefaultDisplayBlockState() {
-        return MMBlocks.PISTON_DISPLAY_BLOCK.get().defaultBlockState();
+        return MMBlocks.PISTON_DISPLAY_BLOCK.defaultBlockState();
     }
 
     @Override
@@ -182,7 +180,7 @@ public class PistonPushcartEntity extends IronPushcartEntity {
     }
 
     public Item getDropItem() {
-        return MMItems.PISTON_PUSHCART_ITEM.get();
+        return MMItems.PISTON_PUSHCART_ITEM;
     }
 
     // Copied from AbstractMinecart

@@ -15,7 +15,7 @@ public class WoodenHolographicRail extends HolographicRail {
     }
 
     @Override
-    protected Block getProjectorRail() {return MMBlocks.WOODEN_PROJECTOR_RAIL.get();}
+    protected Block getProjectorRail() {return MMBlocks.WOODEN_PROJECTOR_RAIL;}
 
     @Override
     public float getRailMaxSpeed(BlockState state, Level world, BlockPos pos, AbstractMinecart cart) {

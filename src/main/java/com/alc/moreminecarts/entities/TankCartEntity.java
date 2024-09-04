@@ -5,8 +5,6 @@ import com.alc.moreminecarts.containers.TankCartContainer;
 import com.alc.moreminecarts.registry.MMBlocks;
 import com.alc.moreminecarts.registry.MMItems;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -22,7 +20,6 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
@@ -31,8 +28,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
-
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 
 public class TankCartEntity extends AbstractMinecart implements Container, MenuProvider {
@@ -100,12 +96,12 @@ public class TankCartEntity extends AbstractMinecart implements Container, MenuP
     }
 
     public Item getDropItem() {
-        return MMItems.TANK_CART_ITEM.get();
+        return MMItems.TANK_CART_ITEM;
     }
 
     @Override
     public BlockState getDefaultDisplayBlockState() {
-        return MMBlocks.PISTON_DISPLAY_BLOCK.get().defaultBlockState().setValue(PistonDisplayBlock.VARIANT, 4);
+        return MMBlocks.PISTON_DISPLAY_BLOCK.defaultBlockState().setValue(PistonDisplayBlock.VARIANT, 4);
     }
 
     public boolean stillValid(Player player) {

@@ -6,7 +6,6 @@ import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.ChatType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
@@ -28,8 +27,8 @@ import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.ticks.TickPriority;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import java.util.function.Supplier;
 
 public class HoloRemoteItem extends Item {
@@ -41,8 +40,8 @@ public class HoloRemoteItem extends Item {
         broken
     }
 
-    public Supplier<Block> regular_block = MMBlocks.HOLO_SCAFFOLD;
-    public Supplier<Block> chaotic_block = MMBlocks.CHAOTIC_HOLO_SCAFFOLD;
+    public Supplier<Block> regular_block = () -> MMBlocks.HOLO_SCAFFOLD;
+    public Supplier<Block> chaotic_block = () -> MMBlocks.CHAOTIC_HOLO_SCAFFOLD;
     public HoloRemoteType remote_type;
 
     public HoloRemoteItem(HoloRemoteType remote_type, Item.Properties properties) {
@@ -172,7 +171,7 @@ public class HoloRemoteItem extends Item {
                         }
                     }
 
-                    SoundType soundtype = blockstate1.getSoundType(world, blockpos, context.getPlayer());
+                    SoundType soundtype = blockstate1.getSoundType();
                     world.playSound(playerentity, blockpos, this.getPlaceSound(blockstate1, world, blockpos, context.getPlayer()), SoundSource.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
                     if (playerentity == null || !playerentity.isCreative()) {
                         // Remote blocks are free.
@@ -251,6 +250,6 @@ public class HoloRemoteItem extends Item {
 
     //Forge: Sensitive version of BlockItem#getPlaceSound
     protected SoundEvent getPlaceSound(BlockState state, Level world, BlockPos pos, Player entity) {
-        return state.getSoundType(world, pos, entity).getPlaceSound();
+        return state.getSoundType().getPlaceSound();
     }
 }

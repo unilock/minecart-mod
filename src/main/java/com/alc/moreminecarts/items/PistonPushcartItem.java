@@ -15,7 +15,7 @@ public class PistonPushcartItem extends AbstractMinecartItem {
     @Override
     void createMinecart(ItemStack stack, Level world, double posX, double posY, double posZ) {
 
-        PistonPushcartEntity minecart = new PistonPushcartEntity(MMEntities.PISTON_PUSHCART_ENTITY.get(), world, posX, posY, posZ);
+        PistonPushcartEntity minecart = new PistonPushcartEntity(MMEntities.PISTON_PUSHCART_ENTITY, world, posX, posY, posZ);
         if (stack.hasCustomHoverName()) {
             minecart.setCustomName(stack.getDisplayName());
         }

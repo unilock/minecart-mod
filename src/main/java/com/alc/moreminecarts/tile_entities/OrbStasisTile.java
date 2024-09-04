@@ -4,7 +4,6 @@ import com.alc.moreminecarts.registry.MMTileEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.monster.Endermite;
@@ -13,8 +12,8 @@ import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.event.entity.EntityTeleportEvent;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import java.util.UUID;
 
 public class OrbStasisTile extends BlockEntity {
@@ -24,7 +23,7 @@ public class OrbStasisTile extends BlockEntity {
     public UUID owner_uuid;
 
     public OrbStasisTile(BlockPos pos, BlockState state) {
-        super(MMTileEntities.PEARL_STASIS_CHAMBER_TILE_ENTITY.get(), pos, state);
+        super(MMTileEntities.PEARL_STASIS_CHAMBER_TILE_ENTITY, pos, state);
         owner_uuid = null;
     }
 
@@ -61,7 +60,7 @@ public class OrbStasisTile extends BlockEntity {
         if (entity instanceof ServerPlayer) {
             ServerPlayer player = (ServerPlayer) entity;
             // copied from EnderPearlEntity
-            if (player.connection.connection.isConnected() && player.level() == this.level && !player.isSleeping()) {
+            if (player.connection.isAcceptingMessages() && player.level() == this.level && !player.isSleeping()) {
                 EntityTeleportEvent.ChorusFruit event = new EntityTeleportEvent.ChorusFruit(player,
                         this.getBlockPos().getX() + 0.5, this.getBlockPos().getY() + 1, this.getBlockPos().getZ() + 0.5);
                 if (!net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(event)) { // Don't indent to lower patch size

@@ -1,7 +1,6 @@
 package com.alc.moreminecarts.tile_entities;
 
 import com.alc.moreminecarts.containers.FilterUnloaderContainer;
-import com.alc.moreminecarts.containers.MinecartUnLoaderContainer;
 import com.alc.moreminecarts.entities.ChunkLoaderCartEntity;
 import com.alc.moreminecarts.registry.MMTileEntities;
 import net.minecraft.core.BlockPos;
@@ -14,17 +13,11 @@ import net.minecraft.world.entity.vehicle.AbstractMinecart;
 import net.minecraft.world.entity.vehicle.AbstractMinecartContainer;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.energy.IEnergyStorage;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.items.wrapper.InvWrapper;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import java.util.List;
 
 public class FilterUnloaderTile extends AbstractCommonLoader implements WorldlyContainer {
@@ -69,7 +62,7 @@ public class FilterUnloaderTile extends AbstractCommonLoader implements WorldlyC
     public static final int[] VALID_TAKE_SLOTS = new int[]{0,1,2,3,4,5,6,7,8};
 
     public FilterUnloaderTile(BlockPos pos, BlockState state) {
-        super(MMTileEntities.FILTER_UNLOADER_TILE_ENTITY.get(), pos, state);
+        super(MMTileEntities.FILTER_UNLOADER_TILE_ENTITY, pos, state);
         last_redstone_output = !redstone_output;
     }
 

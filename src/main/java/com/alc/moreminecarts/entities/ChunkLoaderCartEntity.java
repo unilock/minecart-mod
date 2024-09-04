@@ -7,8 +7,6 @@ import com.alc.moreminecarts.registry.MMBlocks;
 import com.alc.moreminecarts.registry.MMItems;
 import com.alc.moreminecarts.tile_entities.ChunkLoaderTile;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -62,7 +60,7 @@ public class ChunkLoaderCartEntity extends AbstractMinecartContainer {
     }
 
     public Item getDropItem() {
-        return MMItems.MINECART_WITH_CHUNK_LOADER_ITEM.get();
+        return MMItems.MINECART_WITH_CHUNK_LOADER_ITEM;
     }
 
     @Override
@@ -86,7 +84,7 @@ public class ChunkLoaderCartEntity extends AbstractMinecartContainer {
 
     @Override
     public BlockState getDefaultDisplayBlockState() {
-        return MMBlocks.CHUNK_LOADER_BLOCK.get().defaultBlockState().setValue(ChunkLoaderBlock.POWERED, Boolean.valueOf(isMinecartPowered()));
+        return MMBlocks.CHUNK_LOADER_BLOCK.defaultBlockState().setValue(ChunkLoaderBlock.POWERED, Boolean.valueOf(isMinecartPowered()));
     }
 
     public void activateMinecart(int p_96095_1_, int p_96095_2_, int p_96095_3_, boolean p_96095_4_) {
@@ -177,14 +175,14 @@ public class ChunkLoaderCartEntity extends AbstractMinecartContainer {
 
         if (!level().isClientSide()) {
 
-            int burn_duration = ChunkLoaderTile.getBurnDuration(itemStacks.get(0), level());
+            int burn_duration = ChunkLoaderTile.getBurnDuration(getItemStacks().get(0), level());
             if (burn_duration >= 0 && Math.abs(time_left) + burn_duration <= ChunkLoaderTile.MAX_TIME) {
                 changed_flag = true;
 
                 if (time_left > 0) time_left += burn_duration;
                 else time_left -= burn_duration;
 
-                itemStacks.get(0).shrink(1);
+                getItemStacks().get(0).shrink(1);
             }
 
             int chunk_x = getOnPos().getX() >> 4;

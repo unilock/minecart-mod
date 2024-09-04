@@ -1,9 +1,7 @@
 package com.alc.moreminecarts.blocks.utility_rails;
 
-import com.alc.moreminecarts.blocks.containers.ChunkLoaderBlock;
 import com.alc.moreminecarts.registry.MMTileEntities;
 import com.alc.moreminecarts.tile_entities.LockingRailTile;
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -24,8 +22,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.*;
 import net.minecraft.world.phys.BlockHitResult;
-
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 public class LockingRailBlock extends BaseRailBlock implements EntityBlock {
 
@@ -249,7 +246,7 @@ public class LockingRailBlock extends BaseRailBlock implements EntityBlock {
 
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level p_152180_, BlockState p_152181_, BlockEntityType<T> p_152182_) {
-        return p_152180_.isClientSide ? null : createTickerHelper(p_152182_, MMTileEntities.LOCKING_RAIL_TILE_ENTITY.get(), LockingRailTile::doTick);
+        return p_152180_.isClientSide ? null : createTickerHelper(p_152182_, MMTileEntities.LOCKING_RAIL_TILE_ENTITY, LockingRailTile::doTick);
     }
 
     @Nullable

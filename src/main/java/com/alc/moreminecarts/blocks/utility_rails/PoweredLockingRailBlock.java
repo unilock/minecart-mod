@@ -18,8 +18,7 @@ import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.RailShape;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 public class PoweredLockingRailBlock extends LockingRailBlock implements EntityBlock {
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;

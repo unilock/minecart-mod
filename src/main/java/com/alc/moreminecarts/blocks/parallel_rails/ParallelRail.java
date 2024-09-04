@@ -1,7 +1,5 @@
 package com.alc.moreminecarts.blocks.parallel_rails;
 
-import com.alc.moreminecarts.blocks.containers.ChunkLoaderBlock;
-import com.mojang.serialization.MapCodec;
 import net.minecraft.world.level.block.BaseRailBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Mirror;

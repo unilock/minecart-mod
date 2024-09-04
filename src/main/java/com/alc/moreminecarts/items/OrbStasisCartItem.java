@@ -14,7 +14,7 @@ public class OrbStasisCartItem extends AbstractMinecartItem {
     @Override
     void createMinecart(ItemStack stack, Level world, double posX, double posY, double posZ) {
 
-        OrbStasisCart minecart = new OrbStasisCart(MMEntities.ORB_STASIS_CART.get(), world, posX, posY, posZ);
+        OrbStasisCart minecart = new OrbStasisCart(MMEntities.ORB_STASIS_CART, world, posX, posY, posZ);
         if (stack.hasCustomHoverName()) {
             minecart.setCustomName(stack.getDisplayName());
         }

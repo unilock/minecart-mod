@@ -2,7 +2,6 @@ package com.alc.moreminecarts.blocks.containers;
 
 import com.alc.moreminecarts.registry.MMTileEntities;
 import com.alc.moreminecarts.tile_entities.FilterUnloaderTile;
-import com.alc.moreminecarts.tile_entities.MinecartUnloaderTile;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.Containers;
@@ -25,8 +24,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.BlockHitResult;
-
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 public class FilterUnloaderBlock extends BaseEntityBlock {
     public static final BooleanProperty ENABLED = BlockStateProperties.ENABLED;
@@ -145,7 +143,7 @@ public class FilterUnloaderBlock extends BaseEntityBlock {
 
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level p_152180_, BlockState p_152181_, BlockEntityType<T> p_152182_) {
-        return createTickerHelper(p_152182_, MMTileEntities.FILTER_UNLOADER_TILE_ENTITY.get(), FilterUnloaderTile::doTick);
+        return createTickerHelper(p_152182_, MMTileEntities.FILTER_UNLOADER_TILE_ENTITY, FilterUnloaderTile::doTick);
     }
 
 }
