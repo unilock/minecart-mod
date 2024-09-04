@@ -12,6 +12,7 @@ import io.github.fabricators_of_create.porting_lib.config.ConfigRegistry;
 import io.github.fabricators_of_create.porting_lib.config.ConfigType;
 import io.github.fabricators_of_create.porting_lib.config.ModConfigSpec;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
 import net.minecraft.world.item.DyeColor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -76,6 +77,8 @@ public class MoreMinecartsMod implements ModInitializer {
 
         BreakSpeedEventReceiver.register();
         MMEventReciever.register();
+
+        ItemStorage.SIDED.registerForBlockEntity((blockEntity, context) -> blockEntity.storage, MMTileEntities.FILTER_UNLOADER_TILE_ENTITY);
 
     }
 

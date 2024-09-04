@@ -3,6 +3,7 @@ package com.alc.moreminecarts.tile_entities;
 import com.alc.moreminecarts.containers.FilterUnloaderContainer;
 import com.alc.moreminecarts.entities.ChunkLoaderCartEntity;
 import com.alc.moreminecarts.registry.MMTileEntities;
+import net.fabricmc.fabric.api.transfer.v1.item.InventoryStorage;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -15,12 +16,14 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
+@SuppressWarnings("UnstableApiUsage")
 public class FilterUnloaderTile extends AbstractCommonLoader implements WorldlyContainer {
+
+    public final InventoryStorage storage = InventoryStorage.of(this, Direction.NORTH);
 
     public enum FilterType {
         allow_per_slot,
@@ -240,30 +243,6 @@ public class FilterUnloaderTile extends AbstractCommonLoader implements WorldlyC
     @Override
     public boolean canTakeItemThroughFace(int p_58392_, ItemStack p_58393_, Direction p_58394_) {
         return p_58392_ < VALID_ITEM_SLOTS;
-    }
-
-    net.minecraftforge.common.util.LazyOptional<? extends net.minecraftforge.items.IItemHandler>[] handlers =
-            net.minecraftforge.items.wrapper.SidedInvWrapper.create(this, Direction.NORTH);
-
-    @Override
-    public <T> net.minecraftforge.common.util.LazyOptional<T> getCapability(net.minecraftforge.common.capabilities.Capability<T> capability, @Nullable Direction facing) {
-        if (!this.remove && capability == ForgeCapabilities.ITEM_HANDLER) {
-            return handlers[0].cast();
-        }
-        return super.getCapability(capability, facing);
-    }
-
-    @Override
-    public void invalidateCaps() {
-        super.invalidateCaps();
-        for (int x = 0; x < handlers.length; x++)
-            handlers[x].invalidate();
-    }
-
-    @Override
-    public void reviveCaps() {
-        super.reviveCaps();
-        this.handlers = net.minecraftforge.items.wrapper.SidedInvWrapper.create(this, Direction.NORTH);
     }
 
 }
