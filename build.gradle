@@ -46,6 +46,7 @@ dependencies {
 
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 	modImplementation include("io.github.fabricators_of_create.Porting-Lib:base:${project.portinglib_version}")
+	modImplementation include("io.github.fabricators_of_create.Porting-Lib:chunk_loading:${project.portinglib_version}")
 	modImplementation include("io.github.fabricators_of_create.Porting-Lib:config:${project.portinglib_version}")
 	modImplementation include("io.github.fabricators_of_create.Porting-Lib:entity:${project.portinglib_version}")
 }

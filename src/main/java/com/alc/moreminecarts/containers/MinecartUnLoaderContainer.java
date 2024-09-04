@@ -20,8 +20,6 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.fluids.FluidStack;
-import org.jetbrains.annotations.Nullable;
 
 public class MinecartUnLoaderContainer extends AbstractContainerMenu {
 
@@ -144,23 +142,23 @@ public class MinecartUnLoaderContainer extends AbstractContainerMenu {
         return 9;
     }
 
-    @Environment(EnvType.CLIENT)
-    @Nullable
-    public FluidStack getFluids() {
-        if (tile == null) {
-            AttemptFindTile();
-            if (tile == null) return null;
-        }
-        return tile.getFluidStack();
-    }
+//    @Environment(EnvType.CLIENT)
+//    @Nullable
+//    public FluidStack getFluids() {
+//        if (tile == null) {
+//            AttemptFindTile();
+//            if (tile == null) return null;
+//        }
+//        return tile.getFluidStack();
+//    }
 
-    public int getEnergy() {
-        if (tile == null) {
-            AttemptFindTile();
-            if (tile == null) return 0;
-        }
-        return tile.getEnergyAmount();
-    }
+//    public int getEnergy() {
+//        if (tile == null) {
+//            AttemptFindTile();
+//            if (tile == null) return 0;
+//        }
+//        return tile.getEnergyAmount();
+//    }
 
     protected void AttemptFindTile() {
         BlockPos location = new BlockPos(data.get(2),data.get(3),data.get(4));

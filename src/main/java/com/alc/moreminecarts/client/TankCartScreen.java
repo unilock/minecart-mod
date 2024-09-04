@@ -9,7 +9,6 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraftforge.fluids.FluidStack;
 
 @Environment(EnvType.CLIENT)
 public class TankCartScreen extends AbstractContainerScreen<TankCartContainer> {
@@ -32,13 +31,13 @@ public class TankCartScreen extends AbstractContainerScreen<TankCartContainer> {
         RenderSystem.setShaderTexture(0, display);
         matrix.blit(display, leftPos, topPos, 0, 0, 176, 166);
 
-        FluidStack fluid_stack = menu.getFluids();
-        if (fluid_stack == null || fluid_stack.isEmpty()) {
-            matrix.drawString(font, "0/40,000 mB", leftPos + 8, topPos + 20, 4210752, false);
-        }
-        else {
-            matrix.drawString(font, fluid_stack.getAmount() + "/40,000 mB " + fluid_stack.getDisplayName().getString(), leftPos + 8, topPos + 20, 4210752, false);
-        }
+//        FluidStack fluid_stack = menu.getFluids();
+//        if (fluid_stack == null || fluid_stack.isEmpty()) {
+//            matrix.drawString(font, "0/40,000 mB", leftPos + 8, topPos + 20, 4210752, false);
+//        }
+//        else {
+//            matrix.drawString(font, fluid_stack.getAmount() + "/40,000 mB " + fluid_stack.getDisplayName().getString(), leftPos + 8, topPos + 20, 4210752, false);
+//        }
 
     }
 

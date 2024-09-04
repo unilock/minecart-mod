@@ -2,7 +2,6 @@ package com.alc.moreminecarts.entities;
 
 import com.alc.moreminecarts.blocks.PistonDisplayBlock;
 import com.alc.moreminecarts.containers.BatteryCartContainer;
-import com.alc.moreminecarts.misc.SettableEnergyStorage;
 import com.alc.moreminecarts.registry.MMBlocks;
 import com.alc.moreminecarts.registry.MMItems;
 import net.minecraft.nbt.CompoundTag;
@@ -23,10 +22,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.energy.IEnergyStorage;
 import org.jetbrains.annotations.Nullable;
 
 
@@ -35,24 +30,24 @@ public class BatteryCartEntity extends AbstractMinecart implements Container, Me
     public static String ENERGY_PROPERTY = "energy";
     private static final EntityDataAccessor<Integer> ENERGY_AMOUNT = SynchedEntityData.defineId(BatteryCartEntity.class, EntityDataSerializers.INT);
 
-    public class CartBattery extends SettableEnergyStorage {
-        public CartBattery(int capacity) {
-            super(capacity);
-        }
-
-        @Override
-        public int receiveEnergy(int maxReceive, boolean simulate) {
-            int ret = super.receiveEnergy(maxReceive, simulate);
-            if (!simulate && level() != null) BatteryCartEntity.this.entityData.set(ENERGY_AMOUNT, energy);
-            return ret;
-        }
-        @Override
-        public int extractEnergy(int maxReceive, boolean simulate) {
-            int ret = super.extractEnergy(maxReceive, simulate);
-            if (!simulate && level() != null) BatteryCartEntity.this.entityData.set(ENERGY_AMOUNT, energy);
-            return ret;
-        }
-    }
+//    public class CartBattery extends SettableEnergyStorage {
+//        public CartBattery(int capacity) {
+//            super(capacity);
+//        }
+//
+//        @Override
+//        public int receiveEnergy(int maxReceive, boolean simulate) {
+//            int ret = super.receiveEnergy(maxReceive, simulate);
+//            if (!simulate && level() != null) BatteryCartEntity.this.entityData.set(ENERGY_AMOUNT, energy);
+//            return ret;
+//        }
+//        @Override
+//        public int extractEnergy(int maxReceive, boolean simulate) {
+//            int ret = super.extractEnergy(maxReceive, simulate);
+//            if (!simulate && level() != null) BatteryCartEntity.this.entityData.set(ENERGY_AMOUNT, energy);
+//            return ret;
+//        }
+//    }
 
     public final ContainerData dataAccess = new ContainerData() {
         @Override
@@ -84,15 +79,15 @@ public class BatteryCartEntity extends AbstractMinecart implements Container, Me
         super(type, worldIn, x, y, z);
     }
 
-    LazyOptional<IEnergyStorage> energy_handler = LazyOptional.of(() -> new CartBattery(40000));
-
-    @Override
-    public <T> LazyOptional<T> getCapability(Capability<T> cap) {
-        if (cap == ForgeCapabilities.ENERGY) {
-            return energy_handler.cast();
-        }
-        return super.getCapability(cap);
-    }
+//    LazyOptional<IEnergyStorage> energy_handler = LazyOptional.of(() -> new CartBattery(40000));
+//
+//    @Override
+//    public <T> LazyOptional<T> getCapability(Capability<T> cap) {
+//        if (cap == ForgeCapabilities.ENERGY) {
+//            return energy_handler.cast();
+//        }
+//        return super.getCapability(cap);
+//    }
 
     @Override
     public Type getMinecartType() {
@@ -140,13 +135,13 @@ public class BatteryCartEntity extends AbstractMinecart implements Container, Me
     @Override
     protected void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
-        compound.putInt(ENERGY_PROPERTY, energy_handler.orElse(null).getEnergyStored());
+//        compound.putInt(ENERGY_PROPERTY, energy_handler.orElse(null).getEnergyStored());
     }
 
     @Override
     protected void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
-        energy_handler.orElse(null).receiveEnergy( compound.getInt(ENERGY_PROPERTY), false );
+//        energy_handler.orElse(null).receiveEnergy( compound.getInt(ENERGY_PROPERTY), false );
     }
 
     public int getEnergyAmount() {
@@ -154,7 +149,8 @@ public class BatteryCartEntity extends AbstractMinecart implements Container, Me
     }
 
     public int getComparatorSignal() {
-        return (int)Math.floor((float)energy_handler.resolve().get().getEnergyStored() / energy_handler.resolve().get().getMaxEnergyStored() * 15.0);
+        return 0;
+//        return (int)Math.floor((float)energy_handler.resolve().get().getEnergyStored() / energy_handler.resolve().get().getMaxEnergyStored() * 15.0);
     }
 
     // More Container stuff

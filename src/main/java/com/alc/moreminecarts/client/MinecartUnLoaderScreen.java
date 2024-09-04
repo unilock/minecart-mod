@@ -82,19 +82,19 @@ public class MinecartUnLoaderScreen extends AbstractContainerScreen<MinecartUnLo
         RenderSystem.setShaderTexture(0, display);
         matrix.blit(display, leftPos, topPos, 0, 0, 176, 166);
 
-        String contents_text = "";
-        FluidStack fluid_stack = menu.getFluids();
-        if (fluid_stack == null || fluid_stack.isEmpty()) {
-            contents_text += "0/2,000 mB, ";
-        }
-        else {
-            contents_text += fluid_stack.getAmount() + "/2,000 mB " + fluid_stack.getDisplayName().getString() + ", ";
-        }
-
-        int energy_amount = menu.getEnergy();
-        contents_text += energy_amount + "/2,000 RF";
-
-        matrix.drawString(font, contents_text, leftPos + 7, topPos + 62, 4210752, false);
+//        String contents_text = "";
+//        FluidStack fluid_stack = menu.getFluids();
+//        if (fluid_stack == null || fluid_stack.isEmpty()) {
+//            contents_text += "0/2,000 mB, ";
+//        }
+//        else {
+//            contents_text += fluid_stack.getAmount() + "/2,000 mB " + fluid_stack.getDisplayName().getString() + ", ";
+//        }
+//
+//        int energy_amount = menu.getEnergy();
+//        contents_text += energy_amount + "/2,000 RF";
+//
+//        matrix.drawString(font, contents_text, leftPos + 7, topPos + 62, 4210752, false);
 
     }
 

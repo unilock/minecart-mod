@@ -1,6 +1,5 @@
 package com.alc.moreminecarts.tile_entities;
 
-import com.alc.moreminecarts.misc.SettableEnergyStorage;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -15,13 +14,6 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.energy.IEnergyStorage;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fluids.capability.templates.FluidTank;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -65,36 +57,36 @@ public abstract class AbstractCommonLoader extends ContainerBlockEntity implemen
         }
     }
 
-    public class LoaderTank extends FluidTank {
-        public LoaderTank(int capacity) {
-            super(capacity);
-        }
+//    public class LoaderTank extends FluidTank {
+//        public LoaderTank(int capacity) {
+//            super(capacity);
+//        }
+//
+//        @Override
+//        protected void onContentsChanged() {
+//            super.onContentsChanged();
+//            changed_flag = true;
+//        }
+//    }
 
-        @Override
-        protected void onContentsChanged() {
-            super.onContentsChanged();
-            changed_flag = true;
-        }
-    }
-
-    public class LoaderBattery extends SettableEnergyStorage {
-        public LoaderBattery(int capacity) {
-            super(capacity);
-        }
-
-        @Override
-        public int receiveEnergy(int maxReceive, boolean simulate) {
-            int ret = super.receiveEnergy(maxReceive, simulate);
-            if (!simulate) changed_flag = true;
-            return ret;
-        }
-        @Override
-        public int extractEnergy(int maxReceive, boolean simulate) {
-            int ret = super.extractEnergy(maxReceive, simulate);
-            if (!simulate) changed_flag = true;
-            return ret;
-        }
-    }
+//    public class LoaderBattery extends SettableEnergyStorage {
+//        public LoaderBattery(int capacity) {
+//            super(capacity);
+//        }
+//
+//        @Override
+//        public int receiveEnergy(int maxReceive, boolean simulate) {
+//            int ret = super.receiveEnergy(maxReceive, simulate);
+//            if (!simulate) changed_flag = true;
+//            return ret;
+//        }
+//        @Override
+//        public int extractEnergy(int maxReceive, boolean simulate) {
+//            int ret = super.extractEnergy(maxReceive, simulate);
+//            if (!simulate) changed_flag = true;
+//            return ret;
+//        }
+//    }
 
     public static int MAX_COOLDOWN_TIME = 2;
     public static int FLUID_CAPACITY = 2000;
@@ -160,8 +152,8 @@ public abstract class AbstractCommonLoader extends ContainerBlockEntity implemen
 
     public boolean changed_flag;
 
-    LazyOptional<IFluidHandler> fluid_handler = LazyOptional.of(() -> new LoaderTank(FLUID_CAPACITY));
-    LazyOptional<IEnergyStorage> energy_handler = LazyOptional.of(() -> new LoaderBattery(ENERGY_CAPACITY));
+//    LazyOptional<IFluidHandler> fluid_handler = LazyOptional.of(() -> new LoaderTank(FLUID_CAPACITY));
+//    LazyOptional<IEnergyStorage> energy_handler = LazyOptional.of(() -> new LoaderBattery(ENERGY_CAPACITY));
 
     public abstract boolean getIsUnloader();
 
@@ -173,16 +165,16 @@ public abstract class AbstractCommonLoader extends ContainerBlockEntity implemen
         comparator_output_value = -1;
     }
 
-    @Override
-    public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
-        if (cap == ForgeCapabilities.FLUID_HANDLER) {
-            return fluid_handler.cast();
-        }
-        else if (cap == ForgeCapabilities.ENERGY) {
-            return energy_handler.cast();
-        }
-        return super.getCapability(cap, side);
-    }
+//    @Override
+//    public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
+//        if (cap == ForgeCapabilities.FLUID_HANDLER) {
+//            return fluid_handler.cast();
+//        }
+//        else if (cap == ForgeCapabilities.ENERGY) {
+//            return energy_handler.cast();
+//        }
+//        return super.getCapability(cap, side);
+//    }
 
     @Override
     public void saveAdditional(CompoundTag compound) {
@@ -193,8 +185,8 @@ public abstract class AbstractCommonLoader extends ContainerBlockEntity implemen
         compound.putInt(COMPARATOR_OUTPUT_PROPERTY, comparator_output.toInt());
         compound.putInt(FILTER_PROPERTY, filterType.toInt());
         compound.putInt(COOLDOWN_PROPERTY, cooldown_time);
-        ((FluidTank)fluid_handler.orElse(null)).writeToNBT(compound);
-        compound.putInt(ENERGY_PROPERTY, energy_handler.orElse(null).getEnergyStored());
+//        ((FluidTank)fluid_handler.orElse(null)).writeToNBT(compound);
+//        compound.putInt(ENERGY_PROPERTY, energy_handler.orElse(null).getEnergyStored());
     }
 
     @Override
@@ -208,9 +200,9 @@ public abstract class AbstractCommonLoader extends ContainerBlockEntity implemen
         cooldown_time = compound.getInt(COOLDOWN_PROPERTY);
         comparator_output_value = -1;
         last_redstone_output = !redstone_output;
-        FluidTank tank = ((FluidTank)fluid_handler.orElseGet(null));
-        tank.setFluid(tank.readFromNBT(compound).getFluid());
-        energy_handler.orElse(null).receiveEnergy(compound.getInt(ENERGY_PROPERTY), false);
+//        FluidTank tank = ((FluidTank)fluid_handler.orElseGet(null));
+//        tank.setFluid(tank.readFromNBT(compound).getFluid());
+//        energy_handler.orElse(null).receiveEnergy(compound.getInt(ENERGY_PROPERTY), false);
         super.load(compound);
     }
 
@@ -258,17 +250,17 @@ public abstract class AbstractCommonLoader extends ContainerBlockEntity implemen
     @Override
     public void setRemoved() {
         super.setRemoved();
-        fluid_handler.invalidate();
-        energy_handler.invalidate();
+//        fluid_handler.invalidate();
+//        energy_handler.invalidate();
     }
 
-    public FluidStack getFluidStack() {
-        return fluid_handler.orElse(null).getFluidInTank(0);
-    }
-
-    public int getEnergyAmount() {
-        return energy_handler.resolve().get().getEnergyStored();
-    }
+//    public FluidStack getFluidStack() {
+//        return fluid_handler.orElse(null).getFluidInTank(0);
+//    }
+//
+//    public int getEnergyAmount() {
+//        return energy_handler.resolve().get().getEnergyStored();
+//    }
 
     // Inventory stuff below, taken from AbstractFurnaceTileEntity.
 
@@ -289,26 +281,26 @@ public abstract class AbstractCommonLoader extends ContainerBlockEntity implemen
 
     @Override
     public Packet<ClientGamePacketListener> getUpdatePacket(){
-        CompoundTag compound = new CompoundTag();
-        ((FluidTank)fluid_handler.orElse(null)).writeToNBT(compound);
-        compound.putInt(ENERGY_PROPERTY, energy_handler.orElse(null).getEnergyStored());
+//        CompoundTag compound = new CompoundTag();
+//        ((FluidTank)fluid_handler.orElse(null)).writeToNBT(compound);
+//        compound.putInt(ENERGY_PROPERTY, energy_handler.orElse(null).getEnergyStored());
         return ClientboundBlockEntityDataPacket.create(this);
     }
 
     @Override
     public CompoundTag getUpdateTag() {
         CompoundTag compound = new CompoundTag();
-        ((FluidTank)fluid_handler.orElse(null)).writeToNBT(compound);
-        compound.putInt(ENERGY_PROPERTY, energy_handler.orElse(null).getEnergyStored());
+//        ((FluidTank)fluid_handler.orElse(null)).writeToNBT(compound);
+//        compound.putInt(ENERGY_PROPERTY, energy_handler.orElse(null).getEnergyStored());
         return compound;
     }
 
-    @Override
-    public void handleUpdateTag(CompoundTag tag){
-        FluidTank tank = ((FluidTank)fluid_handler.resolve().get());
-        tank.setFluid(tank.readFromNBT(tag).getFluid());
-        ((SettableEnergyStorage)energy_handler.orElse(null)).setEnergy(tag.getInt(ENERGY_PROPERTY));
-    }
+//    @Override
+//    public void handleUpdateTag(CompoundTag tag){
+//        FluidTank tank = ((FluidTank)fluid_handler.resolve().get());
+//        tank.setFluid(tank.readFromNBT(tag).getFluid());
+//        ((SettableEnergyStorage)energy_handler.orElse(null)).setEnergy(tag.getInt(ENERGY_PROPERTY));
+//    }
 
     @Override
     public void setChanged() {

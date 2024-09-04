@@ -22,18 +22,12 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fluids.capability.templates.FluidTank;
 import org.jetbrains.annotations.Nullable;
 
 
 public class TankCartEntity extends AbstractMinecart implements Container, MenuProvider {
 
-    private static final EntityDataAccessor<CompoundTag> FLUID_TAG = SynchedEntityData.defineId(FlagCartEntity.class, EntityDataSerializers.COMPOUND_TAG);
+    private static final EntityDataAccessor<CompoundTag> FLUID_TAG = SynchedEntityData.defineId(TankCartEntity.class, EntityDataSerializers.COMPOUND_TAG);
     boolean changed_flag;
 
     public final ContainerData dataAccess = new ContainerData() {
@@ -58,19 +52,19 @@ public class TankCartEntity extends AbstractMinecart implements Container, MenuP
         }
     };
 
-    public class CartTank extends FluidTank {
-        public CartTank(int capacity) {
-            super(capacity);
-        }
-
-        @Override
-        protected void onContentsChanged() {
-            super.onContentsChanged();
-            if (level() != null && !TankCartEntity.this.level().isClientSide) {
-                updateSynchedData();
-            }
-        }
-    }
+//    public class CartTank extends FluidTank {
+//        public CartTank(int capacity) {
+//            super(capacity);
+//        }
+//
+//        @Override
+//        protected void onContentsChanged() {
+//            super.onContentsChanged();
+//            if (level() != null && !TankCartEntity.this.level().isClientSide) {
+//                updateSynchedData();
+//            }
+//        }
+//    }
 
     public TankCartEntity(EntityType<?> type, Level world) {
         super(type, world);
@@ -80,15 +74,15 @@ public class TankCartEntity extends AbstractMinecart implements Container, MenuP
         super(type, worldIn, x, y, z);
     }
 
-    LazyOptional<IFluidHandler> fluid_handler = LazyOptional.of(() -> new CartTank(40000));
-
-    @Override
-    public <T> LazyOptional<T> getCapability(Capability<T> cap) {
-        if (cap == ForgeCapabilities.FLUID_HANDLER) {
-            return fluid_handler.cast();
-        }
-        return super.getCapability(cap);
-    }
+//    LazyOptional<IFluidHandler> fluid_handler = LazyOptional.of(() -> new CartTank(40000));
+//
+//    @Override
+//    public <T> LazyOptional<T> getCapability(Capability<T> cap) {
+//        if (cap == ForgeCapabilities.FLUID_HANDLER) {
+//            return fluid_handler.cast();
+//        }
+//        return super.getCapability(cap);
+//    }
 
     @Override
     public Type getMinecartType() {
@@ -117,25 +111,26 @@ public class TankCartEntity extends AbstractMinecart implements Container, MenuP
     @Override
     protected void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
-        ((FluidTank)fluid_handler.orElse(null)).writeToNBT(compound);
+//        ((FluidTank)fluid_handler.orElse(null)).writeToNBT(compound);
     }
 
 
     @Override
     protected void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
-        FluidTank tank = ((FluidTank)fluid_handler.resolve().get());
-        tank.setFluid(tank.readFromNBT(compound).getFluid());
+//        FluidTank tank = ((FluidTank)fluid_handler.resolve().get());
+//        tank.setFluid(tank.readFromNBT(compound).getFluid());
         changed_flag = true;
     }
 
-    public FluidStack getFluidStack() {
-        if (!level().isClientSide) return fluid_handler.orElse(null).getFluidInTank(0);
-        return ((FluidTank)fluid_handler.orElse(null)).readFromNBT(entityData.get(FLUID_TAG)).getFluid();
-    }
+//    public FluidStack getFluidStack() {
+//        if (!level().isClientSide) return fluid_handler.orElse(null).getFluidInTank(0);
+//        return ((FluidTank)fluid_handler.orElse(null)).readFromNBT(entityData.get(FLUID_TAG)).getFluid();
+//    }
 
     public int getComparatorSignal() {
-        return (int)Math.floor((float)((FluidTank)fluid_handler.resolve().get()).getFluidAmount() / ((FluidTank)fluid_handler.resolve().get()).getCapacity() * 15.0);
+        return 0;
+//        return (int)Math.floor((float)((FluidTank)fluid_handler.resolve().get()).getFluidAmount() / ((FluidTank)fluid_handler.resolve().get()).getCapacity() * 15.0);
     }
 
     // Container stuff
@@ -164,7 +159,7 @@ public class TankCartEntity extends AbstractMinecart implements Container, MenuP
 
     protected void updateSynchedData() {
         CompoundTag compound = new CompoundTag();
-        ((FluidTank)fluid_handler.orElse(null)).writeToNBT(compound);
+//        ((FluidTank)fluid_handler.orElse(null)).writeToNBT(compound);
         TankCartEntity.this.entityData.set(FLUID_TAG, compound);
     }
 

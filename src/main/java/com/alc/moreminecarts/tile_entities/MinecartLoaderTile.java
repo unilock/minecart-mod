@@ -18,11 +18,6 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.energy.IEnergyStorage;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler;
 
 import java.util.List;
 
@@ -63,17 +58,18 @@ public class MinecartLoaderTile extends AbstractCommonLoader {
                 float criteria_total = 0;
                 for (AbstractMinecart minecart : minecarts) {
 
-                    LazyOptional<IFluidHandler> tankCapability = minecart.getCapability(ForgeCapabilities.FLUID_HANDLER);
-                    LazyOptional<IEnergyStorage> energyCapability = minecart.getCapability(ForgeCapabilities.ENERGY);
-                    if (tankCapability.isPresent()) {
-                        IFluidHandler fluid_handler = tankCapability.orElse(null);
-                        criteria_total += doFluidLoads(fluid_handler);
-                    }
-                    else if (energyCapability.isPresent()) {
-                        IEnergyStorage energy_storage = energyCapability.orElse(null);
-                        criteria_total += doElectricLoads(energy_storage);
-                    }
-                    else if (minecart instanceof AbstractMinecartContainer) {
+//                    LazyOptional<IFluidHandler> tankCapability = minecart.getCapability(ForgeCapabilities.FLUID_HANDLER);
+//                    LazyOptional<IEnergyStorage> energyCapability = minecart.getCapability(ForgeCapabilities.ENERGY);
+//                    if (tankCapability.isPresent()) {
+//                        IFluidHandler fluid_handler = tankCapability.orElse(null);
+//                        criteria_total += doFluidLoads(fluid_handler);
+//                    }
+//                    else if (energyCapability.isPresent()) {
+//                        IEnergyStorage energy_storage = energyCapability.orElse(null);
+//                        criteria_total += doElectricLoads(energy_storage);
+//                    }
+//                    else if (minecart instanceof AbstractMinecartContainer) {
+                    if (minecart instanceof AbstractMinecartContainer) {
                         criteria_total += doMinecartLoads((AbstractMinecartContainer) minecart);
                     } else if (minecart instanceof MinecartFurnace) {
                         criteria_total += doFuranceCartLoads((MinecartFurnace) minecart);
@@ -106,91 +102,91 @@ public class MinecartLoaderTile extends AbstractCommonLoader {
         }
     }
 
-    public float doFluidLoads(IFluidHandler minecart_handler) {
-        boolean changed = false;
+//    public float doFluidLoads(IFluidHandler minecart_handler) {
+//        boolean changed = false;
+//
+//        IFluidHandler our_fluid_handler = fluid_handler.orElse(null);
+//        FluidStack our_fluid_stack = our_fluid_handler.getFluidInTank(0);
+//
+//        float fluid_content_proportion = 0;
+//        for (int i = 0; i < minecart_handler.getTanks(); i++) {
+//
+//            if (minecart_handler.getTankCapacity(i) > 0)
+//                fluid_content_proportion += (float)minecart_handler.getFluidInTank(i).getAmount() / minecart_handler.getTankCapacity(i);
+//
+//            if (our_fluid_stack.getAmount() <= (leave_one_in_stack? 1 : 0)) continue;
+//
+//            boolean did_load = false;
+//
+//            if (minecart_handler.isFluidValid(i, our_fluid_stack)) {
+//
+//                FluidStack add_to_stack = minecart_handler.getFluidInTank(i);
+//
+//                if (add_to_stack.isEmpty()) {
+//                    FluidStack new_stack = our_fluid_stack.copy();
+//                    int transfer_amount = Math.min(1000, new_stack.getAmount());
+//                    new_stack.setAmount(transfer_amount);
+//                    minecart_handler.fill(new_stack, IFluidHandler.FluidAction.EXECUTE);
+//                    our_fluid_stack.shrink(transfer_amount);
+//                    did_load = true;
+//                }
+//                else if (add_to_stack.isFluidEqual(our_fluid_stack)) {
+//                    int true_count = our_fluid_stack.getAmount() - (leave_one_in_stack? 1 : 0);
+//                    int to_fill = minecart_handler.getTankCapacity(i) - add_to_stack.getAmount();
+//                    int transfer = Math.min(1000, Math.min(true_count, to_fill));
+//
+//                    FluidStack adding_stack = add_to_stack.copy();
+//                    adding_stack.setAmount(transfer);
+//                    minecart_handler.fill(adding_stack, IFluidHandler.FluidAction.EXECUTE);
+//                    our_fluid_stack.shrink(transfer);
+//                    did_load = transfer > 0;
+//                }
+//            }
+//
+//            if (did_load) {
+//                changed = true;
+//                break;
+//            }
+//        }
+//        if (minecart_handler.getTanks() > 0) fluid_content_proportion /= minecart_handler.getTanks();
+//
+//        if (changed) {
+//            resetCooldown();
+//            changed_flag = true;
+//        }
+//
+//        if (comparator_output == ComparatorOutputType.done_loading) return changed? 0.0f : 1.0f;
+//        else {
+//            return fluid_content_proportion;
+//        }
+//    }
 
-        IFluidHandler our_fluid_handler = fluid_handler.orElse(null);
-        FluidStack our_fluid_stack = our_fluid_handler.getFluidInTank(0);
-
-        float fluid_content_proportion = 0;
-        for (int i = 0; i < minecart_handler.getTanks(); i++) {
-
-            if (minecart_handler.getTankCapacity(i) > 0)
-                fluid_content_proportion += (float)minecart_handler.getFluidInTank(i).getAmount() / minecart_handler.getTankCapacity(i);
-
-            if (our_fluid_stack.getAmount() <= (leave_one_in_stack? 1 : 0)) continue;
-
-            boolean did_load = false;
-
-            if (minecart_handler.isFluidValid(i, our_fluid_stack)) {
-
-                FluidStack add_to_stack = minecart_handler.getFluidInTank(i);
-
-                if (add_to_stack.isEmpty()) {
-                    FluidStack new_stack = our_fluid_stack.copy();
-                    int transfer_amount = Math.min(1000, new_stack.getAmount());
-                    new_stack.setAmount(transfer_amount);
-                    minecart_handler.fill(new_stack, IFluidHandler.FluidAction.EXECUTE);
-                    our_fluid_stack.shrink(transfer_amount);
-                    did_load = true;
-                }
-                else if (add_to_stack.isFluidEqual(our_fluid_stack)) {
-                    int true_count = our_fluid_stack.getAmount() - (leave_one_in_stack? 1 : 0);
-                    int to_fill = minecart_handler.getTankCapacity(i) - add_to_stack.getAmount();
-                    int transfer = Math.min(1000, Math.min(true_count, to_fill));
-
-                    FluidStack adding_stack = add_to_stack.copy();
-                    adding_stack.setAmount(transfer);
-                    minecart_handler.fill(adding_stack, IFluidHandler.FluidAction.EXECUTE);
-                    our_fluid_stack.shrink(transfer);
-                    did_load = transfer > 0;
-                }
-            }
-
-            if (did_load) {
-                changed = true;
-                break;
-            }
-        }
-        if (minecart_handler.getTanks() > 0) fluid_content_proportion /= minecart_handler.getTanks();
-
-        if (changed) {
-            resetCooldown();
-            changed_flag = true;
-        }
-
-        if (comparator_output == ComparatorOutputType.done_loading) return changed? 0.0f : 1.0f;
-        else {
-            return fluid_content_proportion;
-        }
-    }
-
-    public float doElectricLoads(IEnergyStorage minecart_handler) {
-        boolean changed = false;
-
-        IEnergyStorage our_handler = energy_handler.orElse(null);
-
-        if (minecart_handler.canReceive()) {
-
-            int true_count = our_handler.getEnergyStored() - (leave_one_in_stack? 1 : 0);
-            int to_fill = minecart_handler.getMaxEnergyStored() - minecart_handler.getEnergyStored();
-            int transfer = Math.min(1000, Math.min(true_count, to_fill));
-
-            minecart_handler.receiveEnergy(transfer, false);
-            our_handler.extractEnergy(transfer, false);
-            changed = transfer > 0;
-        }
-
-        if (changed) {
-            resetCooldown();
-            changed_flag = true;
-        }
-
-        if (comparator_output == ComparatorOutputType.done_loading) return changed? 0.0f : 1.0f;
-        else {
-            return (float)minecart_handler.getEnergyStored() / minecart_handler.getMaxEnergyStored();
-        }
-    }
+//    public float doElectricLoads(IEnergyStorage minecart_handler) {
+//        boolean changed = false;
+//
+//        IEnergyStorage our_handler = energy_handler.orElse(null);
+//
+//        if (minecart_handler.canReceive()) {
+//
+//            int true_count = our_handler.getEnergyStored() - (leave_one_in_stack? 1 : 0);
+//            int to_fill = minecart_handler.getMaxEnergyStored() - minecart_handler.getEnergyStored();
+//            int transfer = Math.min(1000, Math.min(true_count, to_fill));
+//
+//            minecart_handler.receiveEnergy(transfer, false);
+//            our_handler.extractEnergy(transfer, false);
+//            changed = transfer > 0;
+//        }
+//
+//        if (changed) {
+//            resetCooldown();
+//            changed_flag = true;
+//        }
+//
+//        if (comparator_output == ComparatorOutputType.done_loading) return changed? 0.0f : 1.0f;
+//        else {
+//            return (float)minecart_handler.getEnergyStored() / minecart_handler.getMaxEnergyStored();
+//        }
+//    }
 
     public float doMinecartLoads(AbstractMinecartContainer minecart) {
         boolean changed = false;

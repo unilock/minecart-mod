@@ -2,7 +2,6 @@ package com.alc.moreminecarts.containers;
 
 import com.alc.moreminecarts.entities.TankCartEntity;
 import com.alc.moreminecarts.registry.MMContainers;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -11,9 +10,7 @@ import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.fluids.FluidStack;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class TankCartContainer extends AbstractContainerMenu {
 
@@ -73,15 +70,15 @@ public class TankCartContainer extends AbstractContainerMenu {
         return this.entity.stillValid(player);
     }
 
-    @Nullable
-    public FluidStack getFluids() {
-        if (entity == null) {
-            int id = data.get(0);
-            Entity ent = level.getEntity(id);
-            if (ent instanceof TankCartEntity) entity = (TankCartEntity) ent;
-            else return null;
-        }
-        return entity.getFluidStack();
-    }
+//    @Nullable
+//    public FluidStack getFluids() {
+//        if (entity == null) {
+//            int id = data.get(0);
+//            Entity ent = level.getEntity(id);
+//            if (ent instanceof TankCartEntity) entity = (TankCartEntity) ent;
+//            else return null;
+//        }
+//        return entity.getFluidStack();
+//    }
 
 }
