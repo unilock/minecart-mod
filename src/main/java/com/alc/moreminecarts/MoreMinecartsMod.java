@@ -6,11 +6,11 @@ import com.alc.moreminecarts.proxy.IProxy;
 import com.alc.moreminecarts.proxy.MoreMinecartsPacketHandler;
 import com.alc.moreminecarts.proxy.ServerProxy;
 import com.alc.moreminecarts.registry.*;
-import fuzs.forgeconfigapiport.api.config.v2.ForgeConfigRegistry;
+import io.github.fabricators_of_create.porting_lib.config.ConfigRegistry;
+import io.github.fabricators_of_create.porting_lib.config.ConfigType;
+import io.github.fabricators_of_create.porting_lib.config.ModConfigSpec;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.world.item.DyeColor;
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.fml.config.ModConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -20,6 +20,7 @@ import java.util.Arrays;
 import static com.alc.moreminecarts.misc.FuelConfig.DEFAULT_FUEL_IDS;
 import static com.alc.moreminecarts.misc.FuelConfig.DEFAULT_FUEL_TICKS;
 
+@SuppressWarnings("UnstableApiUsage")
 public class MoreMinecartsMod implements ModInitializer {
     // Directly reference a log4j logger.
     public static Logger LOGGER = LogManager.getLogger();
@@ -47,7 +48,7 @@ public class MoreMinecartsMod implements ModInitializer {
         MMContainers.register();
         MMCreativeTabs.register();
 
-        ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
+        ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
         builder.comment("Changes the spawn rate of vitric cactus. Default cactus is 10, set to zero to disable.");
         MMConstants.CONFIG_GLASS_CACTUS_SPAWNS = builder.defineInRange("vitric_cactus_spawns", ()->2, 0, 100);
         builder.comment("Requires that vitric cactus be grown only in desert and mesa biomes.");
@@ -69,7 +70,7 @@ public class MoreMinecartsMod implements ModInitializer {
         builder.comment("Refund 1 chunkrodite per n leftoever ticks, considering the multiplier. Set to zero to disable chunkrodite drops.");
         MMConstants.CONFIG_CHUNK_LOADER_CHUNKRODITE = builder.defineInRange("chunk_loader_chunkrodite", ()->24000, 0, 999999999);
 
-        ForgeConfigRegistry.INSTANCE.register(MMConstants.modid, ModConfig.Type.COMMON, builder.build(), "moreminecartsconfig.toml");
+        ConfigRegistry.registerConfig(MMConstants.modid, ConfigType.COMMON, builder.build(), "moreminecartsconfig.toml");
 
     }
 

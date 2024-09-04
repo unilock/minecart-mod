@@ -28,7 +28,6 @@
 	"depends": {
 		"fabricloader": "*",
 		"minecraft": ">=1.20",
-		"fabric-api": "*",
-		"forgeconfigapiport": ">=8.0.0"
+		"fabric-api": "*"
 	}
 }
