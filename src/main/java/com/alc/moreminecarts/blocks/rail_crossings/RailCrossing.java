@@ -1,5 +1,7 @@
 package com.alc.moreminecarts.blocks.rail_crossings;
 
+import io.github.fabricators_of_create.porting_lib.block.FlexibilityCheckingRailBlock;
+import io.github.fabricators_of_create.porting_lib.block.SlopeCreationCheckingRailBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.vehicle.AbstractMinecart;
 import net.minecraft.world.level.BlockGetter;
@@ -13,7 +15,7 @@ import net.minecraft.world.level.block.state.properties.RailShape;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
-public class RailCrossing extends BaseRailBlock {
+public class RailCrossing extends BaseRailBlock implements FlexibilityCheckingRailBlock, SlopeCreationCheckingRailBlock {
     public static final Property<RailShape> SHAPE = BlockStateProperties.RAIL_SHAPE_STRAIGHT;
 
     public RailCrossing(Properties builder) {

@@ -141,8 +141,7 @@ public class CampfireCartEntity extends AbstractMinecart {
         BlockPos pos = new BlockPos(i, j, k);
         BlockState state = this.level().getBlockState(pos);
         if (RailBlock.isRail(state)) {
-//            RailShape railshape = ((BaseRailBlock) state.getBlock()).getRailDirection(state, this.level(), pos, this);
-            RailShape railshape = ((BaseRailBlock) state.getBlock()).getRailDirection(state, this.level(), pos, null);
+            RailShape railshape = ((BaseRailBlock) state.getBlock()).getRailDirection(state, this.level(), pos, this);
 
             boolean is_uphill = (railshape == RailShape.ASCENDING_EAST || railshape == RailShape.ASCENDING_WEST
                     || railshape == RailShape.ASCENDING_NORTH || railshape == RailShape.ASCENDING_SOUTH);

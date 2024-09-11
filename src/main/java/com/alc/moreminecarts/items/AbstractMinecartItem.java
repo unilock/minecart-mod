@@ -7,6 +7,7 @@ import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
 import net.minecraft.core.dispenser.DispenseItemBehavior;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.vehicle.AbstractMinecart;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
@@ -38,7 +39,7 @@ public abstract class AbstractMinecartItem extends Item {
         }
         ItemStack stack = context.getItemInHand();
         if (!world.isClientSide()) {
-            RailShape railshape = blockstate.getBlock() instanceof RailBlock ? ((RailBlock) blockstate.getBlock()).getRailDirection(blockstate, world, blockpos, null) : RailShape.NORTH_SOUTH;
+            RailShape railshape = blockstate.getBlock() instanceof RailBlock ? ((RailBlock) blockstate.getBlock()).getRailDirection(blockstate, world, blockpos, (AbstractMinecart) null) : RailShape.NORTH_SOUTH;
             double d0 = 0.0D;
             if (railshape.isAscending()) {
                 d0 = 0.5D;
@@ -76,7 +77,7 @@ public abstract class AbstractMinecartItem extends Item {
 
             BlockPos blockpos = source.getPos().offset(direction.getStepX(), direction.getStepY(), direction.getStepZ());
             BlockState blockstate = world.getBlockState(blockpos);
-            RailShape railshape = blockstate.getBlock() instanceof BaseRailBlock ? ((BaseRailBlock) blockstate.getBlock()).getRailDirection(blockstate, world, blockpos, null) : RailShape.NORTH_SOUTH;
+            RailShape railshape = blockstate.getBlock() instanceof BaseRailBlock ? ((BaseRailBlock) blockstate.getBlock()).getRailDirection(blockstate, world, blockpos, (AbstractMinecart) null) : RailShape.NORTH_SOUTH;
             double d3;
             if (blockstate.is(BlockTags.RAILS)) {
                 if (railshape.isAscending()) {
@@ -89,7 +90,7 @@ public abstract class AbstractMinecartItem extends Item {
                     return this.behaviourDefaultDispenseItem.dispense(source, stack);
                 }
                 BlockState state = world.getBlockState(blockpos.below());
-                RailShape shape = state.getBlock() instanceof BaseRailBlock ? ((BaseRailBlock) state.getBlock()).getRailDirection(state, world, blockpos.below(), null) : RailShape.NORTH_SOUTH;
+                RailShape shape = state.getBlock() instanceof BaseRailBlock ? ((BaseRailBlock) state.getBlock()).getRailDirection(state, world, blockpos.below(), (AbstractMinecart) null) : RailShape.NORTH_SOUTH;
                 if (direction != Direction.DOWN && shape.isAscending()) {
                     d3 = -0.4D;
                 } else {

@@ -1,6 +1,7 @@
 package com.alc.moreminecarts.blocks.powered_rails;
 
 import com.alc.moreminecarts.MMConstants;
+import io.github.fabricators_of_create.porting_lib.block.SlopeCreationCheckingRailBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.vehicle.AbstractMinecart;
@@ -11,7 +12,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.RailShape;
 import net.minecraft.world.phys.Vec3;
 
-public class PoweredLightspeedRail extends PoweredRailBlock {
+public class PoweredLightspeedRail extends PoweredRailBlock implements SlopeCreationCheckingRailBlock {
 
     public PoweredLightspeedRail(Properties builder) {
         super(builder/*, true*/);
@@ -34,10 +35,9 @@ public class PoweredLightspeedRail extends PoweredRailBlock {
 
             AbstractMinecart minecart = (AbstractMinecart) entityIn;
 
-            if (!minecart.shouldDoRailFunctions()) return;
+//            if (!minecart.shouldDoRailFunctions()) return;
 
-//            RailShape railshape = getRailDirection(state, worldIn, pos, minecart);
-            RailShape railshape = getRailDirection(state, worldIn, pos, null);
+            RailShape railshape = getRailDirection(state, worldIn, pos, minecart);
 
             Vec3 minecartVelocity = minecart.getDeltaMovement();
             double minecartSpeedMagnitude = minecartVelocity.horizontalDistance();

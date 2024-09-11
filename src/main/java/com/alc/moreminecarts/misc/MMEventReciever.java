@@ -2,6 +2,7 @@ package com.alc.moreminecarts.misc;
 
 
 import com.alc.moreminecarts.MoreMinecartsMod;
+import com.alc.moreminecarts.entities.HSMinecartEntities;
 import com.alc.moreminecarts.entities.PistonPushcartEntity;
 import com.alc.moreminecarts.items.CouplerItem;
 import com.alc.moreminecarts.registry.MMItems;
@@ -61,26 +62,26 @@ public class MMEventReciever {
             }
         }
 
-//        Item hsUpgradeItem = MMItems.HIGH_SPEED_UPGRADE_ITEM;
-//
-//
-//        if (using.getItem() == hsUpgradeItem || using_secondary.getItem() == hsUpgradeItem) {
-//            result = InteractionResult.CONSUME;
-//
-//            if (world.isClientSide()) return result;
-//
-//            if (using.getItem() == hsUpgradeItem && entity instanceof AbstractMinecart
-//                && !(entity instanceof HSMinecartEntities.IHSCart)) {
-//                boolean success = HSMinecartEntities.upgradeMinecart((AbstractMinecart) entity);
-//                if (!player.isCreative() && success) using.shrink(1);
-//            }
-//        }
-//
-//        // To prevent entering a high speed cart immediately after upgrading it.
-//        if ( (entity instanceof HSMinecartEntities.HSMinecart || entity instanceof HSMinecartEntities.HSPushcart)
-//                && entity.tickCount < 10) {
-//            result = InteractionResult.CONSUME;
-//        }
+        Item hsUpgradeItem = MMItems.HIGH_SPEED_UPGRADE_ITEM;
+
+
+        if (using.getItem() == hsUpgradeItem || using_secondary.getItem() == hsUpgradeItem) {
+            result = InteractionResult.CONSUME;
+
+            if (world.isClientSide()) return result;
+
+            if (using.getItem() == hsUpgradeItem && entity instanceof AbstractMinecart
+                && !(entity instanceof HSMinecartEntities.IHSCart)) {
+                boolean success = HSMinecartEntities.upgradeMinecart((AbstractMinecart) entity);
+                if (!player.isCreative() && success) using.shrink(1);
+            }
+        }
+
+        // To prevent entering a high speed cart immediately after upgrading it.
+        if ( (entity instanceof HSMinecartEntities.HSMinecart || entity instanceof HSMinecartEntities.HSPushcart)
+                && entity.tickCount < 10) {
+            result = InteractionResult.CONSUME;
+        }
 
         return result;
 

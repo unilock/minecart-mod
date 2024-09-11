@@ -12,6 +12,7 @@ import io.github.fabricators_of_create.porting_lib.config.ConfigRegistry;
 import io.github.fabricators_of_create.porting_lib.config.ConfigType;
 import io.github.fabricators_of_create.porting_lib.config.ModConfigSpec;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
 import net.minecraft.world.item.DyeColor;
 import org.apache.logging.log4j.LogManager;
@@ -80,12 +81,13 @@ public class MoreMinecartsMod implements ModInitializer {
 
         ItemStorage.SIDED.registerForBlockEntity((blockEntity, context) -> blockEntity.storage, MMTileEntities.FILTER_UNLOADER_TILE_ENTITY);
 
+        FlammableBlockRegistry.getDefaultInstance().add(MMBlocks.WOODEN_RAIL_BLOCK, 20, 5);
+        FlammableBlockRegistry.getDefaultInstance().add(MMBlocks.WOODEN_PARALLEL_RAIL_BLOCK, 20, 5);
+        FlammableBlockRegistry.getDefaultInstance().add(MMBlocks.WOODEN_CROSS_RAIL_BLOCK, 20, 5);
+        FlammableBlockRegistry.getDefaultInstance().add(MMBlocks.WOODEN_RAIL_TURN, 20, 5);
     }
 
     private void setup() {
-//        ((FlowerPotBlock) Blocks.FLOWER_POT).addPlant(new ResourceLocation("moreminecarts:chunkrodite_block"), MMBlocks.POTTED_BEET);
-//        ((FlowerPotBlock) Blocks.FLOWER_POT).addPlant(new ResourceLocation("moreminecarts:glass_cactus"), MMBlocks.POTTED_GLASS_CACTUS);
-
         MMConstants.WOODEN_MAX_SPEED = MMConstants.CONFIG_WOOD_RAILS_MAX_SPEED.get().floatValue();
         MMConstants.MAGLEV_MAX_SPEED = MMConstants.CONFIG_MAGLEV_RAILS_MAX_SPEED.get().floatValue();
         MMConstants.LIGHTSPEED_MAX_SPEED = MMConstants.CONFIG_LIGHTSPEED_RAILS_MAX_SPEED.get().floatValue();

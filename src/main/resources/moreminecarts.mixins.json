@@ -1,10 +1,11 @@
 {
 	"required": true,
-	"package": "cc.unilock.example_mod.mixin",
+	"package": "com.alc.moreminecarts.mixin",
 	"compatibilityLevel": "JAVA_17",
 	"mixins": [
-		"ExampleMixin"
 	],
+  "client": [
+  ],
 	"injectors": {
 		"defaultRequire": 1
 	}

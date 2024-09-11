@@ -8,6 +8,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.vehicle.AbstractMinecart;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -99,10 +100,10 @@ public class ProjectorRail extends BaseRailBlock implements SlopeCreationCheckin
         return SHAPE;
     }
 
-//    @Override
-//    public RailShape getRailDirection(BlockState state, BlockGetter world, BlockPos pos, @Nullable AbstractMinecart cart) {
-//        return state.getValue(FACING).getAxis() == Direction.Axis.Z? RailShape.NORTH_SOUTH : RailShape.EAST_WEST;
-//    }
+    @Override
+    public RailShape getRailDirection(BlockState state, BlockGetter world, BlockPos pos, @Nullable AbstractMinecart cart) {
+        return state.getValue(FACING).getAxis() == Direction.Axis.Z? RailShape.NORTH_SOUTH : RailShape.EAST_WEST;
+    }
 
     @Override
     public RailShape getRailDirection(BlockState state, BlockGetter world, BlockPos pos, @Nullable BaseRailBlock block) {
