@@ -8,6 +8,7 @@ import com.alc.moreminecarts.proxy.IProxy;
 import com.alc.moreminecarts.proxy.MoreMinecartsPacketHandler;
 import com.alc.moreminecarts.proxy.ServerProxy;
 import com.alc.moreminecarts.registry.*;
+import io.github.fabricators_of_create.porting_lib.config.ConfigEvents;
 import io.github.fabricators_of_create.porting_lib.config.ConfigRegistry;
 import io.github.fabricators_of_create.porting_lib.config.ConfigType;
 import io.github.fabricators_of_create.porting_lib.config.ModConfigSpec;
@@ -43,7 +44,7 @@ public class MoreMinecartsMod implements ModInitializer {
         MoreMinecartsPacketHandler.initServer();
 
         // Register the setup method for modloading
-        this.setup();
+        ConfigEvents.LOADING.register(c -> this.setup());
 
         MMEntities.register();
         MMBlocks.register();

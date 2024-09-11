@@ -3,13 +3,15 @@ package com.alc.moreminecarts.tile_entities;
 import com.alc.moreminecarts.containers.FilterUnloaderContainer;
 import com.alc.moreminecarts.entities.ChunkLoaderCartEntity;
 import com.alc.moreminecarts.registry.MMTileEntities;
+import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.fabricmc.fabric.api.transfer.v1.item.InventoryStorage;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.AbstractMinecart;
 import net.minecraft.world.entity.vehicle.AbstractMinecartContainer;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -21,7 +23,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 @SuppressWarnings("UnstableApiUsage")
-public class FilterUnloaderTile extends AbstractCommonLoader implements WorldlyContainer {
+public class FilterUnloaderTile extends AbstractCommonLoader implements WorldlyContainer, ExtendedScreenHandlerFactory {
 
     public final InventoryStorage storage = InventoryStorage.of(this, Direction.NORTH);
 
@@ -72,17 +74,6 @@ public class FilterUnloaderTile extends AbstractCommonLoader implements WorldlyC
     @Override
     public boolean getIsUnloader() {
         return true;
-    }
-
-    @Override
-    public AbstractContainerMenu createMenu(int i, Inventory inventory, Player player) {
-        setChanged();
-        return new FilterUnloaderContainer(i, inventory, this, this.dataAccess, getBlockPos());
-    }
-
-    @Override
-    protected AbstractContainerMenu createMenu(int p_213906_1_, Inventory p_213906_2_) {
-        return null;
     }
 
     public void tick() {
@@ -245,4 +236,14 @@ public class FilterUnloaderTile extends AbstractCommonLoader implements WorldlyC
         return p_58392_ < VALID_ITEM_SLOTS;
     }
 
+    @Override
+    protected AbstractContainerMenu createMenu(int containerId, Inventory inventory) {
+        setChanged();
+        return new FilterUnloaderContainer(containerId, inventory, this, this.dataAccess, getBlockPos());
+    }
+
+    @Override
+    public void writeScreenOpeningData(ServerPlayer player, FriendlyByteBuf buf) {
+        buf.writeBlockPos(getBlockPos());
+    }
 }

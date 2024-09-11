@@ -3,10 +3,12 @@ package com.alc.moreminecarts.tile_entities;
 import com.alc.moreminecarts.containers.MinecartUnLoaderContainer;
 import com.alc.moreminecarts.entities.ChunkLoaderCartEntity;
 import com.alc.moreminecarts.registry.MMTileEntities;
+import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.AbstractMinecart;
 import net.minecraft.world.entity.vehicle.AbstractMinecartContainer;
 import net.minecraft.world.entity.vehicle.MinecartFurnace;
@@ -21,7 +23,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.List;
 
-public class MinecartLoaderTile extends AbstractCommonLoader {
+public class MinecartLoaderTile extends AbstractCommonLoader implements ExtendedScreenHandlerFactory {
 
     public MinecartLoaderTile(BlockPos pos, BlockState state) {
         super(MMTileEntities.MINECART_LOADER_TILE_ENTITY, pos, state);
@@ -31,17 +33,6 @@ public class MinecartLoaderTile extends AbstractCommonLoader {
     @Override
     public boolean getIsUnloader() {
         return false;
-    }
-
-    @Override
-    public AbstractContainerMenu createMenu(int i, Inventory inventory, Player player) {
-        setChanged();
-        return new MinecartUnLoaderContainer(i, inventory, this, this.dataAccess, getBlockPos());
-    }
-
-    @Override
-    protected AbstractContainerMenu createMenu(int p_213906_1_, Inventory p_213906_2_) {
-        return null;
     }
 
     public static void doTick(Level level, BlockPos pos, BlockState state, MinecartLoaderTile ent) {
@@ -296,4 +287,14 @@ public class MinecartLoaderTile extends AbstractCommonLoader {
         return Component.translatable("Minecart Loader");
     }
 
+    @Override
+    protected AbstractContainerMenu createMenu(int containerId, Inventory inventory) {
+        setChanged();
+        return new MinecartUnLoaderContainer(containerId, inventory, this, this.dataAccess, getBlockPos());
+    }
+
+    @Override
+    public void writeScreenOpeningData(ServerPlayer player, FriendlyByteBuf buf) {
+        buf.writeBlockPos(getBlockPos());
+    }
 }

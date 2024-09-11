@@ -7,12 +7,15 @@ import com.alc.moreminecarts.misc.FuelConfig;
 import com.alc.moreminecarts.registry.MMItems;
 import com.alc.moreminecarts.registry.MMTileEntities;
 import io.github.fabricators_of_create.porting_lib.chunk.loading.PortingLibChunkManager;
+import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
 import net.minecraft.world.Containers;
 import net.minecraft.world.WorldlyContainer;
@@ -26,7 +29,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
-public class ChunkLoaderTile extends ContainerBlockEntity implements WorldlyContainer, Container {
+public class ChunkLoaderTile extends ContainerBlockEntity implements WorldlyContainer, Container, ExtendedScreenHandlerFactory {
     public static String LAST_CHUNK_X_PROPERTY = "last_block_pos_x";
     public static String LAST_CHUNK_Z_PROPERTY = "last_block_pos_z";
     public static String TIME_LEFT_PROPERTY = "time_left";
@@ -99,15 +102,6 @@ public class ChunkLoaderTile extends ContainerBlockEntity implements WorldlyCont
         lit_last_tick = isLit();
 
         super.load(compound);
-    }
-
-    public AbstractContainerMenu createMenu(int i, Inventory inventory, Player player) {
-        return new ChunkLoaderContainer(i, inventory, this, this.dataAccess);
-    }
-
-    @Override
-    protected AbstractContainerMenu createMenu(int p_213906_1_, Inventory p_213906_2_) {
-        return null;
     }
 
     public static int getBurnDuration(ItemStack item, Level level) {
@@ -283,5 +277,13 @@ public class ChunkLoaderTile extends ContainerBlockEntity implements WorldlyCont
         return (int)Math.ceil(log_proportion * 15);
     }
 
+    @Override
+    protected AbstractContainerMenu createMenu(int containerId, Inventory inventory) {
+        return new ChunkLoaderContainer(containerId, inventory, this, this.dataAccess);
+    }
 
+    @Override
+    public void writeScreenOpeningData(ServerPlayer player, FriendlyByteBuf buf) {
+        buf.writeBlockPos(getBlockPos());
+    }
 }
